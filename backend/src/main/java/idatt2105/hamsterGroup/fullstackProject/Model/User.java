@@ -118,7 +118,7 @@ public class User {
         return admin;
     }
 
-    public void setRole(boolean admin) {
+    public void setAdmin(boolean admin) {
         this.admin = admin;
     }
 
@@ -128,6 +128,14 @@ public class User {
 
     public void setValid(boolean valid) {
         this.valid = valid;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     @Override

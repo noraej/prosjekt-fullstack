@@ -9,17 +9,15 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long roomId;
     private String roomName;
-    private double size;
 
     @OneToMany(mappedBy = "room", targetEntity = Section.class)
     private Set<Section> sections;
 
     private int numberOfSections = sections.size();
 
-    public Room(long roomId, String roomName, double size, Set<Section> sections, int numberOfSections) {
+    public Room(long roomId, String roomName, Set<Section> sections, int numberOfSections) {
         this.roomId = roomId;
         this.roomName = roomName;
-        this.size = size;
         this.sections = sections;
         this.numberOfSections = numberOfSections;
     }
@@ -43,14 +41,6 @@ public class Room {
         this.roomName = roomName;
     }
 
-    public double getSize() {
-        return size;
-    }
-
-    public void setSize(double size) {
-        this.size = size;
-    }
-
     public Set<Section> getSections() {
         return sections;
     }
@@ -72,7 +62,6 @@ public class Room {
         return "Room{" +
                 "roomId=" + roomId +
                 ", roomName='" + roomName + '\'' +
-                ", size=" + size +
                 ", sections=" + sections +
                 ", numberOfSections=" + numberOfSections +
                 '}';
