@@ -14,7 +14,7 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "types": ["webpack-env", "jest", "google.maps"],
+    "types": ["webpack-env"],
     "typeRoots": [
       "./typings",
       "./node_modules/@types/"

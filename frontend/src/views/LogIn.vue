@@ -25,7 +25,7 @@
 
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
     setup() {
@@ -44,6 +44,7 @@ export default defineComponent({
             scene,
             logInAsAdmin, 
             logInAsUser,
+            logIn,
         }
     },
 })
