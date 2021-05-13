@@ -48,7 +48,8 @@ export default defineComponent({
       const selectedBuilding = ref("");
       const buildings = ""; //TODO:  Denne listen skal admin kunne legge til bygninger i 
       const minSeats = ref();
-      const startTime = ref(""); //Format: 
+      const startTime = ref(""); //Format: YYYY-MM-DD
+      const endTime = ref(""); //Format: YYYY-MM-DD 
 
 
    },
