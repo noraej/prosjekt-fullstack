@@ -30,11 +30,8 @@ public class User {
     )
     Set<Reservation> reservations;
 
-    @OneToMany(mappedBy = "userReserved")
-    Set<Reservation> reservedSections;
-
     public User(String firstName, String lastName, String email, String phoneNumber, String hash, String salt,
-                boolean valid, boolean admin, Set<Reservation> reservations, Set<Reservation> reservedSections) {
+                boolean valid, boolean admin, Set<Reservation> reservations) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -44,7 +41,6 @@ public class User {
         this.valid = valid;
         this.admin = admin;
         this.reservations = reservations;
-        this.reservedSections = reservedSections;
     }
 
     public User(String firstName, String lastName, String email, String phoneNumber, String hash, String salt,
@@ -62,5 +58,91 @@ public class User {
     public User(){
     }
 
+    public Set<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(Set<Reservation> activities) {
+        this.reservations = activities;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setRole(boolean admin) {
+        this.admin = admin;
+    }
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "User{" +
+                "userId=" + userId +
+                ", firstname='" + firstName + '\'' +
+                ", lastname='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", hash='" + hash + '\'' +
+                ", salt='" + salt + '\'' +
+                ", admin=" + admin + '\'' +
+                ", valid='" + valid + '\'' +
+                '}';
+    }
 
 }
