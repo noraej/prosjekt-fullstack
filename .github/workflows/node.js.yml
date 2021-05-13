@@ -13,7 +13,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '14.16'
-    - run: cd prosjekt-fullstack/frontend
-    - run: npm install
+    - run: cd frontend
     - run: npm run build --if-present
     - run: npm test
