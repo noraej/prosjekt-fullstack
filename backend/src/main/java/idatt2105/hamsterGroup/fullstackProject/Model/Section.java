@@ -16,12 +16,17 @@ public class Section {
     private int seats;
     private double size;
 
-    public Section(long sectionId, String sectionName, String description, int seats, double size) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "roomId")
+    private Room room;
+
+    public Section(long sectionId, String sectionName, String description, int seats, double size, Room room) {
         this.sectionId = sectionId;
         this.sectionName = sectionName;
         this.description = description;
         this.seats = seats;
         this.size = size;
+        this.room = room;
     }
 
     public Section() {
@@ -67,13 +72,26 @@ public class Section {
         this.size = size;
     }
 
+    public void setSize(double size) {
+        this.size = size;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
     @Override
     public String toString() {
         return "Section{" +
-                "sectionId=" + sectionId +
-                ", sectionName='" + sectionName + '\'' +
-                ", description='" + description + '\'' +
-                ", seats=" + seats +
+                "\nsectionId=" + sectionId +
+                ", \nsectionName='" + sectionName + '\'' +
+                ", \ndescription='" + description + '\'' +
+                ", \nseats=" + seats +
+                ", \nroom=" + room +
                 '}';
     }
 }
