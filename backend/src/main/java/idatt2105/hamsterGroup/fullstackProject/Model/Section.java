@@ -10,12 +10,14 @@ public class Section {
     private String sectionName;
     private String description;
     private int seats;
+    private double size;
 
-    public Section(long sectionId, String sectionName, String description, int seats) {
+    public Section(long sectionId, String sectionName, String description, int seats, double size) {
         this.sectionId = sectionId;
         this.sectionName = sectionName;
         this.description = description;
         this.seats = seats;
+        this.size = size;
     }
 
     public Section() {
@@ -51,6 +53,14 @@ public class Section {
 
     public void setSeats(int seats) {
         this.seats = seats;
+    }
+
+    public double getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 
     @Override
