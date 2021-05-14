@@ -3,7 +3,7 @@
     <AdminHeader />
     <AdminMenu />
     <div id="admin-content">
-      <h1>yo mom a hoe</h1>
+      <Reservations />
     </div>
   </div>
 </template>
@@ -12,12 +12,14 @@
 import { defineComponent } from "vue";
 import AdminHeader from "../components/AdminHeader.vue";
 import AdminMenu from "../components/AdminMenu.vue";
+import Reservations from "../components/Reservations.vue";
 
 export default defineComponent({
   name: "admin",
   components: {
     AdminHeader,
     AdminMenu,
+    Reservations,
   },
 });
 </script>

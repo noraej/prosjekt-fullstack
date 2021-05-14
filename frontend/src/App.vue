@@ -27,6 +27,7 @@ export default class App extends Vue {}
 html,
 body {
   height: 100%;
+  background-color: #f6f5fa;
 }
 
 #app {

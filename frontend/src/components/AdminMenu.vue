@@ -14,8 +14,8 @@
       </router-link>
     </div>
     <span class="menu-options logout" @click="logout"
-          ><i class="fa fa-power-off" aria-hidden="true"></i> Logg ut</span
-        >
+      ><i class="fa fa-power-off" aria-hidden="true"></i> Logg ut</span
+    >
   </div>
 </template>
 
@@ -49,11 +49,11 @@ export default defineComponent({
 }
 
 #menu-title {
-    margin:70px;
+  margin: 70px;
 }
 
 h3 {
-    font-weight: 400;
+  font-weight: 400;
 }
 
 .menu-options {
@@ -70,11 +70,10 @@ h3 {
 .menu-options.logout {
   bottom: 0px;
   display: inline-block;
-  border:none;
+  border: none;
 }
 
 .menu-options:hover {
-    background-color: #353752;
-
+  background-color: #353752;
 }
 </style>
