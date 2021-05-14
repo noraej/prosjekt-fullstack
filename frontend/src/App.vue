@@ -24,6 +24,11 @@ export default class App extends Vue {}
   box-sizing: border-box;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 #app {
   font-family: "Montserrat", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -32,5 +37,6 @@ export default class App extends Vue {}
   color: #2c3e50;
   margin-top: 0px;
   padding-top: 0px;
+  height: 100%;
 }
 </style>
