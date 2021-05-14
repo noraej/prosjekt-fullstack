@@ -2,6 +2,10 @@ package idatt2105.hamsterGroup.fullstackProject.Model;
 
 import javax.persistence.*;
 
+/**
+ * Entity class for storing information about
+ * a section with sectionID as primary key
+ */
 @Entity
 public class Section {
     @Id

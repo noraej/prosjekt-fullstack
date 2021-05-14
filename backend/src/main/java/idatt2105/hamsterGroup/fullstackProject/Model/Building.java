@@ -3,6 +3,10 @@ package idatt2105.hamsterGroup.fullstackProject.Model;
 import javax.persistence.*;
 import java.util.Set;
 
+/**
+ * Entity class for storing information about
+ * a building with buildingID as primary key
+ */
 @Entity
 public class Building {
     @Id
