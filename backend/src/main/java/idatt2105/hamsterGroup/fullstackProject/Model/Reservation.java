@@ -3,6 +3,10 @@ package idatt2105.hamsterGroup.fullstackProject.Model;
 import javax.persistence.*;
 import java.time.LocalDate;
 
+/**
+ * Entity class for storing information about
+ * a reservation with reservationID as primary key
+ */
 @Entity
 public class Reservation {
     @Id
