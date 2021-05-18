@@ -85,7 +85,6 @@ public class ReservationSuperDTO {
     public void setDurationMinutes(LocalDateTime startTime, LocalDateTime endTime) {
         Duration duration = Duration.between(startTime, endTime);
         this.durationMinutes = (int) (duration.getSeconds() /60);
-        System.out.println(this.durationMinutes);
     }
 
     public int getNumberOfUsers() {
@@ -118,3 +117,4 @@ public class ReservationSuperDTO {
                 '}';
     }
 }
+

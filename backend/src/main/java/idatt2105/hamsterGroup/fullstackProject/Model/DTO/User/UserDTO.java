@@ -13,7 +13,7 @@ public class UserDTO extends UserSuperDTO {
 
     public UserDTO(long userId, String firstname, String lastname, String email, String phoneNumber,
                    boolean valid, boolean admin) {
-        super(firstname, lastname, email, phoneNumber);
+        super(firstname, lastname, email, phoneNumber, admin, valid);
         this.userId = userId;
         this.valid = valid;
         this.admin = admin;
@@ -24,7 +24,7 @@ public class UserDTO extends UserSuperDTO {
     }
 
     public UserDTO(User user){
-        super(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPhoneNumber());
+        super(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPhoneNumber(), user.isAdmin(), user.isValid());
         this.userId = user.getUserId();
         this.valid = user.isValid();
         this.admin = user.isAdmin();

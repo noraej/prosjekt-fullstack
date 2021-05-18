@@ -1,6 +1,9 @@
 package idatt2105.hamsterGroup.fullstackProject.Model;
 
+import idatt2105.hamsterGroup.fullstackProject.Model.DTO.Reservation.ReservationRegistrationDTO;
+
 import javax.persistence.*;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -21,40 +24,55 @@ public class Reservation {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "roomId")
-    private Room room;
+    Room room;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "buildingId")
-    private Building building;
+    Building building;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
-    private User user;
+    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sectionId")
-    private Section section;
+    Section section;
 
-    @OneToOne
+   /* @OneToOne
     @JoinColumn(name = "sectionId", referencedColumnName = "sectionId")
-    private Set<Section> sections;
+    private Set<Section> sections;*/
 
-    public Reservation(long reservationId, int numberOfUsers, LocalDateTime startTime, LocalDateTime endTime, String description,
-                       User user, Section section, int duration, Room room, Building building, Set<Section> sections) {
-        this.reservationId = reservationId;
+    public Reservation(int numberOfUsers, LocalDateTime startTime, LocalDateTime endTime, String description,
+                       User user, Section section, Room room, Building building, Set<Section> sections) {
         this.numberOfUsers = numberOfUsers;
         this.startTime = startTime;
         this.endTime = endTime;
         this.description = description;
         this.user = user;
-        this.duration = duration;
+        this.duration = calculateDuration();
         this.room = room;
         this.building = building;
-        if (section != null) {
+      //  if (section != null) {
             this.section = section;
-        } else {
+        /*} else {
             this.sections = sections;
-        }
+        }*/
+    }
+
+    public Reservation(ReservationRegistrationDTO reservationRegistrationDTO, User user) {
+        this.numberOfUsers = reservationRegistrationDTO.getNumberOfUsers();
+        this.startTime = reservationRegistrationDTO.getStartTime();
+        this.endTime = reservationRegistrationDTO.getEndTime();
+        this.description = reservationRegistrationDTO.getDescription();
+        this.duration = reservationRegistrationDTO.getDurationMinutes();
+        this.room = reservationRegistrationDTO.getRoom();
+        this.building = reservationRegistrationDTO.getBuilding();
+      //  if (reservationRegistrationDTO.getSection() != null) {
+            this.section = reservationRegistrationDTO.getSection();
+       /* } else {
+            this.sections = reservationRegistrationDTO.getRoom().getSections();
+        }*/
+        this.user = user;
     }
 
     public long getReservationId() {
@@ -101,8 +119,9 @@ public class Reservation {
         return duration;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public int calculateDuration() {
+        Duration durationMinutes = Duration.between(startTime, endTime);
+        return (int) (durationMinutes.getSeconds() /60);
     }
 
     public User getUser() {
@@ -137,13 +156,14 @@ public class Reservation {
         this.building = building;
     }
 
-    public Set<Section> getSections() {
+
+    /*public Set<Section> getSections() {
         return sections;
     }
 
     public void setSections(Set<Section> sections) {
         this.sections = sections;
-    }
+    }*/
 
     @Override
     public String toString() {
@@ -160,6 +180,3 @@ public class Reservation {
                 '}';
     }
 }
-
-
-

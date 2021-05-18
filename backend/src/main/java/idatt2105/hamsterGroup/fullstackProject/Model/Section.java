@@ -17,8 +17,8 @@ public class Section {
     private double size;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "roomId")
-    private Room room;
+    @JoinColumn(name = "roomId", referencedColumnName = "roomId")
+    Room room;
 
     public Section(long sectionId, String sectionName, String description, int seats, double size, Room room) {
         this.sectionId = sectionId;
@@ -87,11 +87,12 @@ public class Section {
     @Override
     public String toString() {
         return "Section{" +
-                "\nsectionId=" + sectionId +
-                ", \nsectionName='" + sectionName + '\'' +
-                ", \ndescription='" + description + '\'' +
-                ", \nseats=" + seats +
-                ", \nroom=" + room +
+                "sectionId=" + sectionId +
+                ", sectionName='" + sectionName + '\'' +
+                ", description='" + description + '\'' +
+                ", size='" + size + '\'' +
+                ", room='" + room.getRoomName() + '\'' +
+                ", seats=" + seats +
                 '}';
     }
 }
