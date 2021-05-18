@@ -1,5 +1,7 @@
 package idatt2105.hamsterGroup.fullstackProject.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -22,12 +24,8 @@ public class User {
     private boolean valid;
     private boolean admin;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "User_Reservation",
-            joinColumns = @JoinColumn(name = "userId"),
-            inverseJoinColumns = @JoinColumn(name = "reservationId")
-    )
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", targetEntity = Reservation.class)
     Set<Reservation> reservations;
 
     public User(String firstName, String lastName, String email, String phoneNumber, String hash, String salt,
