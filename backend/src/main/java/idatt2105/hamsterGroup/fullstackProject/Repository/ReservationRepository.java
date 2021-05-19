@@ -2,7 +2,6 @@ package idatt2105.hamsterGroup.fullstackProject.Repository;
 
 import idatt2105.hamsterGroup.fullstackProject.Model.Building;
 import idatt2105.hamsterGroup.fullstackProject.Model.Reservation;
-import idatt2105.hamsterGroup.fullstackProject.Model.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -25,7 +24,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     public List<Reservation> findFutureReservationsUser(Long userId);
 
     /**
-     * Query that return a list of reservations sorted by earliest start time
+     * Query that return a list of reservations sorted by filters
      */
     @Query(value = "SELECT * FROM reservation WHERE reservation.start_time=?1 AND reservation.end_time=?2 AND" +
             "reservation.seats>?3 AND reservation.building_id=?4", nativeQuery = true)
