@@ -24,12 +24,12 @@ public class ReservationSuperDTO {
     private Building building;
 
     public ReservationSuperDTO(String description, Section section, LocalDateTime startTime,
-                               LocalDateTime endTime, int durationMinutes, int numberOfUsers, Room room, Building building) {
+                               LocalDateTime endTime, int numberOfUsers, Room room, Building building) {
         this.description = description;
         this.section = section;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.durationMinutes = durationMinutes;
+        this.durationMinutes = calculateDuration();
         this.numberOfUsers = numberOfUsers;
         this.room = room;
         this.building = building;
@@ -82,11 +82,6 @@ public class ReservationSuperDTO {
         return durationMinutes;
     }
 
-    public void setDurationMinutes(LocalDateTime startTime, LocalDateTime endTime) {
-        Duration duration = Duration.between(startTime, endTime);
-        this.durationMinutes = (int) (duration.getSeconds() /60);
-    }
-
     public int getNumberOfUsers() {
         return numberOfUsers;
     }
@@ -101,6 +96,11 @@ public class ReservationSuperDTO {
 
     public void setBuilding(Building building) {
         this.building = building;
+    }
+
+    public int calculateDuration() {
+        Duration durationMinutes = Duration.between(startTime, endTime);
+        return (int) (durationMinutes.getSeconds() /60);
     }
 
     @Override

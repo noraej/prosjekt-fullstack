@@ -15,7 +15,7 @@ public class ReservationDTO extends ReservationSuperDTO {
 
     public ReservationDTO(Reservation reservation){
         super(reservation.getDescription(), reservation.getSection(), reservation.getStartTime(), reservation.getEndTime(),
-                reservation.getDuration(), reservation.getNumberOfUsers(), reservation.getRoom(), reservation.getBuilding());
+                reservation.getNumberOfUsers(), reservation.getRoom(), reservation.getBuilding());
         this.reservationId = reservation.getReservationId();
         if(reservation.getUser() != null) {
             this.userId = reservation.getUser().getUserId();

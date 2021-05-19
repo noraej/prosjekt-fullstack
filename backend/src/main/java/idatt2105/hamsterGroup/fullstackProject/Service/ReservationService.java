@@ -36,10 +36,7 @@ public class ReservationService {
     public ReservationDTO getReservation(long reservationId) {
         LOGGER.info("getReservation(long reservationId) was called with reservationID: " + reservationId);
         Optional<Reservation> reservation = reservationRepository.findById(reservationId);
-        if (reservation.isPresent()) {
-            return new ReservationDTO(reservation.get());
-        }
-        return null;
+        return reservation.map(ReservationDTO::new).orElse(null);
     }
 
     /**
@@ -48,8 +45,8 @@ public class ReservationService {
      */
     public List<ReservationDTO> getReservations() {
         LOGGER.info("getReservations() was called");
-        return reservationRepository.findAllReservationsFromNow().stream().map(reservation ->
-                new ReservationDTO(reservation)).collect(Collectors.toList());
+        return reservationRepository.findAllReservationsFromNow().stream().
+                map(ReservationDTO::new).collect(Collectors.toList());
     }
 
     /**
@@ -77,7 +74,7 @@ public class ReservationService {
                 SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         Optional<User> optionalUser = userRepository.findById(creatorUser.getUserId());
-        if(!optionalUser.isPresent()) {
+        if(optionalUser.isEmpty()) {
             return null;
         }
         Reservation createdReservation = new Reservation(reservation, optionalUser.get());
@@ -143,10 +140,7 @@ public class ReservationService {
      */
     public boolean checkIfMakerOfReservation(long reservationId, long userId){
         Optional<Reservation> optionalReservation = reservationRepository.findById(reservationId);
-        if(optionalReservation.isPresent()){
-            return optionalReservation.get().getUser().getUserId() == userId;
-        }
-        return false;
+        return optionalReservation.filter(reservation -> reservation.getUser().getUserId() == userId).isPresent();
     }
 
     /**
