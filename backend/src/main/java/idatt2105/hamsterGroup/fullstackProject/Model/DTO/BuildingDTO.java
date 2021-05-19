@@ -1,32 +1,30 @@
-package idatt2105.hamsterGroup.fullstackProject.Model;
+package idatt2105.hamsterGroup.fullstackProject.Model.DTO;
 
-import javax.persistence.*;
-import java.util.Set;
+import idatt2105.hamsterGroup.fullstackProject.Model.Building;
+import idatt2105.hamsterGroup.fullstackProject.Model.Room;
 
 /**
- * Entity class for storing information about
- * a building with buildingID as primary key
+ * UserDTO, DTO class for sending user information
  */
-@Entity
-public class Building {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class BuildingDTO {
     private long buildingId;
     private String buildingName;
-
-    @OneToMany(mappedBy = "building", targetEntity = Room.class)
-    Set<Room> rooms;
-
     private int numberOfRooms;
 
-    public Building(String buildingName, Set<Room> rooms) {
+
+    public BuildingDTO(long buildingId, String buildingName, int numberOfRooms) {
+        this.buildingId = buildingId;
         this.buildingName = buildingName;
-        this.rooms = rooms;
-        this.numberOfRooms = rooms.size();
+        this.numberOfRooms = numberOfRooms;
     }
 
-    public Building() {
+    public BuildingDTO() {
+    }
 
+    public BuildingDTO(Building building){
+        this.buildingId = building.getBuildingId();
+        this.buildingName = building.getBuildingName();
+        this.numberOfRooms = building.getNumberOfRooms();
     }
 
     public long getBuildingId() {
@@ -45,14 +43,6 @@ public class Building {
         this.buildingName = buildingName;
     }
 
-    public Set<Room> getRooms() {
-        return rooms;
-    }
-
-    public void setRooms(Set<Room> rooms) {
-        this.rooms = rooms;
-    }
-
     public int getNumberOfRooms() {
         return numberOfRooms;
     }
@@ -63,11 +53,11 @@ public class Building {
 
     @Override
     public String toString() {
-        return "Building{" +
+        return "BuildingDTO{" +
                 "buildingId=" + buildingId +
                 ", buildingName='" + buildingName + '\'' +
-                ", rooms=" + rooms +
                 ", numberOfRooms=" + numberOfRooms +
                 '}';
     }
 }
+

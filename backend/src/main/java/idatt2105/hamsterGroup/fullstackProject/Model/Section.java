@@ -20,8 +20,7 @@ public class Section {
     @JoinColumn(name = "roomId", referencedColumnName = "roomId")
     Room room;
 
-    public Section(long sectionId, String sectionName, String description, int seats, double size, Room room) {
-        this.sectionId = sectionId;
+    public Section(String sectionName, String description, int seats, double size, Room room) {
         this.sectionName = sectionName;
         this.description = description;
         this.seats = seats;
