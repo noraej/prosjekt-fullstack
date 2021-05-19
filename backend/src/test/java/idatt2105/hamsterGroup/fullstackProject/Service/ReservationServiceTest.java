@@ -43,6 +43,7 @@ public class ReservationServiceTest {
 
     @BeforeEach
     public void setup() {
+       // User user = new User("User", "Usersen", "use@test", "12345678", "hash", "salt", true, true, "ADMIN");
         Reservation reservation1 = new Reservation(5,
                 LocalDateTime.of(2000, 1, 1, 1, 1, 1),
                 LocalDateTime.of(2000, 1, 1, 1, 5, 1),
@@ -151,7 +152,7 @@ public class ReservationServiceTest {
         ReservationRegistrationDTO reservationRegistrationDTO = new ReservationRegistrationDTO
                 ("Description1", null, LocalDateTime.of(2021, 6, 6, 16, 0, 0),
                         LocalDateTime.of(2021, 6, 6, 17, 0, 0),
-                        10, null, null);
+                        10, null, null/*, null*/);
         Mockito.lenient().when(reservationRepository.save(any())).thenReturn(new Reservation(
                 10, LocalDateTime.of(2021, 6, 6, 16, 0, 0),
                 LocalDateTime.of(2021, 6, 6, 17, 0, 0),
@@ -170,7 +171,7 @@ public class ReservationServiceTest {
         ReservationRegistrationDTO reservationRegistrationDTO = new ReservationRegistrationDTO(
                 "NewDescription", null, LocalDateTime.of(2021, 6, 6, 16, 30, 0),
                 LocalDateTime.of(2021, 6, 6, 17, 0, 0),
-                15, null, null
+                15, null, null/*, null*/
         );
         Mockito.lenient().when(reservationRepository.save(any())).thenReturn(new Reservation(15,
                 LocalDateTime.of(2021, 6, 6, 16, 30, 0),
@@ -190,7 +191,7 @@ public class ReservationServiceTest {
         ReservationRegistrationDTO reservationRegistrationDTO = new ReservationRegistrationDTO(
                 "ThisDesc", null, LocalDateTime.of(2022, 6, 6, 16, 30, 0),
                 LocalDateTime.of(2022, 6, 6, 17, 0, 0),
-                16, null, null
+                16, null, null/*, null*/
         );
         Mockito.lenient().when(reservationRepository.save(any())).thenReturn(new Reservation(16,
                 LocalDateTime.of(2022, 6, 6, 16, 0, 0),

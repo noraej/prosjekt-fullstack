@@ -37,16 +37,16 @@ public class BuildingController
         return new ResponseEntity<>(buildings, HttpStatus.OK);
     }
 
-    /* //Admins should be able to create rooms in the app at one point, but down prioritized for now
+    /* //Admins should be able to create buildings in the app at one point, but down prioritized for now
     @PostMapping
-    public ResponseEntity<RoomDTO> createRoom(@RequestBody RoomCreationDTO room) {
+    public ResponseEntity<BuildingDTO> createRoom(@RequestBody BuildingCreationDTO building) {
     }
      */
 
     /* //Same here
-    @DeleteMapping("/{room_id}")
+    @DeleteMapping("/{building_id}")
     @PreAuthorize("...")
-    public ResponseEntity<String> deleteRoom(@PathVariable("room_id") long roomId) {
+    public ResponseEntity<String> deleteRoom(@PathVariable("building_id") long buildingId) {
     }
      */
 }

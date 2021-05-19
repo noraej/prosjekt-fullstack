@@ -9,7 +9,6 @@ import java.util.List;
 
 @Repository
 public interface BuildingRepository extends JpaRepository<Building, Long> {
-    //Optional<Room> findRoomById(long roomId);
 
     /**
      * Query that return a list of all buildings

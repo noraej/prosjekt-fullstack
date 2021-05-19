@@ -1,6 +1,7 @@
 package idatt2105.hamsterGroup.fullstackProject.Model.DTO;
 
 import idatt2105.hamsterGroup.fullstackProject.Model.Building;
+import idatt2105.hamsterGroup.fullstackProject.Model.Room;
 
 import java.time.LocalDateTime;
 
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
  */
 public class FilterSortDTO {
     private Building building;
+    private Room room;
     private int minNumberOfSeats = -1;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
@@ -22,6 +24,14 @@ public class FilterSortDTO {
 
     public void setBuilding(Building building) {
         this.building = building;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     public int getMinNumberOfSeats() {
@@ -46,5 +56,16 @@ public class FilterSortDTO {
 
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    @Override
+    public String toString() {
+        return "FilterSortDTO{" +
+                "building=" + building +
+                //", room=" + room +
+                ", minNumberOfSeats=" + minNumberOfSeats +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                '}';
     }
 }
