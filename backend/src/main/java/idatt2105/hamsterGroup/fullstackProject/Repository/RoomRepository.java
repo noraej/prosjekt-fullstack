@@ -8,10 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
-    //Optional<Room> findRoomById(long roomId);
 
     /**
      * Query that return a list of all rooms
@@ -29,5 +29,5 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
      * Query that return a list of rooms sorted by filters
      */
     @Query(value = "SELECT * FROM room WHERE room.building_id=?1", nativeQuery = true)
-    public List<Room> findRoomByBuilding(Building building);
+    public List<Room> findRoomByBuilding(long buildingId);
 }
