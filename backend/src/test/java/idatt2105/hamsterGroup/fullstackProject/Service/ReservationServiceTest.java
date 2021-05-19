@@ -156,7 +156,7 @@ public class ReservationServiceTest {
                 10, LocalDateTime.of(2021, 6, 6, 16, 0, 0),
                 LocalDateTime.of(2021, 6, 6, 17, 0, 0),
         "Description1", null, null, null, null, null));
-        ReservationDTO reservationDTO = reservationService.createActivity(reservationRegistrationDTO);
+        ReservationDTO reservationDTO = reservationService.createReservation(reservationRegistrationDTO);
         assertNotNull(reservationDTO);
         assertThat(reservationDTO.getNumberOfUsers()).isEqualTo(10);
         assertThat(reservationDTO.getStartTime()).isEqualTo(LocalDateTime.of(2021, 6, 6, 16, 0, 0));

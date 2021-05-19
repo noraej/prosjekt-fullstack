@@ -62,14 +62,14 @@ public class ReservationService {
     }
 
     /**
-     * Finds the user who created the activity,
+     * Finds the user who created the reservation,
      * then saves the reservation object in the database
      * @param reservation - reservation object
      * @return ReservationDTO object
      */
-    public ReservationDTO createActivity(ReservationRegistrationDTO reservation)
+    public ReservationDTO createReservation(ReservationRegistrationDTO reservation)
     {
-        LOGGER.info("createReservation(Reservation activity) on new reservation");
+        LOGGER.info("createReservation(Reservation reservation) on new reservation");
         UserSecurity creatorUser = (UserSecurity)
                 SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -113,8 +113,8 @@ public class ReservationService {
     }
 
     /**
-     * Finds activity based on id, removes it, sends cancellation emails
-     * to all participants, and deletes the activity from the database
+     * Finds reservation based on id, removes it, sends cancellation emails
+     * to all participants, and deletes the reservation from the database
      * @param reservationId - id of reservation
      * @return true if deletion was successful, false otherwise
      */

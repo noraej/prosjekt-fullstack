@@ -151,7 +151,7 @@ public class UserService {
      * @param userId - id of user
      * @return List of activities
      */
-    public List<Reservation> findReservationMadeByUser(long userId){
+    public List<Reservation> getUserReservations(long userId){
         LOGGER.info("findReservationMadeByUser(long userId) called with user ID " + userId);
         Optional<User> userOptional = userRepository.findById(userId);
         if(userOptional.isPresent()) {
@@ -165,7 +165,7 @@ public class UserService {
      * @return JWT token
      */
     private String createJWTToken(User user){
-        List<GrantedAuthority> grantedAuthorities = List.of(new SimpleGrantedAuthority("USER"));
+        List<GrantedAuthority> grantedAuthorities = List.of(new SimpleGrantedAuthority(user.getRole()));
         return Jwts.builder().setSubject(user.getEmail()).claim("authorities", grantedAuthorities)
                 .claim("userId", user.getUserId())
                 .setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis() + 1800000))

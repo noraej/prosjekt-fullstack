@@ -23,13 +23,14 @@ public class User {
     private String salt;
     private boolean valid;
     private boolean admin;
+    private String role;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", targetEntity = Reservation.class)
     Set<Reservation> reservations;
 
     public User(String firstName, String lastName, String email, String phoneNumber, String hash, String salt,
-                boolean valid, boolean admin, Set<Reservation> reservations) {
+                boolean valid, boolean admin, Set<Reservation> reservations, String role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -39,10 +40,11 @@ public class User {
         this.valid = valid;
         this.admin = admin;
         this.reservations = reservations;
+        this.role = role;
     }
 
     public User(String firstName, String lastName, String email, String phoneNumber, String hash, String salt,
-                boolean valid, boolean admin) {
+                boolean valid, boolean admin, String role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -51,6 +53,7 @@ public class User {
         this.salt = salt;
         this.valid = valid;
         this.admin = admin;
+        this.role = role;
     }
 
     public User(){
@@ -136,6 +139,14 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public String toString()
     {
@@ -148,6 +159,7 @@ public class User {
                 ", salt='" + salt + '\'' +
                 ", admin=" + admin + '\'' +
                 ", valid='" + valid + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 

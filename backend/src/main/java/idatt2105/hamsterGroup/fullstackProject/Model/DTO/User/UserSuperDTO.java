@@ -11,15 +11,17 @@ public class UserSuperDTO {
     private String phoneNumber;
     private boolean valid;
     private boolean admin;
+    private String role;
 
 
-    public UserSuperDTO(String firstname, String surname, String email, String phoneNumber, boolean admin, boolean valid) {
+    public UserSuperDTO(String firstname, String surname, String email, String phoneNumber, boolean admin, boolean valid, String role) {
         this.firstname = firstname;
         this.lastname = surname;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.admin = admin;
         this.valid = valid;
+        this.role = role;
     }
 
     public UserSuperDTO() {
@@ -73,6 +75,14 @@ public class UserSuperDTO {
         this.admin = admin;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -82,6 +92,7 @@ public class UserSuperDTO {
                 ", \nphoneNumber='" + phoneNumber +
                 ", \nadmin='" + admin +
                 ", \nvalid='" + valid +
+                ", \nrole='" + role +
                 '}';
     }
 }
