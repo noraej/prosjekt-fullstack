@@ -1,5 +1,7 @@
 package idatt2105.hamsterGroup.fullstackProject.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -14,16 +16,20 @@ public class Room {
     private long roomId;
     private String roomName;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "buildingId", referencedColumnName = "buildingId")
+    Building building;
+
     @OneToMany(mappedBy = "room", targetEntity = Section.class)
-    private Set<Section> sections;
+    Set<Section> sections;
 
-    private int numberOfSections = sections.size();
+    private int numberOfSections;
 
-    public Room(long roomId, String roomName, Set<Section> sections, int numberOfSections) {
+    public Room(long roomId, String roomName, Set<Section> sections) {
         this.roomId = roomId;
         this.roomName = roomName;
         this.sections = sections;
-        this.numberOfSections = numberOfSections;
+        this.numberOfSections = sections.size();
     }
 
     public Room() {

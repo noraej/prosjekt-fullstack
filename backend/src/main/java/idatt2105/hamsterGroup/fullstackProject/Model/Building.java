@@ -15,15 +15,15 @@ public class Building {
     private String buildingName;
 
     @OneToMany(mappedBy = "building", targetEntity = Room.class)
-    private Set<Room> rooms;
+    Set<Room> rooms;
 
-    private int numberOfRooms = rooms.size();
+    private int numberOfRooms;
 
-    public Building(long buildingId, String buildingName, Set<Room> rooms, int numberOfRooms) {
+    public Building(long buildingId, String buildingName, Set<Room> rooms) {
         this.buildingId = buildingId;
         this.buildingName = buildingName;
         this.rooms = rooms;
-        this.numberOfRooms = numberOfRooms;
+        this.numberOfRooms = rooms.size();
     }
 
     public Building() {

@@ -2,10 +2,11 @@
   <div>
     <h2 id="title">Find room</h2>
     <h3 id="label">Building</h3>
-    <p>Choose buliding</p>
+    <h3>Choose buliding</h3>
     <select class="dropdown" v-model="selectedBuilding">
       <option value=" " hidden disabled>Choose building</option>
       <option
+        class="dropdown-content"
         v-for="(building, index) in buildings"
         :value="building"
         :key="index"
@@ -21,7 +22,12 @@
       </option>
     </select>
     <h3>Choose day</h3>
-    <datepicker v-model="date" :upperLimit="to" :lowerLimit="from" />
+    <datepicker
+      id="datepicker"
+      v-model="date"
+      :upperLimit="to"
+      :lowerLimit="from"
+    />
     <h3>Choose start time</h3>
     <input type="time" v-model="startTime" />
     <h3>Choose end time</h3>
@@ -31,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { defineComponent, ref } from "vue";
 import Datepicker from "vue3-datepicker";
 
 export default defineComponent({
@@ -79,3 +85,37 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.dropdown {
+  position: relative;
+  display: inline-block;
+  border-radius: 5px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+button {
+   border-radius: 4px;
+  border: 1px solid #868acc;
+  color: #868acc;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 1rem;
+  width: 120px;
+}
+</style>

@@ -13,6 +13,11 @@ const routes: Array<RouteRecordRaw> = [
     name: "UserSearch",
     component: UserSearch,
   },
+  {
+    path: "/admin",
+    name: "Admin",
+    component: () => import("../views/Admin.vue"),
+  }
 ];
 
 const router = createRouter({

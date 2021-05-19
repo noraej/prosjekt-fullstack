@@ -7,8 +7,9 @@ public class UserAndPasswordDTO extends UserSuperDTO{
     private String password;
 
 
-    public UserAndPasswordDTO(String firstname, String lastname, String email, String phoneNumber, String password) {
-        super(firstname, lastname, email, phoneNumber);
+    public UserAndPasswordDTO(String firstname, String lastname, String email, String phoneNumber, String password,
+                              boolean admin, boolean valid) {
+        super(firstname, lastname, email, phoneNumber, admin, valid);
         this.password = password;
     }
 
