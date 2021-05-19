@@ -107,8 +107,8 @@ public class UserServiceTest
     {
         UserAndPasswordDTO user = new UserAndPasswordDTO
                 ("testFirstname", "testLastname", "testMail",
-                        "123456789", "hash", true, true);
-        User returnUser = new User("test","test", "mail", "98765432", "hash","salt", true, false);
+                        "123456789", "hash", true, true, "ADMIN");
+        User returnUser = new User("test","test", "mail", "98765432", "hash","salt", true, false, "NORMAL");
         returnUser.setUserId(1);
         Mockito.lenient()
                 .when(userRepository.save(any()))
@@ -119,7 +119,7 @@ public class UserServiceTest
     @Test
     public void editUser_updatesUser_ReturnsUpdatedUser() throws SerialException, SQLException
     {
-        UserEditDTO userEditDTO = new UserEditDTO("Forename", "surname", "email", "87654321","newHash", "oldHash", true, true);
+        UserEditDTO userEditDTO = new UserEditDTO("Forename", "surname", "email", "87654321","newHash", "oldHash", true, true, "ADMIN");
         User tempUser = new User();
         tempUser.setFirstName(userEditDTO.getFirstname());
         tempUser.setLastName(userEditDTO.getLastname());
@@ -166,7 +166,7 @@ public class UserServiceTest
     @Test
     public void getUserReservations_UserHasNoReservation_EmptySet()
     {
-        List<Reservation> reservations = userService.findReservationMadeByUser(0L);
+        List<Reservation> reservations = userService.getUserReservations(0L);
         assertThat(reservations).isEmpty();
     }
 
@@ -180,7 +180,7 @@ public class UserServiceTest
                 LocalDateTime.of(2021, 5, 19, 15, 30, 0), "Description",
                 userRepository.findById(0L).get(), null, null, null, null));
         userRepository.findById(0L).get().setReservations(reservations);
-        List<Reservation> reservationsFound = userService.findReservationMadeByUser(0L);
+        List<Reservation> reservationsFound = userService.getUserReservations(0L);
         assertThat(reservationsFound).isNotEmpty();
     }
 }
