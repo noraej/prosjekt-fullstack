@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class EmailComponent {
-    @Autowired
+  /*  @Autowired
     private JavaMailSender emailSender;
 
     public void sendSimpleMessage(
@@ -32,7 +32,7 @@ public class EmailComponent {
      * @param durationMinutes duration of the activity
      * @return formatted String
      */
-    private String getTimeAndDateString(LocalDateTime dateTime, int durationMinutes){
+   /* private String getTimeAndDateString(LocalDateTime dateTime, int durationMinutes){
         DateTimeFormatter initialDateTimeFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy 'fra' HH:mm 'til' ");
         DateTimeFormatter endingDateTimeFormat = DateTimeFormatter.ofPattern("HH:mm");
 
@@ -40,5 +40,5 @@ public class EmailComponent {
         String format2 = dateTime.plusMinutes(durationMinutes).format(endingDateTimeFormat);
 
         return format1 + format2;
-    }
+    }*/
 }

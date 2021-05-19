@@ -1,6 +1,5 @@
 package idatt2105.hamsterGroup.fullstackProject.Service;
 
-import idatt2105.hamsterGroup.fullstackProject.Enum.SortingType;
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.FilterSortDTO;
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.Reservation.ReservationDTO;
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.Reservation.ReservationRegistrationDTO;
@@ -55,8 +54,7 @@ public class ReservationService {
      * @return List of reservationDTOs
      */
     public List<ReservationDTO> getReservationsWithFilterAndSort(FilterSortDTO filter) {
-        LOGGER.info("getReservationsWithFilter(FilterDTO filter) was called with filter " + filter.getSortingType()
-                    + " and sorted by " + filter.getSortingType());
+        LOGGER.info("getReservationsWithFilter(FilterDTO filter) was called with filter a filter");
         List<Reservation> reservationList = filterAndSort(filter);
         return reservationList.stream().map(ReservationDTO::new).collect(Collectors.toList());
     }
@@ -149,22 +147,10 @@ public class ReservationService {
      * @return List of reservations
      */
     private List<Reservation> filterAndSort(FilterSortDTO filter) {
-        if (filter.getRoom() == null && filter.getBuilding() == null && filter.getSortingType() == SortingType.DATE){
-            return reservationRepository.sortReservationsTime();
-        } else if (filter.getRoom() != null && filter.getBuilding() == null && filter.getSortingType() != SortingType.DATE){
-            return reservationRepository.findReservationByRoom(filter.getRoom().getRoomId());
-        } else if (filter.getRoom() != null && filter.getBuilding() == null && filter.getSortingType() == SortingType.DATE){
-            return reservationRepository.findReservationByRoomSorted(filter.getRoom().getRoomId());
-        } else if (filter.getRoom() == null && filter.getBuilding() != null && filter.getSortingType() != SortingType.DATE){
-            return reservationRepository.findReservationByBuilding(filter.getBuilding().getBuildingId());
-        } else if (filter.getRoom() == null && filter.getBuilding() != null && filter.getSortingType() == SortingType.DATE){
-            return reservationRepository.findReservationByBuildingSorted(filter.getBuilding().getBuildingId());
-        } else if (filter.getRoom() != null && filter.getBuilding() != null && filter.getSortingType() != SortingType.DATE){
-            return reservationRepository.findReservationByRoomAndBuilding(filter.getRoom().getRoomId(),
-                                                                            filter.getBuilding().getBuildingId());
-        } else if (filter.getRoom() != null && filter.getBuilding() != null && filter.getSortingType() == SortingType.DATE){
-            return reservationRepository.findReservationByRoomAndBuildingSorted(filter.getRoom().getRoomId(),
-                                                                                filter.getBuilding().getBuildingId());
+        if (filter.getStartTime() != null && filter.getEndTime() != null && filter.getMinNumberOfSeats() != -1
+                && filter.getBuilding() != null) {
+            return reservationRepository.sortReservationsWithFilters(filter.getStartTime(), filter.getEndTime(),
+                    filter.getMinNumberOfSeats(), filter.getBuilding());
         }
         return reservationRepository.findAll();
     }
