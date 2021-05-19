@@ -11,8 +11,8 @@ public class UserEditDTO extends UserSuperDTO {
     private boolean valid;
 
     public UserEditDTO(String firstname, String lastname, String email, String phoneNumber, String newPassword, String oldPassword,
-                        boolean admin, boolean valid) {
-        super(firstname, lastname, email, phoneNumber, admin, valid);
+                        boolean admin, boolean valid, String role) {
+        super(firstname, lastname, email, phoneNumber, admin, valid, role);
         this.admin = admin;
         this.valid = valid;
         this.newPassword = newPassword;
