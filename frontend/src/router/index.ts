@@ -1,6 +1,6 @@
 import { RouteRecordRaw, createRouter, createWebHistory } from "vue-router";
 import LogIn from "../views/LogIn.vue";
-import UserSearch from "../views/UserSearch.vue";
+import User from "../views/User.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -9,15 +9,15 @@ const routes: Array<RouteRecordRaw> = [
     component: LogIn,
   },
   {
-    path: "/user-search",
-    name: "UserSearch",
-    component: UserSearch,
+    path: "/user",
+    name: "User",
+    component: User,
   },
   {
     path: "/admin",
     name: "Admin",
     component: () => import("../views/Admin.vue"),
-  }
+  },
 ];
 
 const router = createRouter({
