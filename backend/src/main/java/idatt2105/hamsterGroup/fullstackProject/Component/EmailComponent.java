@@ -24,11 +24,11 @@ public class EmailComponent {
 
     public void createdUserMail(
             String to) {
-        Optional<User> user = userRepository.findUserByEmail(to);
+        //Optional<User> user = userRepository.findUserByEmail(to);
         SimpleMailMessage message = new SimpleMailMessage();
         String text = "A user has been made on Hamster Roombooking Service for you by an admin. " +
-                "You can log in with:\n\n" + user.get().getEmail() +
-                "\n" + user.get().getHash() + "\n\nOn www.localhost:3000 (link tbd)";
+                "You can log in with:\n\n" + /*user.get().getEmail() +*/
+                "\n" + /*user.get().getHash() + */"\n\nOn www.localhost:3000 (link tbd)";
         String subject = "Created user on Hamster Roombooking Service";
         message.setFrom("hamster.lyfe@gmail.com");
         message.setTo("ida.trosdahl@gmail.com"); //Skal være to

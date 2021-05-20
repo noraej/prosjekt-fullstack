@@ -51,9 +51,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(new ExceptionHandlerFilter(), JwtTokenVerifier.class)*/
                 .authorizeRequests()
                 .antMatchers("/error").permitAll()
-                .antMatchers("/api/v1/activities/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/api/v1/reservations/**").hasAnyRole("NORMAL", "ADMIN")
                 .antMatchers(HttpMethod.POST,"/api/v1/users").permitAll()
-                .antMatchers("/api/v1/websocket/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .cors();

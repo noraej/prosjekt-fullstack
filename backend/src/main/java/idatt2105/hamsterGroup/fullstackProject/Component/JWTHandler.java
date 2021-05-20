@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import idatt2105.hamsterGroup.fullstackProject.Configuration.JWT.JWTSigningKey;
+import idatt2105.hamsterGroup.fullstackProject.Configuration.JWT.JwtSigningKey;
 import idatt2105.hamsterGroup.fullstackProject.Model.UserSecurity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +18,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * Handler class for JWT (JSON Web Tokens)
@@ -37,7 +36,7 @@ public class JWTHandler {
     public static Authentication verifyToken(String token){
         try{
             Jws<Claims> claimsJWs = Jwts.parserBuilder()
-                    .setSigningKey(JWTSigningKey.getInstance())
+                    .setSigningKey(JwtSigningKey.getInstance())
                     .build().parseClaimsJws(token);
             Claims body = claimsJWs.getBody();
 

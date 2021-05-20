@@ -5,11 +5,11 @@ import java.security.SecureRandom;
 /**
  * Class that creates a new and unique JWT signing key when server starts up
  */
-public class JWTSigningKey {
+public class JwtSigningKey {
     private static final byte[] key = new byte[256];
     private static SecureRandom secureRandom = null;
 
-    private JWTSigningKey() {
+    private JwtSigningKey() {
     }
 
     public static byte[] getInstance() {

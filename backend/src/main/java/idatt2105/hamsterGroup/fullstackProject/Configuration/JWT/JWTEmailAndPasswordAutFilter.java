@@ -25,11 +25,11 @@ import io.jsonwebtoken.security.Keys;
 /**
  * Filter for authenticating user from username and password, if successful it creates and returns a JWT token
  */
-public class JWTEmailAndPasswordAutFilter extends EmailAndPasswordAutRequest {
+public class JWTEmailAndPasswordAutFilter extends JwtUsernameAndPasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JWTTokenVerifier.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenVerifier.class);
 
     public JWTEmailAndPasswordAutFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
@@ -44,8 +44,8 @@ public class JWTEmailAndPasswordAutFilter extends EmailAndPasswordAutRequest {
     public Authentication attemptToAuthenticate(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
         try {
-            EmailAndPasswordAutRequest authenticationRequest = new ObjectMapper()
-                    .readValue(request.getInputStream(), EmailAndPasswordAutRequest.class);
+            JwtUsernameAndPasswordAuthenticationFilter authenticationRequest = new ObjectMapper()
+                    .readValue(request.getInputStream(), JwtUsernameAndPasswordAuthenticationFilter.class);
 
             Authentication auth = new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
                     authenticationRequest.getPassword());
@@ -75,7 +75,7 @@ public class JWTEmailAndPasswordAutFilter extends EmailAndPasswordAutRequest {
         String token = Jwts.builder().setSubject(authResult.getName()).claim("authorities", authResult.getAuthorities())
                 .claim("userId", user.getUserId())
                 .setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis() + 1800000))
-                .signWith(Keys.hmacShaKeyFor(JWTSigningKey.getInstance())).compact();
+                .signWith(Keys.hmacShaKeyFor(JwtSigningKey.getInstance())).compact();
 
         // Writes the token and userId as JSON
         // Could used DTO and objectMapper

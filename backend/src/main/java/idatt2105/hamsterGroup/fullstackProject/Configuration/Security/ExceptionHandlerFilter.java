@@ -39,7 +39,5 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter{
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.getWriter().write(objectMapper.writeValueAsString(ex));
         }
-
     }
-
 }

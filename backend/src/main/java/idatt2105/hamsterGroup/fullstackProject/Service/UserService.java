@@ -1,7 +1,7 @@
 package idatt2105.hamsterGroup.fullstackProject.Service;
 
 import idatt2105.hamsterGroup.fullstackProject.Component.EmailComponent;
-import idatt2105.hamsterGroup.fullstackProject.Configuration.JWT.JWTSigningKey;
+import idatt2105.hamsterGroup.fullstackProject.Configuration.JWT.JwtSigningKey;
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.User.UserAndPasswordDTO;
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.User.UserDTO;
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.User.UserEditDTO;
@@ -77,7 +77,7 @@ public class UserService {
         createdUser.setHash(passwordEncoder.encode(user.getPassword()));
         createdUser = userRepository.save(createdUser);
         String token = createJWTToken(createdUser);
-        emailSender.createdUserMail(createdUser.getEmail()); //Sends email
+       //emailSender.createdUserMail("hei"); //Sends email
         return new UserRegistrationCallbackDTO(token, createdUser.getUserId(), user);
     }
 
@@ -174,7 +174,7 @@ public class UserService {
         return Jwts.builder().setSubject(user.getEmail()).claim("authorities", grantedAuthorities)
                 .claim("userId", user.getUserId())
                 .setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis() + 1800000))
-                .signWith(Keys.hmacShaKeyFor(JWTSigningKey.getInstance())).compact();
+                .signWith(Keys.hmacShaKeyFor(JwtSigningKey.getInstance())).compact();
     }
 
 }
