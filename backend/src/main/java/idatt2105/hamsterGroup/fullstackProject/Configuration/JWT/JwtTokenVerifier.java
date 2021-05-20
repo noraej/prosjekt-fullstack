@@ -1,7 +1,6 @@
 package idatt2105.hamsterGroup.fullstackProject.Configuration.JWT;
 
 import java.io.IOException;
-import java.util.regex.Pattern;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -16,9 +15,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 /**
  * Filter for verifying a token from request header
  */
-public class JWTTokenVerifier extends OncePerRequestFilter {
+public class JwtTokenVerifier extends OncePerRequestFilter {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JWTTokenVerifier.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenVerifier.class);
 
     /**
      * Verifies the JWT token from request,return 403 if expired
@@ -37,8 +36,7 @@ public class JWTTokenVerifier extends OncePerRequestFilter {
 
         // If request tries to create user, it will not try to verify token, but continue the through
         // filters until it gets to registration endpoint
-        if((request.getRequestURI().equals("/api/v1/users") && request.getMethod().equals("POST")) ||
-                Pattern.matches("/api/v1/websocket/.+", request.getRequestURI())) {
+        if(request.getRequestURI().equals("/api/v1/users") && request.getMethod().equals("POST")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -46,7 +44,5 @@ public class JWTTokenVerifier extends OncePerRequestFilter {
         JWTHandler.verifyToken(token);
         // Sends the request to the next filter, which will be exception-handler and then the controller
         filterChain.doFilter(request, response);
-
     }
-
 }

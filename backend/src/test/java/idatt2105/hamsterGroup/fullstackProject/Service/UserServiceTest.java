@@ -41,9 +41,6 @@ public class UserServiceTest
     @Mock
     private PasswordEncoder passwordEncoder;
 
-    @Mock
-    private ReservationRepository reservationRepository;
-
     @BeforeEach
     public void setup()
     {

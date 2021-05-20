@@ -5,11 +5,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 /**
  * Mapper file class for input when trying to log in
  */
-public class EmailAndPasswordAutRequest extends UsernamePasswordAuthenticationFilter {
+public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private String email;
     private String password;
 
-    public EmailAndPasswordAutRequest() {
+    public JwtUsernameAndPasswordAuthenticationFilter() {
     }
 
     public String getEmail() {

@@ -20,9 +20,9 @@ import org.springframework.stereotype.Service;
  * Service class needed for getting User from database and creating UserDetails object needed for Security Principal
  */
 @Service
-public class UserSecurityService implements UserDetailsService{
+public class UserSecurityDetailsService implements UserDetailsService{
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserSecurityService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserSecurityDetailsService.class);
 
     @Autowired
     UserRepository userRepository;
@@ -34,7 +34,8 @@ public class UserSecurityService implements UserDetailsService{
      * @return UserDetails - user details object
      * @throws UsernameNotFoundException
      */
-    public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         LOGGER.info("loadUserByEmail(String email) was called with email: {}", email);
 
         Optional<User> userOptional = userRepository.findUserByEmail(email);
@@ -47,10 +48,5 @@ public class UserSecurityService implements UserDetailsService{
             LOGGER.warn("Could not find user with email: {}. Throwing exception", email);
             throw new UsernameNotFoundException("Email: " + email + "was not found");
         }
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return null;
     }
 }
