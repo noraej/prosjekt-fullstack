@@ -4,28 +4,38 @@
       <h3>RoomBooking.com</h3>
     </div>
     <div></div>
-    <div id="header-options">
-      <div class="container" @click="openMenu">
+    <div class="container" @click="clickedOpenMenu">
         <div class="bar1"></div>
         <div class="bar2"></div>
         <div class="bar3"></div>
-      </div>
+    </div>
+    <div id="menu" v-if="openMenu">
+      <UserMenu />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent, ref, watchEffect } from "vue";
+import UserMenu from "./UserMenu.vue";
 
 export default defineComponent({
+  components: { UserMenu },
   name: "UserHeader",
   setup() {
     const isMenuOpen = ref(false);
-    const openMenu = ref((): void => {
-      isMenuOpen.value = true;
-      //TODO: open menu here
-    });
+    const openMenu = ref(false);
+    const clickedOpenMenu = ref(() => {
+      if (isMenuOpen.value) {
+        isMenuOpen.value = false;
+        openMenu.value = false;
+      } else {
+        isMenuOpen.value = true; 
+        openMenu.value = true; 
+    }
+    })
     return {
+      clickedOpenMenu,
       openMenu,
     };
   },
