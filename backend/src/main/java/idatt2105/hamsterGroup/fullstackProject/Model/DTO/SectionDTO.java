@@ -1,26 +1,22 @@
-package idatt2105.hamsterGroup.fullstackProject.Model;
+package idatt2105.hamsterGroup.fullstackProject.Model.DTO;
 
-import javax.persistence.*;
+import idatt2105.hamsterGroup.fullstackProject.Model.Room;
+import idatt2105.hamsterGroup.fullstackProject.Model.Section;
 
 /**
- * Entity class for storing information about
- * a section with sectionID as primary key
+ * RoomDTO, DTO class for sending room information
  */
-@Entity
-public class Section {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class SectionDTO {
     private long sectionId;
     private String sectionName;
     private String description;
     private int seats;
     private double size;
+    private Room room;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "roomId", referencedColumnName = "roomId")
-    Room room;
 
-    public Section(String sectionName, String description, int seats, double size, Room room) {
+    public SectionDTO(long sectionId, String sectionName, String description, int seats, double size, Room room) {
+        this.sectionId = sectionId;
         this.sectionName = sectionName;
         this.description = description;
         this.seats = seats;
@@ -28,7 +24,16 @@ public class Section {
         this.room = room;
     }
 
-    public Section() {
+    public SectionDTO() {
+    }
+
+    public SectionDTO(Section section){
+        this.sectionId = section.getSectionId();
+        this.sectionName = section.getSectionName();
+        this.description = section.getDescription();
+        this.seats = section.getSeats();
+        this.size = section.getSize();
+        this.room = section.getRoom();
     }
 
     public long getSectionId() {
@@ -67,10 +72,6 @@ public class Section {
         return size;
     }
 
-    public void setSize(int size) {
-        this.size = size;
-    }
-
     public void setSize(double size) {
         this.size = size;
     }
@@ -85,13 +86,13 @@ public class Section {
 
     @Override
     public String toString() {
-        return "Section{" +
+        return "SectionDTO{" +
                 "sectionId=" + sectionId +
                 ", sectionName='" + sectionName + '\'' +
                 ", description='" + description + '\'' +
-                ", size='" + size + '\'' +
-                ", room='" + room.getRoomName() + '\'' +
                 ", seats=" + seats +
+                ", size=" + size +
+                ", room=" + room +
                 '}';
     }
 }

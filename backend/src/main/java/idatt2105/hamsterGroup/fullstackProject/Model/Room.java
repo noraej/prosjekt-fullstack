@@ -25,8 +25,7 @@ public class Room {
 
     private int numberOfSections;
 
-    public Room(long roomId, String roomName, Set<Section> sections) {
-        this.roomId = roomId;
+    public Room(String roomName, Set<Section> sections) {
         this.roomName = roomName;
         this.sections = sections;
         this.numberOfSections = sections.size();

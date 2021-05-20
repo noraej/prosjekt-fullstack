@@ -43,6 +43,7 @@ public class ReservationServiceTest {
 
     @BeforeEach
     public void setup() {
+       // User user = new User("User", "Usersen", "use@test", "12345678", "hash", "salt", true, true);
         Reservation reservation1 = new Reservation(5,
                 LocalDateTime.of(2000, 1, 1, 1, 1, 1),
                 LocalDateTime.of(2000, 1, 1, 1, 5, 1),
@@ -56,10 +57,10 @@ public class ReservationServiceTest {
         User user2 = new User("Firstname aa", "Lastname aa", "Email aa",
                 "12345678 aa", "hasha", "salta", true, true, null);
 
-        reservation1.setReservationId(1);
-        reservation1.setReservationId(0);
-        user1.setUserId(0);
-        user2.setUserId(10);
+        reservation1.setReservationId(0L);
+        reservation1.setReservationId(1L);
+        user1.setUserId(0L);
+        user2.setUserId(1L);
 
         reservation1.setUser(user1);
         reservation2.setUser(user1);
@@ -94,7 +95,7 @@ public class ReservationServiceTest {
     @Test
     public void getReservation_IdExists_ReservationIsCorrect()
     {
-        long activityId = 0L;
+        long activityId = 1L;
         ReservationDTO activityDTO = reservationService.getReservation(activityId);
         assertThat(activityDTO.getDescription()).isEqualTo("Description");
         assertThat(activityDTO.getBuilding()).isEqualTo(null);
@@ -151,7 +152,7 @@ public class ReservationServiceTest {
         ReservationRegistrationDTO reservationRegistrationDTO = new ReservationRegistrationDTO
                 ("Description1", null, LocalDateTime.of(2021, 6, 6, 16, 0, 0),
                         LocalDateTime.of(2021, 6, 6, 17, 0, 0),
-                        10, null, null);
+                        10, null, null/*, null*/);
         Mockito.lenient().when(reservationRepository.save(any())).thenReturn(new Reservation(
                 10, LocalDateTime.of(2021, 6, 6, 16, 0, 0),
                 LocalDateTime.of(2021, 6, 6, 17, 0, 0),
@@ -166,7 +167,7 @@ public class ReservationServiceTest {
 
     @Test
     public void editReservation_ReturnEditedReservation_ReservationIsCorrectlyEdited() {
-        long reservationId = 0L;
+        long reservationId = 1L;
         ReservationRegistrationDTO reservationRegistrationDTO = new ReservationRegistrationDTO(
                 "NewDescription", null, LocalDateTime.of(2021, 6, 6, 16, 30, 0),
                 LocalDateTime.of(2021, 6, 6, 17, 0, 0),
@@ -190,7 +191,7 @@ public class ReservationServiceTest {
         ReservationRegistrationDTO reservationRegistrationDTO = new ReservationRegistrationDTO(
                 "ThisDesc", null, LocalDateTime.of(2022, 6, 6, 16, 30, 0),
                 LocalDateTime.of(2022, 6, 6, 17, 0, 0),
-                16, null, null
+                16, null, null/*, null*/
         );
         Mockito.lenient().when(reservationRepository.save(any())).thenReturn(new Reservation(16,
                 LocalDateTime.of(2022, 6, 6, 16, 0, 0),
@@ -203,27 +204,36 @@ public class ReservationServiceTest {
     @Test
     public void deleteReservation_ReservationDoesNotExist_ReturnsFalse() {
         long reservationId = -1L;
+        long userId = -1L;
         assertFalse(reservationService.deleteReservation(reservationId));
     }
 
     @Test
-    public void deleteReservation_ReservationExists_ReturnsTrue() {
+    public void deleteReservationMaker_ReservationExists_ReturnsTrue() {
         long reservationId = 0L;
+        long userId = 0L;
         assertFalse(reservationService.deleteReservation(reservationId));
     }
 
     @Test
-    public void checkIfMakerOfReservation_ReservationDoesNotExist_ReturnsFalse() {
-        long reservationId = -1L;
-        long userId = 0L;
-        assertFalse(reservationService.checkIfMakerOfReservation(reservationId, userId));
-    }
-
-    @Test
-    public void checkIfMakerOfReservation_NotMakerOfReservation_ReturnsFalse() {
+    public void deleteReservationAdmin_ReservationExists_ReturnsTrue() {
         long reservationId = 0L;
         long userId = 1L;
-        assertFalse(reservationService.checkIfMakerOfReservation(reservationId, userId));
+        assertFalse(reservationService.deleteReservation(reservationId));
+    }
+
+    @Test
+    public void checkIfMakerOfReservationOrAdmin_ReservationDoesNotExist_ReturnsFalse() {
+        long reservationId = -1L;
+        long userId = 0L;
+        assertFalse(reservationService.checkIfMakerOfReservationOrAdmin(reservationId, userId));
+    }
+
+    @Test
+    public void checkIfMakerOfReservationOrAdmin_NotMakerOfReservationOrAdmin_ReturnsFalse() {
+        long reservationId = 1L;
+        long userId = 0L;
+        assertFalse(reservationService.checkIfMakerOfReservationOrAdmin(reservationId, userId));
     }
 
     @Test

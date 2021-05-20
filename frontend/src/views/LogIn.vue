@@ -41,7 +41,7 @@ export default defineComponent({
       scene.value = 1;
     });
     const userLogIn = ref(() => {
-      router.replace("/user-search");
+      router.replace("/user");
     });
     const adminLogIn = ref(() => {
       router.replace("/admin");
