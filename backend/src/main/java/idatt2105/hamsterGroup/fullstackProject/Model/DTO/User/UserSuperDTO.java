@@ -1,5 +1,7 @@
 package idatt2105.hamsterGroup.fullstackProject.Model.DTO.User;
 
+import idatt2105.hamsterGroup.fullstackProject.Enum.UserRole;
+
 /**
  * UserSuperDTO, Super DTO class to use in different user DTOs
  */
@@ -14,14 +16,18 @@ public class UserSuperDTO {
     private String role;
 
 
-    public UserSuperDTO(String firstname, String surname, String email, String phoneNumber, boolean admin, boolean valid, String role) {
+    public UserSuperDTO(String firstname, String surname, String email, String phoneNumber, boolean admin, boolean valid) {
         this.firstname = firstname;
         this.lastname = surname;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.admin = admin;
         this.valid = valid;
-        this.role = role;
+        if (admin) {
+            this.role = UserRole.ADMIN.name();
+        } else {
+            this.role = UserRole.NORMAL.name();
+        }
     }
 
     public UserSuperDTO() {

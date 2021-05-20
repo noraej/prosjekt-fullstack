@@ -3,7 +3,6 @@ package idatt2105.hamsterGroup.fullstackProject.Model.DTO.Reservation;
 import idatt2105.hamsterGroup.fullstackProject.Model.Building;
 import idatt2105.hamsterGroup.fullstackProject.Model.Room;
 import idatt2105.hamsterGroup.fullstackProject.Model.Section;
-import idatt2105.hamsterGroup.fullstackProject.Model.User;
 
 import java.time.LocalDateTime;
 

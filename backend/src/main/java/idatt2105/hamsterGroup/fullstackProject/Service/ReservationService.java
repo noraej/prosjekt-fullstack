@@ -1,5 +1,7 @@
 package idatt2105.hamsterGroup.fullstackProject.Service;
 
+import idatt2105.hamsterGroup.fullstackProject.Component.EmailComponent;
+import idatt2105.hamsterGroup.fullstackProject.Enum.UserRole;
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.FilterSortDTO;
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.Reservation.ReservationDTO;
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.Reservation.ReservationRegistrationDTO;
@@ -26,6 +28,8 @@ public class ReservationService {
     private ReservationRepository reservationRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private EmailComponent emailSender;
 
     /**
      * Method to return reservation given reservationID from database
@@ -124,7 +128,7 @@ public class ReservationService {
             Reservation reservation = optionalReservation.get();
             reservationRepository.save(reservation);
             reservationRepository.deleteById(reservationId);
-
+           // emailSender. tbd
             return !reservationRepository.existsById(reservationId);
         }
         return false;
@@ -136,9 +140,10 @@ public class ReservationService {
      * @param userId - id of user
      * @return true (is maker) or false (is not maker)
      */
-    public boolean checkIfMakerOfReservation(long reservationId, long userId){
+    public boolean checkIfMakerOfReservationOrAdmin(long reservationId, long userId){
         Optional<Reservation> optionalReservation = reservationRepository.findById(reservationId);
-        return optionalReservation.filter(reservation -> reservation.getUser().getUserId() == userId).isPresent();
+        boolean admin = userRepository.findById(userId).get().getRole().equals(UserRole.ADMIN.name());
+        return optionalReservation.filter(reservation -> reservation.getUser().getUserId() == userId).isPresent() || admin;
     }
 
     /**
