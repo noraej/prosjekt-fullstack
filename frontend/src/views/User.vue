@@ -1,5 +1,6 @@
 <template>
   <div>
+    <UserHeader />
     <p>USER SIDE</p>
     <div id="userSearch" v-if="scene === 'search'">
       <h2 id="title">Find room</h2>
@@ -43,11 +44,13 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
 import Datepicker from "vue3-datepicker";
+import UserHeader from "../components/UserHeader.vue";
 
 export default defineComponent({
   name: "User",
   components: {
     Datepicker,
+    UserHeader,
   },
   setup() {
     //scene methods
