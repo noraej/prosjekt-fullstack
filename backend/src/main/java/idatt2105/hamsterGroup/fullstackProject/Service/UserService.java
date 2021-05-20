@@ -74,10 +74,12 @@ public class UserService {
         createdUser.setPhoneNumber(user.getPhoneNumber());
         createdUser.setAdmin(user.isAdmin());
         createdUser.setValid(user.isValid());
+        createdUser.setRole(user.getRole());
         createdUser.setHash(passwordEncoder.encode(user.getPassword()));
         createdUser = userRepository.save(createdUser);
+        LOGGER.info(user.toString() + " " + createdUser.toString());
         String token = createJWTToken(createdUser);
-       //emailSender.createdUserMail("hei"); //Sends email
+      //  emailSender.createdUserMail("hei"); //Sends email
         return new UserRegistrationCallbackDTO(token, createdUser.getUserId(), user);
     }
 
@@ -132,9 +134,9 @@ public class UserService {
      * @return true (email exists) or false (email does not exist)
      */
     public boolean doesEmailExist(String email){
-        boolean emailExists = userRepository.findUserByEmail(email).isPresent();
-        if(emailExists) LOGGER.info("Email: {} already exists", email);
-        return emailExists;
+        boolean existsEmail = userRepository.findUserByEmail(email).isPresent();
+        if(existsEmail) LOGGER.info("Email: {} already exists", email);
+        return existsEmail;
     }
 
     /**

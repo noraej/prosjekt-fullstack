@@ -7,7 +7,7 @@ import idatt2105.hamsterGroup.fullstackProject.Model.DTO.Reservation.Reservation
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.Reservation.ReservationRegistrationDTO;
 import idatt2105.hamsterGroup.fullstackProject.Model.Reservation;
 import idatt2105.hamsterGroup.fullstackProject.Model.User;
-import idatt2105.hamsterGroup.fullstackProject.Model.UserSecurity;
+import idatt2105.hamsterGroup.fullstackProject.Model.UserSecurityDetails;
 import idatt2105.hamsterGroup.fullstackProject.Repository.ReservationRepository;
 import idatt2105.hamsterGroup.fullstackProject.Repository.UserRepository;
 import org.slf4j.Logger;
@@ -72,7 +72,7 @@ public class ReservationService {
     public ReservationDTO createReservation(ReservationRegistrationDTO reservation)
     {
         LOGGER.info("createReservation(Reservation reservation) on new reservation");
-        UserSecurity creatorUser = (UserSecurity)
+        UserSecurityDetails creatorUser = (UserSecurityDetails)
                 SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         Optional<User> optionalUser = userRepository.findById(creatorUser.getUserId());

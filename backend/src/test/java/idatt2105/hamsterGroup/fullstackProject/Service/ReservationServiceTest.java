@@ -143,7 +143,7 @@ public class ReservationServiceTest {
         User user1 = userRepository.findById(0L).get();
         Authentication authentication = Mockito.mock(Authentication.class);
         Mockito.lenient().when(authentication.getPrincipal())
-                .thenReturn(new UserSecurity(user1.getUserId(), "test@test.com", "hashtest", null));
+                .thenReturn(new UserSecurityDetails("hashtest", "test@test.com", user1.getUserId(), null));
         SecurityContext securityContext = Mockito.mock(SecurityContext.class);
         Mockito.lenient().when(securityContext.getAuthentication())
                 .thenReturn(authentication);

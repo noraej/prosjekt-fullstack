@@ -11,37 +11,39 @@ import java.util.List;
  * Entity class for storing information about authenticated user
  * UserDetails including userId
  */
-public class UserSecurity implements UserDetails {
-    private long userId;
-    private String email;
+public class UserSecurityDetails implements UserDetails {
+
     private String password;
-    private boolean isCredentialsNonExpired;
+    private String email;
+    private long userId;
+    private List<? extends GrantedAuthority> grantedAuthorities;
     private boolean isAccountNonExpired;
     private boolean isAccountNonLocked;
+    private boolean isCredentialsNonExpired;
     private boolean isEnabled;
-    private List<? extends GrantedAuthority> grantedAuthorities;
 
 
-    public UserSecurity(long userId, String email, String password, List<? extends GrantedAuthority> grantedAuthorities) {
-        this.userId = userId;
-        this.email = email;
+    public UserSecurityDetails(String password, String email, long userId, List<? extends GrantedAuthority> grantedAuthorities) {
         this.password = password;
+        this.email = email;
+        this.userId = userId;
         this.grantedAuthorities = grantedAuthorities;
-        this.isCredentialsNonExpired = true;
         this.isAccountNonExpired = true;
         this.isAccountNonLocked = true;
+        this.isCredentialsNonExpired = true;
         this.isEnabled = true;
     }
 
-    public UserSecurity(){
-        this.isCredentialsNonExpired = true;
+    public UserSecurityDetails(){
         this.isAccountNonExpired = true;
         this.isAccountNonLocked = true;
+        this.isCredentialsNonExpired = true;
         this.isEnabled = true;
     }
 
-    public long getUserId() {
-        return userId;
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     public void setUsername(String email) {
@@ -53,18 +55,17 @@ public class UserSecurity implements UserDetails {
         return email;
     }
 
-    @Override
-    public String getPassword() {
-        return password;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setCredentialsNonExpired(boolean isCredentialsNonExpired) {
-        this.isCredentialsNonExpired = isCredentialsNonExpired;
+    public void setGrantedAuthorities(List<? extends GrantedAuthority> grantedAuthorities) {
+        this.grantedAuthorities = grantedAuthorities;
     }
 
     @Override
-    public boolean isCredentialsNonExpired() {
-        return isCredentialsNonExpired;
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return grantedAuthorities;
     }
 
     public void setAccountNonExpired(boolean isAccountNonExpired) {
@@ -85,6 +86,15 @@ public class UserSecurity implements UserDetails {
         return isAccountNonLocked;
     }
 
+    public void setCredentialsNonExpired(boolean isCredentialsNonExpired) {
+        this.isCredentialsNonExpired = isCredentialsNonExpired;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return isCredentialsNonExpired;
+    }
+
     public void setEnabled(boolean isEnabled) {
         this.isEnabled = isEnabled;
     }
@@ -94,12 +104,4 @@ public class UserSecurity implements UserDetails {
         return isEnabled;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return grantedAuthorities;
-    }
-
-    public void setGrantedAuthorities(List<? extends GrantedAuthority> grantedAuthorities) {
-        this.grantedAuthorities = grantedAuthorities;
-    }
 }

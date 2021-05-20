@@ -1,5 +1,10 @@
 package idatt2105.hamsterGroup.fullstackProject.Configuration.Security;
 
+import idatt2105.hamsterGroup.fullstackProject.Configuration.JWT.JwtTokenVerifier;
+import idatt2105.hamsterGroup.fullstackProject.Configuration.JWT.JwtUsernameAndPasswordAuthenticationFilter;
+import idatt2105.hamsterGroup.fullstackProject.Enum.UserRole;
+import idatt2105.hamsterGroup.fullstackProject.Service.UserSecurityDetailsService;
+import idatt2105.hamsterGroup.fullstackProject.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,8 +37,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    /*@Autowired
-    private UserSecurityDetailsService userSecurityDetailsService;*/
+    @Autowired
+    private UserSecurityDetailsService userSecurityDetailsService;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * Method for configuration of http.
@@ -46,12 +54,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                /*.addFilter(getJWTAuthenticationFilter(authenticationManager()))
+                .addFilter(getJWTAuthenticationFilter(authenticationManager()))
                 .addFilterAfter(new JwtTokenVerifier(), JwtUsernameAndPasswordAuthenticationFilter.class)
-                .addFilterAfter(new ExceptionHandlerFilter(), JwtTokenVerifier.class)*/
+                .addFilterAfter(new ExceptionHandlerFilter(), JwtTokenVerifier.class)
                 .authorizeRequests()
                 .antMatchers("/error").permitAll()
-                .antMatchers("/api/v1/reservations/**").hasAnyRole("NORMAL", "ADMIN")
+                .antMatchers("/api/v1/reservations/**").hasAnyRole(UserRole.ADMIN.name(), UserRole.NORMAL.name()) //
                 .antMatchers(HttpMethod.POST,"/api/v1/users").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -63,10 +71,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
      * @param auth
      * @throws Exception
      */
-   /* @Override
+    @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
-    }*/
+    }
 
     /**
      * Sets passwordEncoder and userDetailsService from service folder
@@ -74,22 +82,22 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
      * Allows authentication from MySQL Database
      * @return DaoAuthenticationProvider
      */
-    /*@Bean
+    @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder);
         provider.setUserDetailsService(userSecurityDetailsService);
         return provider;
-    }*/
+    }
     /**
      * Changes login url
      * @param authenticationManager
      * @return Username and password filter for login
      */
-    /*public JwtUsernameAndPasswordAuthenticationFilter getJWTAuthenticationFilter(AuthenticationManager authenticationManager){
+    public JwtUsernameAndPasswordAuthenticationFilter getJWTAuthenticationFilter(AuthenticationManager authenticationManager){
         final JwtUsernameAndPasswordAuthenticationFilter filter = new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager);
         filter.setFilterProcessesUrl("/api/v1/login");
         return filter;
-    }*/
+    }
 }
 

@@ -7,5 +7,5 @@ export default interface CreateUser extends LogInUser {
   phoneNumber: string;
   valid: boolean;
   admin: boolean;
-
+  role: string;
 }

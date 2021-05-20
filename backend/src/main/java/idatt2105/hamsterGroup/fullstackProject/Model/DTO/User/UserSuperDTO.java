@@ -23,7 +23,7 @@ public class UserSuperDTO {
         this.phoneNumber = phoneNumber;
         this.admin = admin;
         this.valid = valid;
-        if (admin) {
+        if (!admin) {
             this.role = UserRole.ADMIN.name();
         } else {
             this.role = UserRole.NORMAL.name();
@@ -91,7 +91,7 @@ public class UserSuperDTO {
 
     @Override
     public String toString() {
-        return "UserDTO{" +
+        return "UserSuperDTO{" +
                 "\nfirstname='" + firstname +
                 ", \nlastname='" + lastname +
                 ", \nemail='" + email +
