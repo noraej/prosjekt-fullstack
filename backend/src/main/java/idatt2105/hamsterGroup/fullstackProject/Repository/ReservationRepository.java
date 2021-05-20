@@ -1,10 +1,11 @@
 package idatt2105.hamsterGroup.fullstackProject.Repository;
 
+import idatt2105.hamsterGroup.fullstackProject.Model.Building;
 import idatt2105.hamsterGroup.fullstackProject.Model.Reservation;
-import idatt2105.hamsterGroup.fullstackProject.Model.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
@@ -23,51 +24,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     public List<Reservation> findFutureReservationsUser(Long userId);
 
     /**
-     * Query that return a list of reservations sorted by earliest start time
+     * Query that return a list of reservations sorted by filters
      */
-    @Query(value = "SELECT * FROM reservation WHERE reservation.start_time > NOW() ORDER BY " +
-            "reservation.start_time", nativeQuery = true)
-    public List<Reservation> sortReservationsTime();
-
-    /**
-     * Query that return a list of reservations with room filter
-     */
-    @Query(value = "SELECT * FROM reservation WHERE reservation.room_id=?1 AND reservation.start_time > NOW()",
-            nativeQuery = true)
-    public List<Reservation> findReservationByRoom(long roomId);
-
-    /**
-     * Query that return a list of reservations with room filter and sorts by time
-     */
-    @Query(value = "SELECT * FROM reservation WHERE reservation.room_id=?1 AND reservation.start_time > NOW() ORDER BY" +
-            "reservation.start_time", nativeQuery = true)
-    public List<Reservation> findReservationByRoomSorted(long roomId);
-
-    /**
-     * Query that return a list of reservations with building filter
-     */
-    @Query(value = "SELECT * FROM reservation WHERE reservation.building_id=?1 AND reservation.start_time > NOW()",
-            nativeQuery = true)
-    public List<Reservation> findReservationByBuilding(long buildingId);
-
-    /**
-     * Query that return a list of reservations with building filter and sorts by time
-     */
-    @Query(value = "SELECT * FROM reservation WHERE reservation.building_id=?1 AND reservation.start_time > NOW() ORDER BY" +
-            "reservation.start_time", nativeQuery = true)
-    public List<Reservation> findReservationByBuildingSorted(long buildingId);
-
-    /**
-     * Query that return a list of reservations with room and building filter
-     */
-    @Query(value = "SELECT * FROM reservation WHERE reservation.room_id=?1 AND reservation.building_id=?2 " +
-            "AND reservation.start_time > NOW()", nativeQuery = true)
-    public List<Reservation> findReservationByRoomAndBuilding(long roomId, long buildingId);
-
-    /**
-     * Query that return a list of reservations with room and building filter
-     */
-    @Query(value = "SELECT * FROM reservation WHERE reservation.room_id=?1 AND reservation.building_id=?2 " +
-            "AND reservation.start_time > NOW() ORDER BY reservation.start_time", nativeQuery = true)
-    public List<Reservation> findReservationByRoomAndBuildingSorted(long roomId, long buildingId);
+    @Query(value = "SELECT * FROM reservation WHERE reservation.start_time=?1 AND reservation.end_time=?2 AND" +
+            "reservation.seats>?3 AND reservation.building_id=?4", nativeQuery = true)
+    public List<Reservation> sortReservationsWithFilters(LocalDateTime start, LocalDateTime end, int minSeats, Building building);
 }

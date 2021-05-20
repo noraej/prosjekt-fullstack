@@ -14,7 +14,8 @@ public class ReservationRegistrationDTO extends ReservationSuperDTO{
 
     public ReservationRegistrationDTO(String description, Section section, LocalDateTime startTime, LocalDateTime endTime,
                                        int numberOfUsers, Room room, Building building) {
-        super(description, section, startTime, endTime, numberOfUsers, room, building);
+        super(description, section, startTime, endTime, numberOfUsers, room, building
+        );
     }
 
     public ReservationRegistrationDTO(){
