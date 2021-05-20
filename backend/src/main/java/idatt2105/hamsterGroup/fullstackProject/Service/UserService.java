@@ -1,5 +1,6 @@
 package idatt2105.hamsterGroup.fullstackProject.Service;
 
+import idatt2105.hamsterGroup.fullstackProject.Component.EmailComponent;
 import idatt2105.hamsterGroup.fullstackProject.Configuration.JWT.JWTSigningKey;
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.User.UserAndPasswordDTO;
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.User.UserDTO;
@@ -40,6 +41,9 @@ public class UserService {
     private ReservationRepository reservationRepository;
     @Autowired
     private ReservationService reservationService;
+    @Autowired(required = false)
+    private EmailComponent emailSender;
+
 
     /**
      * Method to get a user given the user ID
@@ -73,6 +77,7 @@ public class UserService {
         createdUser.setHash(passwordEncoder.encode(user.getPassword()));
         createdUser = userRepository.save(createdUser);
         String token = createJWTToken(createdUser);
+        emailSender.createdUserMail(createdUser.getEmail()); //Sends email
         return new UserRegistrationCallbackDTO(token, createdUser.getUserId(), user);
     }
 

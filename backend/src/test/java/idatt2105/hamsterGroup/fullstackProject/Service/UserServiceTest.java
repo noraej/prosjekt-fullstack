@@ -108,7 +108,7 @@ public class UserServiceTest
         UserAndPasswordDTO user = new UserAndPasswordDTO
                 ("testFirstname", "testLastname", "testMail",
                         "123456789", "hash", true, true, "ADMIN");
-        User returnUser = new User("test","test", "mail", "98765432", "hash","salt", true, false, "NORMAL");
+        User returnUser = new User("test","test", "mail", "98765432", "hash","salt", true, false);
         returnUser.setUserId(1);
         Mockito.lenient()
                 .when(userRepository.save(any()))
@@ -119,7 +119,7 @@ public class UserServiceTest
     @Test
     public void editUser_updatesUser_ReturnsUpdatedUser() throws SerialException, SQLException
     {
-        UserEditDTO userEditDTO = new UserEditDTO("Forename", "surname", "email", "87654321","newHash", "oldHash", true, true, "ADMIN");
+        UserEditDTO userEditDTO = new UserEditDTO("Forename", "surname", "email", "87654321","newHash", "oldHash", true, true);
         User tempUser = new User();
         tempUser.setFirstName(userEditDTO.getFirstname());
         tempUser.setLastName(userEditDTO.getLastname());

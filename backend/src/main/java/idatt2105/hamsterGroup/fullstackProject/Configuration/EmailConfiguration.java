@@ -28,15 +28,15 @@ public class EmailConfiguration {
      * Password and username are read from config.properties file
      * @return JavaMailSender
      */
-  /*  @Bean
+    @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         try (BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/config.properties"))) {
             mailSender.setHost("smtp.gmail.com");
             mailSender.setPort(587);
             List<String> usernameAndPassword = reader.lines().skip(3).collect(Collectors.toList());
-            //mailSender.setUsername(usernameAndPassword.get(0));
-           // mailSender.setPassword(usernameAndPassword.get(1));
+            mailSender.setUsername(usernameAndPassword.get(0));
+            mailSender.setPassword(usernameAndPassword.get(1));
         } catch (IOException ex) {
             LOGGER.error(ex.getMessage(), ex.fillInStackTrace());
         }
@@ -47,5 +47,5 @@ public class EmailConfiguration {
         props.put("mail.smtp.starttls.enable", "true");
 
         return mailSender;
-    }*/
+    }
 }

@@ -1,6 +1,7 @@
 package idatt2105.hamsterGroup.fullstackProject.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import idatt2105.hamsterGroup.fullstackProject.Enum.UserRole;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -30,7 +31,7 @@ public class User {
     Set<Reservation> reservations;
 
     public User(String firstName, String lastName, String email, String phoneNumber, String hash, String salt,
-                boolean valid, boolean admin, Set<Reservation> reservations, String role) {
+                boolean valid, boolean admin, Set<Reservation> reservations) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -40,11 +41,16 @@ public class User {
         this.valid = valid;
         this.admin = admin;
         this.reservations = reservations;
-        this.role = role;
+        if (admin) {
+            this.role = UserRole.ADMIN.name();
+        } else {
+            this.role = UserRole.NORMAL.name();
+        }
+
     }
 
     public User(String firstName, String lastName, String email, String phoneNumber, String hash, String salt,
-                boolean valid, boolean admin, String role) {
+                boolean valid, boolean admin) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -53,7 +59,11 @@ public class User {
         this.salt = salt;
         this.valid = valid;
         this.admin = admin;
-        this.role = role;
+        if (admin) {
+            this.role = UserRole.ADMIN.name();
+        } else {
+            this.role = UserRole.NORMAL.name();
+        }
     }
 
     public User(){

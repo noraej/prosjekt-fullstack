@@ -62,7 +62,7 @@ public class FilterSortDTO {
     public String toString() {
         return "FilterSortDTO{" +
                 "building=" + building +
-                //", room=" + room +
+                ", room=" + room +
                 ", minNumberOfSeats=" + minNumberOfSeats +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
