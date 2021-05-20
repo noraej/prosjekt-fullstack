@@ -10,7 +10,7 @@ public class UserDTO extends UserSuperDTO {
 
 
     public UserDTO(long userId, String firstname, String lastname, String email, String phoneNumber,
-                   boolean valid, boolean admin, String role) {
+                   boolean valid, boolean admin) {
         super(firstname, lastname, email, phoneNumber, admin, valid);
         this.userId = userId;
     }
@@ -35,6 +35,7 @@ public class UserDTO extends UserSuperDTO {
     @Override
     public String toString() {
         return super.toString() +
+                "UserDTO {" +
                 "\nuserId=" + userId +
                 '}';
     }

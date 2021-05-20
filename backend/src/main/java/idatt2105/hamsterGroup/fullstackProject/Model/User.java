@@ -44,7 +44,7 @@ public class User {
         if (admin) {
             this.role = UserRole.ADMIN.name();
         } else {
-            this.role = UserRole.NORMAL.name();
+          this.role = UserRole.NORMAL.name();
         }
 
     }

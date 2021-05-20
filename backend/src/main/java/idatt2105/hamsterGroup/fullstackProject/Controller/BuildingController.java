@@ -13,7 +13,7 @@ import java.util.List;
  * Controller for the buildings, to connect from frontend
  */
 @RestController
-@RequestMapping("/api/buildings")
+@RequestMapping("/api/v1/buildings")
 public class BuildingController
 {
     @Autowired

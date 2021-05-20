@@ -104,7 +104,7 @@ public class UserServiceTest
     {
         UserAndPasswordDTO user = new UserAndPasswordDTO
                 ("testFirstname", "testLastname", "testMail",
-                        "123456789", "hash", true, true, "ADMIN");
+                        "123456789", "hash", true, true);
         User returnUser = new User("test","test", "mail", "98765432", "hash","salt", true, false);
         returnUser.setUserId(1);
         Mockito.lenient()

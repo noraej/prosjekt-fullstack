@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import idatt2105.hamsterGroup.fullstackProject.Model.User;
-import idatt2105.hamsterGroup.fullstackProject.Model.UserSecurity;
+import idatt2105.hamsterGroup.fullstackProject.Model.UserSecurityDetails;
 import idatt2105.hamsterGroup.fullstackProject.Repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +42,7 @@ public class UserSecurityDetailsService implements UserDetailsService{
         if(userOptional.isPresent()){
             User user = userOptional.get();
             List<GrantedAuthority> grantedAuthorities = List.of(new SimpleGrantedAuthority(user.getRole()));
-            return new UserSecurity(user.getUserId(), user.getEmail(), user.getHash(), grantedAuthorities);
+            return new UserSecurityDetails(user.getHash(), user.getEmail(), user.getUserId(), grantedAuthorities);
         }
         else{
             LOGGER.warn("Could not find user with email: {}. Throwing exception", email);

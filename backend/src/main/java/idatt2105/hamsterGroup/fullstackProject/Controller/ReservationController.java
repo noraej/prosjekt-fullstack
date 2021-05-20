@@ -21,7 +21,7 @@ import java.util.Set;
  * Controller for the reservations, to connect from frontend
  */
 @RestController
-@RequestMapping("/api/reservations")
+@RequestMapping("/api/v1/reservations")
 public class ReservationController
 {
     @Autowired
