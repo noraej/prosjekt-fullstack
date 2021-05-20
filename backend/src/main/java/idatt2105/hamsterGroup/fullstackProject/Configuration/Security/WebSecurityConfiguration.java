@@ -1,9 +1,5 @@
 package idatt2105.hamsterGroup.fullstackProject.Configuration.Security;
 
-import idatt2105.hamsterGroup.fullstackProject.Configuration.JWT.JWTEmailAndPasswordAutFilter;
-import idatt2105.hamsterGroup.fullstackProject.Configuration.JWT.JWTTokenVerifier;
-import idatt2105.hamsterGroup.fullstackProject.Model.UserSecurity;
-import idatt2105.hamsterGroup.fullstackProject.Service.UserSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,9 +15,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/*import idatt2106.group3.backend.Configuration.Jwt.JwtTokenVerifier;
+import idatt2106.group3.backend.Configuration.Jwt.JwtUsernameAndPasswordAuthenticationFilter;
+import idatt2106.group3.backend.Service.UserSecurityDetailsService;*/
+
 /**
  * Configures WebSecurity for endpoints
- * Not used in tests
+ * Not used for tests
  */
 @Profile("!test")
 @Configuration
@@ -32,8 +32,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private UserSecurityService userSecurityService;
+    /*@Autowired
+    private UserSecurityDetailsService userSecurityDetailsService;*/
 
     /**
      * Method for configuration of http.
@@ -46,9 +46,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .addFilter(getJWTAuthenticationFilter(authenticationManager()))
-                .addFilterAfter(new JWTTokenVerifier(), JWTEmailAndPasswordAutFilter.class)
-                .addFilterAfter(new ExceptionHandlerFilter(), JWTTokenVerifier.class)
+                /*.addFilter(getJWTAuthenticationFilter(authenticationManager()))
+                .addFilterAfter(new JwtTokenVerifier(), JwtUsernameAndPasswordAuthenticationFilter.class)
+                .addFilterAfter(new ExceptionHandlerFilter(), JwtTokenVerifier.class)*/
                 .authorizeRequests()
                 .antMatchers("/error").permitAll()
                 .antMatchers("/api/v1/activities/**").hasAnyRole("USER", "ADMIN")
@@ -64,10 +64,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
      * @param auth
      * @throws Exception
      */
-    @Override
+   /* @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
-    }
+    }*/
 
     /**
      * Sets passwordEncoder and userDetailsService from service folder
@@ -75,21 +75,22 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
      * Allows authentication from MySQL Database
      * @return DaoAuthenticationProvider
      */
-    @Bean
+    /*@Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder);
-        provider.setUserDetailsService(userSecurityService);
+        provider.setUserDetailsService(userSecurityDetailsService);
         return provider;
-    }
+    }*/
     /**
      * Changes login url
      * @param authenticationManager
      * @return Username and password filter for login
      */
-    public JWTEmailAndPasswordAutFilter getJWTAuthenticationFilter(AuthenticationManager authenticationManager){
-        final JWTEmailAndPasswordAutFilter filter = new JWTEmailAndPasswordAutFilter(authenticationManager);
-        filter.setFilterProcessesUrl("/api/login");
+    /*public JwtUsernameAndPasswordAuthenticationFilter getJWTAuthenticationFilter(AuthenticationManager authenticationManager){
+        final JwtUsernameAndPasswordAuthenticationFilter filter = new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager);
+        filter.setFilterProcessesUrl("/api/v1/login");
         return filter;
-    }
+    }*/
 }
+

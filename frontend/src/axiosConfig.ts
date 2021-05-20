@@ -11,3 +11,5 @@ instance.defaults.headers.common["Authorization"] = token;
 instance.defaults.validateStatus = (status: number) => {
   return status >= 200 && status < 300;
 };
+
+export default instance;
