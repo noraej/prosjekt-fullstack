@@ -1,7 +1,7 @@
 <template>
   <div id="admin-header">
     <div id="header-title">
-      <h3>Yo mom a hoe</h3>
+      <h3>RoomBooking Admin</h3>
     </div>
     <div></div>
     <div id="header-options">

@@ -42,6 +42,7 @@
 h1 {
   text-align: left;
   font-size: 23px;
+  margin:40px;
 }
 
 #reservation-filter-search {

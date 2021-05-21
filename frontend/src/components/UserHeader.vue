@@ -59,6 +59,7 @@ export default defineComponent({
 #header-title {
   padding-left: 20px;
   text-align: left;
+  line-height: 50px;
 }
 
 #header-options {
@@ -74,19 +75,21 @@ export default defineComponent({
 .container {
     display: inline-block;
     cursor: pointer;
+    margin: auto;
 }
 
 .bar1, .bar2, .bar3 {
-    width: 35px;
-    height: 5px;
+    width: 25px;
+    height: 4px;
     background-color: #333;
+    border-radius: 5px;
     margin: 6px 0;
     transition: 0.4s;
 }
 
 .change .bar1 {
-    -webkit-transform: rotate(-45deg) translate(-9px, 6px);
-    transform: rotate(-45deg) translate(-9px, 6px);
+    -webkit-transform: rotate(-45deg) translate(-7x, 4px);
+    transform: rotate(-45deg) translate(-7px, 4px);
 }
 
 .change .bar2 {opacity: 0;}
