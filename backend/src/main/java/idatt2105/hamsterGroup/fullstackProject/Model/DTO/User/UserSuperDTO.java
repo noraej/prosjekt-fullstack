@@ -24,9 +24,9 @@ public class UserSuperDTO {
         this.admin = admin;
         this.valid = valid;
         if (!admin) {
-            this.role = UserRole.ADMIN.name();
+            this.role = UserRole.ROLE_ADMIN.name();
         } else {
-            this.role = UserRole.NORMAL.name();
+            this.role = UserRole.ROLE_NORMAL.name();
         }
     }
 

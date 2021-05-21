@@ -50,17 +50,27 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, ref } from "vue";
+import {
+  computed,
+  defineComponent,
+  onBeforeMount,
+  reactive,
+  Ref,
+  ref,
+} from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "../store";
 import CreateUser from "../interfaces/CreateUser.interface";
 import { UserLevel } from "@/enums/UserLevel.enum";
+import axios from "@/axiosConfig";
+import User from "@/interfaces/User.interface";
+import { store } from "@/store/index";
 
 export default defineComponent({
   name: "createUser",
-  setup() {
+  props: ["id"],
+  setup(props) {
     const router = useRouter();
-    const store = useStore();
     const error = ref(false);
 
     const user = reactive({
@@ -95,21 +105,42 @@ export default defineComponent({
       }
       if (!userIsInvalid.value) {
         try {
-          // await axios.post("/users", user);
-          if (await store.dispatch("register", user)) {
-            if (user.admin) {
-              router.replace("/admin");
-            } else {
-              router.replace("/user");
-            }
+          const response = await axios.post("/users", user);
+          const s = response.data;
+          console.log(s.userId);
+          //if (await store.dispatch("register", user)) {
+          /*if (isAdmin.value) {
+            router.replace("/admin");
           } else {
-            router.push("/error");
-          }
+            router.replace("/user");
+          }*/
+          //} else {
+          // router.push("/error");
+          // }
         } catch {
           error.value = true;
         }
       }
     };
+
+    const userAdminCheck = ref({}) as Ref<User>;
+    const isAdmin = ref();
+    console.log(`${props.toString()}`);
+    onBeforeMount(async () => {
+      try {
+        const response = await axios.get(`/users/${props.id}`);
+        console.log(response.data);
+        userAdminCheck.value = response.data;
+        isAdmin.value = userAdminCheck.value.admin;
+        /*  const x = store.getters.userId;
+        const response = await axios.get("/users/" + x);
+        console.log(response.data);
+        userAdminCheck.value = response.data;
+        isAdmin.value = userAdminCheck.value.admin;*/
+      } catch {
+        router.push("/error");
+      }
+    });
 
     const invalidEmail = computed(() => {
       return !(user.email.includes("@") && user.email.includes("."));

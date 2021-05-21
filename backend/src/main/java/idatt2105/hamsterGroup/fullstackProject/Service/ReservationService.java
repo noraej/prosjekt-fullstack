@@ -142,7 +142,7 @@ public class ReservationService {
      */
     public boolean checkIfMakerOfReservationOrAdmin(long reservationId, long userId){
         Optional<Reservation> optionalReservation = reservationRepository.findById(reservationId);
-        boolean admin = userRepository.findById(userId).get().getRole().equals(UserRole.ADMIN.name());
+        boolean admin = userRepository.findById(userId).get().getRole().equals(UserRole.ROLE_ADMIN.name());
         return optionalReservation.filter(reservation -> reservation.getUser().getUserId() == userId).isPresent() || admin;
     }
 

@@ -10,8 +10,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class CORSConfiguration {
-    
-    /**
+
+	/**
 	 * Allows CORS to frontend application
 	 * @return new WebMvcConfigurer
 	 */
@@ -21,8 +21,8 @@ public class CORSConfiguration {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/api/**")
-				.allowedMethods("GET", "POST", "PUT", "DELETE")
-				.allowedOrigins("http://localhost:3000");
+						.allowedMethods("GET", "POST", "PUT", "DELETE")
+						.allowedOrigins("http://localhost:3000");
 			}
 		};
 	}
