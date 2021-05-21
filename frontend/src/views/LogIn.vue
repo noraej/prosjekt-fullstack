@@ -11,7 +11,7 @@
       <h3>Password</h3>
       <input type="password" placeholder="password" />
       <h4 id="feedback"></h4>
-      <button @click="userLogIn">Log in</button>
+      <button @click="login">Log in</button>
     </div>
     <div id="adminLogIn" v-if="scene === 2">
       <h2>Admin log in</h2>
@@ -20,7 +20,7 @@
       <h3>Password</h3>
       <input type="password" placeholder="password" />
       <h4 id="feedback"></h4>
-      <button @click="adminLogIn">Log in</button>
+      <button @click="login">Log in</button>
     </div>
   </div>
 </template>
@@ -28,9 +28,14 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
+import LogInUser from "../interfaces/LogInUser.interface";
+import { useStore } from "../store";
 
 export default defineComponent({
   setup() {
+    const store = useStore();
+    const email = ref("");
+    const password = ref("");
     const scene = ref(1);
     const router = useRouter();
     const feedback = ref("YOYO");
@@ -46,6 +51,10 @@ export default defineComponent({
     const adminLogIn = ref(() => {
       router.replace("/admin");
     });
+    const login = async (): Promise<void> => {
+      const user: LogInUser = { email: email.value, password: password.value };
+      if (await store.dispatch("login", user)) router.push("/admin");
+    };
 
     return {
       scene,
@@ -54,6 +63,7 @@ export default defineComponent({
       admin,
       userLogIn,
       adminLogIn,
+      login,
     };
   },
 });
