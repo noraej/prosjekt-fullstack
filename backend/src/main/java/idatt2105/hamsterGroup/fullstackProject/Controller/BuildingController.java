@@ -1,7 +1,9 @@
 package idatt2105.hamsterGroup.fullstackProject.Controller;
 
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.BuildingDTO;
+import idatt2105.hamsterGroup.fullstackProject.Model.DTO.RoomDTO;
 import idatt2105.hamsterGroup.fullstackProject.Service.BuildingService;
+import idatt2105.hamsterGroup.fullstackProject.Service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,9 @@ public class BuildingController
     @Autowired
     private BuildingService buildingService;
 
+    @Autowired
+    private RoomService roomService;
+
     @GetMapping("/{building_id}")
     public ResponseEntity<BuildingDTO> getBuilding(@PathVariable("building_id") long buildingId) {
         BuildingDTO returnBuilding = buildingService.getBuilding(buildingId);
@@ -27,6 +32,11 @@ public class BuildingController
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(returnBuilding, HttpStatus.OK);
+    }
+
+    @GetMapping("/{building_id}/rooms/")
+    public ResponseEntity<List<RoomDTO>> getRoomsInBuilding(@PathVariable("building_id") long buildingId) {
+        return new ResponseEntity(roomService.getRoomsByBuilding(buildingId), HttpStatus.OK);
     }
 
     @GetMapping

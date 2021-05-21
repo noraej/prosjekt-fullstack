@@ -12,16 +12,14 @@ public class SectionDTO {
     private String description;
     private int seats;
     private double size;
-    private Room room;
 
 
-    public SectionDTO(long sectionId, String sectionName, String description, int seats, double size, Room room) {
+    public SectionDTO(long sectionId, String sectionName, String description, int seats, double size) {
         this.sectionId = sectionId;
         this.sectionName = sectionName;
         this.description = description;
         this.seats = seats;
         this.size = size;
-        this.room = room;
     }
 
     public SectionDTO() {
@@ -33,7 +31,6 @@ public class SectionDTO {
         this.description = section.getDescription();
         this.seats = section.getSeats();
         this.size = section.getSize();
-        this.room = section.getRoom();
     }
 
     public long getSectionId() {
@@ -76,14 +73,6 @@ public class SectionDTO {
         this.size = size;
     }
 
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
-    }
-
     @Override
     public String toString() {
         return "SectionDTO{" +
@@ -92,7 +81,6 @@ public class SectionDTO {
                 ", description='" + description + '\'' +
                 ", seats=" + seats +
                 ", size=" + size +
-                ", room=" + room +
                 '}';
     }
 }

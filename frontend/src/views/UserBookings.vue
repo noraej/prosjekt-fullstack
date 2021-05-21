@@ -12,7 +12,6 @@
 import { defineComponent, onBeforeMount, ref } from "vue";
 import UserHeader from "../components/UserHeader.vue";
 import BookingItem from "../components/BookingItem.vue";
-import { store } from "../store";
 import axios from "@/axiosConfig";
 import IBookedItem from "@/interfaces/IBookedItem.interface";
 
@@ -23,16 +22,15 @@ export default defineComponent({
     BookingItem,
   },
   setup() {
-    const bookings = ref();
-    const userId: number = store.getters.user.userId;
+    const bookings = ref<Array<IBookedItem>>([]);
     onBeforeMount(async () => {
       try {
-        const bookingResponse = await axios.get(`/${userId}/reservations`);
+        const bookingResponse = await axios.get(`/reservations`);
         bookings.value = bookingResponse.data as IBookedItem[];
       } catch (error) {
         console.log(error);
       }
-    })
+    });
     return {
       bookings,
     };

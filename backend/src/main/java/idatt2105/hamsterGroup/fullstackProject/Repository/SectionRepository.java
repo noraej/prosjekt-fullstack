@@ -16,6 +16,8 @@ public interface SectionRepository extends JpaRepository<Section, Long> {
     @Query(value = "SELECT * FROM section)", nativeQuery = true)
     public List<Section> getSections();
 
+    List<Section> getAllByRoomRoomId(long roomId);
+
     /**
      * Query that return a list of sections with when given room that is not occupied
      */

@@ -1,5 +1,5 @@
 <template>
-    <CreateUser />
+  <CreateUser />
 </template>
 
 <script lang="ts">
