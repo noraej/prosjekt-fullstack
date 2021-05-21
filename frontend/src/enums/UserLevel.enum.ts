@@ -1,4 +1,4 @@
 export const enum UserLevel {
-  NORMAL = "NORMAL",
-  ADMIN = "ADMIN",
+  NORMAL = "ROLE_NORMAL",
+  ADMIN = "ROLE_ADMIN",
 }

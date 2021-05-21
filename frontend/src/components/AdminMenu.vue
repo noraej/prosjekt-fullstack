@@ -21,17 +21,30 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from "vue";
-// import { useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import MenuOption from "../interfaces/MenuOption.interface";
+import { store } from "@/store/index";
 
 export default defineComponent({
   setup() {
+    const router = useRouter();
     const options: Ref<MenuOption[]> = ref([
       { title: "Legg til bruker", path: "/admin" },
       { title: "Brukeroversikt", path: "/admin" },
     ]);
+
+    const logout = (): void => {
+      try {
+        store.dispatch("logout");
+        router.replace("/");
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     return {
       options,
+      logout,
     };
   },
 });

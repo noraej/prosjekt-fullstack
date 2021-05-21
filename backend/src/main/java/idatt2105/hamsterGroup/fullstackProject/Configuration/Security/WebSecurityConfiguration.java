@@ -59,7 +59,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST,"/api/v1/users").permitAll()//.hasAnyRole("NORMAL", "ADMIN")
                 .anyRequest().authenticated()
                 .and()
-                .cors();
+                .cors()
+                .and().formLogin();
     }
 
     /**
