@@ -1,12 +1,14 @@
 <template>
   <div>
     <UserHeader />
-    <p>USER SIDE</p>
     <div id="userSearch" v-if="scene === 'search'">
       <h2 id="title">Find room</h2>
       <h3 id="lable">Choose buliding</h3>
       <select class="dropdown" v-model="selectedBuilding">
         <option value=" " hidden disabled>Choose building</option>
+        <option value=" " v-if="noAvalibleBuildings" disabled>
+          No avalible buildings
+        </option>
         <option
           class="dropdown-content"
           v-for="(building, index) in buildings"
@@ -34,6 +36,10 @@
     <div id="FindRoom" v-if="scene === 'find room'">
       <button id="button back" @click="back">Back</button>
       <h2>Ledige rom</h2>
+      <div id="noRooms feedback" v-if="noAvalibleRooms">
+        <h3>There is no avalible rooms</h3>
+        <p>Try a different search</p>
+      </div>
       <div id="roomList">
         <RoomItem v-for="room in rooms" :key="room.roomId" :roomData="room" />
       </div>
@@ -42,9 +48,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, onBeforeMount, Ref, ref } from "vue";
 import Datepicker from "vue3-datepicker";
 import UserHeader from "../components/UserHeader.vue";
+import axios from "@/axiosConfig";
 
 export default defineComponent({
   name: "User",
@@ -61,8 +68,22 @@ export default defineComponent({
 
     //User search methods
     const selectedBuilding = ref("");
-    const buildings = ["Realfagsbygget", "Norge"]; //TODO:  Denne listen skal admin kunne legge til bygninger i
-    const minSeats = ref(0);
+    const noAvalibleRooms = ref(false);
+    const noAvalibleBuildings = ref(false);
+    const buildings = ref([]); //TODO:  Denne listen skal admin kunne legge til bygninger i
+    onBeforeMount(async () => {
+      try {
+        const buildingsIn = await axios.get("/v1/buildings");
+        buildings.value = buildingsIn.data;
+      } catch (error) {
+        console.log(error);
+      }
+      if (buildings.value.length === 0) {
+        noAvalibleBuildings.value = true;
+      }
+    });
+
+    const minSeats = ref(1);
     const date = ref(new Date());
     const startTime = ref("");
     const endTime = ref("");
@@ -110,6 +131,8 @@ export default defineComponent({
       scene,
       search,
       back,
+      noAvalibleBuildings,
+      noAvalibleRooms,
     };
   },
 });

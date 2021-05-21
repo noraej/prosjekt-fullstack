@@ -9,7 +9,7 @@
       <h3>Email</h3>
       <input type="text" placeholder="email" />
       <h3>Password</h3>
-      <input type="password" />
+      <input type="password" placeholder="password" />
       <h4 id="feedback"></h4>
       <button @click="userLogIn">Log in</button>
     </div>
@@ -18,7 +18,7 @@
       <h3>Email</h3>
       <input type="text" placeholder="email" />
       <h3>Password</h3>
-      <input type="password" placeholder="email" />
+      <input type="password" placeholder="password" />
       <h4 id="feedback"></h4>
       <button @click="adminLogIn">Log in</button>
     </div>
