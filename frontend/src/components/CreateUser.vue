@@ -42,7 +42,8 @@
       name="validCheck"
     />
     <label for="validCheck">Valid user</label><br />
-    <button @click="saveUser">Opprett bruker</button>
+    <button @click="saveUser">Create user</button>
+    <button @click="cancel">Cancel</button>
     <p v-if="invalidEmail">E-postadresse trenger @ og .</p>
     <p v-if="userIsInvalid">Vennligst fyll inn alle feltene!</p>
     <p v-if="error">Noe gikk galt!</p>
@@ -106,18 +107,13 @@ export default defineComponent({
       if (!userIsInvalid.value) {
         try {
           const response = await axios.post("/users", user);
-          const response2 = await axios.get(`/users/` + response.data.userId);
           const s = response.data;
-          console.log(s.userId + " " + response2);
-          //if (await store.dispatch("register", user)) {
+          //TODO get user and check if admin
           /*if (isAdmin.value) {
             router.replace("/admin");
           } else {
             router.replace("/user");
           }*/
-          //} else {
-          // router.push("/error");
-          // }
         } catch {
           error.value = true;
         }
@@ -126,7 +122,7 @@ export default defineComponent({
 
     const userAdminCheck = ref({}) as Ref<User>;
     const isAdmin = ref();
-    //TODO finn ut hvorfor props ikke gir riktig id
+    //TODO props.id = undefined atm, figure out why
     onBeforeMount(async () => {
       try {
         /*const response = await axios.get(`/users/${props.id}`);
@@ -170,6 +166,10 @@ export default defineComponent({
       }
     };
 
+    const cancel = async (): Promise<void> => {
+      router.push("/admin");
+    };
+
     return {
       saveUser,
       user,
@@ -179,6 +179,7 @@ export default defineComponent({
       invalidPassword,
       createPassword,
       autogeneratePassword,
+      cancel,
     };
   },
 });

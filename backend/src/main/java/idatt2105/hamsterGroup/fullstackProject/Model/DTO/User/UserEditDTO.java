@@ -3,6 +3,7 @@ package idatt2105.hamsterGroup.fullstackProject.Model.DTO.User;
 /**
  * DTO class for sending information between backend and frontend
  * when editing user information
+ * Was gonne be used to edit usser, but down prioritized
  */
 public class UserEditDTO extends UserSuperDTO {
     private String newPassword;

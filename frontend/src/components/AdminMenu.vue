@@ -29,8 +29,12 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const options: Ref<MenuOption[]> = ref([
-      { title: "Legg til bruker", path: "/admin" },
+      { title: "Legg til bruker", path: "/create" },
       { title: "Brukeroversikt", path: "/admin" },
+      {
+        title: "Legg til bygning, rom eller seksjon",
+        path: "/create-building-room-section",
+      },
     ]);
 
     const logout = (): void => {
