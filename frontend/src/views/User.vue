@@ -3,7 +3,7 @@
   <div id="userSearch" v-if="scene === 'search'">
     <h2 id="title">Find room</h2>
     <h3 id="lable">Choose buliding*</h3>
-    <select class="dropdown" v-model="selectedBuilding">
+    <select class="dropdown input" v-model="selectedBuilding">
       <option value=" " hidden disabled>Choose building</option>
       <option value=" " v-if="noAvalibleBuildings" disabled>
         No avalible buildings
@@ -19,7 +19,7 @@
     </select>
     <div v-if="selectedBuilding">
       <h3 id="lable">Choose room*</h3>
-      <select class="dropdown" v-model="selectedRoom">
+      <select class="dropdown input" v-model="selectedRoom">
         <option value=" " hidden disabled>Choose room</option>
         <option value=" " v-if="!rooms.length" disabled>
           No avalible room
@@ -35,7 +35,7 @@
       </select>
       <div v-if="selectedRoom">
         <h3 id="lable">Choose section*</h3>
-        <select class="dropdown" v-model="selectedSection">
+        <select class="dropdown input" v-model="selectedSection">
           <option value=" " hidden disabled>Choose section</option>
           <option value=" " v-if="!sections.length" disabled>
             No avalible section
@@ -51,9 +51,10 @@
         </select>
         <div v-if="selectedSection">
           <h3>Choose how many seats you need*</h3>
-          <input type="number" min="1" value="1" />
+          <input class="input" type="number" min="1" value="1" />
           <h3>Choose day*</h3>
           <datepicker
+            class="input"
             id="datepicker"
             v-model="date"
             :upperLimit="to"
@@ -61,9 +62,9 @@
             inputFormat="dd/MM yyyy"
           />
           <h3>Choose start time*</h3>
-          <input type="time" v-model="startTime" />
+          <input class="input" type="time" v-model="startTime" />
           <h3>Choose end time*</h3>
-          <input type="time" v-model="endTime" />
+          <input class="input" type="time" v-model="endTime" />
           <div id="feedback">{{ feedback }}</div>
           <button v-if="!isFormNotValid" @click="reserve">Book</button>
         </div>
@@ -84,14 +85,12 @@ import Datepicker from "vue3-datepicker";
 import UserHeader from "../components/UserHeader.vue";
 import axios from "@/axiosConfig";
 import Section from "../interfaces/Section.interface";
-import Search from "../interfaces/Search.interface";
 import Building from "../interfaces/Building.interface";
 import {
   Reservation,
   ReservationCreate,
 } from "../interfaces/Reservation.interface";
 import IRoomItem from "../interfaces/IRoomItem.interface";
-import { store } from "@/store";
 import { useRouter } from "vue-router";
 export default defineComponent({
   name: "User",
@@ -191,26 +190,12 @@ export default defineComponent({
     };
 
     /**
-     * Formats date to format dd.mm.yyyy
-     */
-    const formatedDate = computed((): string => {
-      const month = ref("");
-      const y = new Date(date.value).getFullYear();
-      const m = new Date(date.value).getMonth() + 1;
-      const d = new Date(date.value).getDate();
-      if (m < 10) {
-        month.value = "0" + m;
-      } else month.value = m + "";
-      return d + "." + month.value + "." + y;
-    });
-
-    /**
      * Formats start time of booking to dd.mm.yyyy hh:mm
      */
     const start = computed((): string => {
       const newDate = date.value;
-      newDate.setHours(Number(startTime.value.substr(0, 2)))
-      newDate.setMinutes(Number(startTime.value.substr(3, 2)))
+      newDate.setHours(Number(startTime.value.substr(0, 2)));
+      newDate.setMinutes(Number(startTime.value.substr(3, 2)));
       return newDate.toJSON();
     });
 
@@ -219,8 +204,8 @@ export default defineComponent({
      */
     const end = computed((): string => {
       const newDate = date.value;
-      newDate.setHours(Number(endTime.value.substr(0, 2)))
-      newDate.setMinutes(Number(endTime.value.substr(3, 2)))
+      newDate.setHours(Number(endTime.value.substr(0, 2)));
+      newDate.setMinutes(Number(endTime.value.substr(3, 2)));
       return newDate.toJSON();
     });
 
@@ -262,9 +247,10 @@ export default defineComponent({
         try {
           const createdReservation = await axios.post<Reservation>(
             "/reservations/",
-            newReservation,
+            newReservation
           );
           console.log(createdReservation.data);
+          router.push("/user/bookings");
         } catch (error) {
           console.log(error);
         }
@@ -298,6 +284,14 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+input,
+select {
+  min-width: 350px;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #00000080;
+}
 .dropdown {
   position: relative;
   display: inline-block;

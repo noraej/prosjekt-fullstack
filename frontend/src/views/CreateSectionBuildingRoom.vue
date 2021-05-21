@@ -109,7 +109,8 @@ export default defineComponent({
     const buildingValid = computed(() => {
       if (isBuilding.value) {
         return !(
-          building.buildingName.trim() === "" || buildingAddress.value.trim() === ""
+          building.buildingName.trim() === "" ||
+          buildingAddress.value.trim() === ""
         );
       }
       return null;

@@ -1,30 +1,26 @@
 <template>
   <div id="bookingView">
     <span>
-      <p id="lable">Building:</p>
-      <p>{{ building }}</p>
+      <p id="lable"><b>Section:</b> {{ reservation.section.sectionName }}</p>
     </span>
     <span>
-      <p id="lable">Room number:</p>
-      <p>{{ name }}</p>
+      <p id="lable"><b>Description:</b> {{ reservation.description }}</p>
     </span>
     <span>
-      <p id="lable">Date:</p>
-      <p>{{ date }}</p>
+      <p id="lable"><b>Persons:</b> {{ reservation.numberOfUsers }}</p>
     </span>
     <span>
-      <p id="lable">From:</p>
-      <p>{{ from }}</p>
+      <p id="lable"><b>From:</b> {{ from }}</p>
     </span>
     <span>
-      <p id="lable">To:</p>
-      <p>{{ to }}</p>
+      <p id="lable"><b>To:</b> {{ to }}</p>
     </span>
   </div>
 </template>
 
 <script lang="ts">
 import IBookedItem from "@/interfaces/IBookedItem.interface";
+import { formatDate } from "../utils";
 import { computed, defineComponent } from "vue";
 
 export default defineComponent({
@@ -37,29 +33,33 @@ export default defineComponent({
   },
   setup(props) {
     //TODO: Koble på backend
-    const building = computed((): string => {
-      return props.bookedData.building;
-    });
-    const name = computed((): string => {
-      return props.bookedData.roomName;
-    });
-    const date = computed((): string => {
-      return props.bookedData.date;
-    });
+    console.log(props);
+    console.log(props.bookedData.startTime);
     const from = computed((): string => {
-      return props.bookedData.from;
+      return formatDate(new Date(props.bookedData.startTime));
     });
     const to = computed((): string => {
-      return props.bookedData.to;
+      return formatDate(new Date(props.bookedData.endTime));
     });
+    const reservation = computed(() => props.bookedData);
 
     return {
-      building,
-      name,
-      date,
+      reservation,
       from,
       to,
     };
   },
 });
 </script>
+
+<style lang="scss" scoped>
+#bookingView {
+  background: #00000010;
+  padding: 5px;
+  width: fit-content;
+  margin: 5px auto;
+  min-width: 350px;
+  border-radius: 10px;
+  border: 1px solid #00000020;
+}
+</style>

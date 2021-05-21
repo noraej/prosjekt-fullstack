@@ -15,6 +15,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query(value = "SELECT * FROM reservation WHERE reservation.start_time > NOW()", nativeQuery = true)
     public List<Reservation> findAllReservationsFromNow();
 
+    List<Reservation> findAllByUserUserId(long userId);
+
     /**
      * Query that return a list of a user's reservations in the future
      */

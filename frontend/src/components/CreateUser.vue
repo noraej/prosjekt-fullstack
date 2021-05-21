@@ -112,7 +112,7 @@ export default defineComponent({
           /*if (isAdmin.value) {
             router.replace("/admin");
           } else {
-            router.replace("/user");
+            router.replace("/book");
           }*/
         } catch {
           error.value = true;

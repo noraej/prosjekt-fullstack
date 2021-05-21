@@ -6,7 +6,7 @@ export type Reservation = {
   startTime: string;
   endTime: string;
   description: string;
-}
+};
 
 export type ReservationCreate = Omit<Reservation, "section"> & {
   sectionId: number;

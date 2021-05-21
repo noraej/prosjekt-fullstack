@@ -52,7 +52,9 @@ public class ReservationService {
      */
     public List<ReservationDTO> getReservations() {
         LOGGER.info("getReservations() was called");
-        return reservationRepository.findAllReservationsFromNow().stream().
+        UserSecurityDetails user = (UserSecurityDetails)
+                SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return reservationRepository.findAllByUserUserId(user.getUserId()).stream().
                 map(ReservationDTO::new).collect(Collectors.toList());
     }
 
@@ -78,8 +80,6 @@ public class ReservationService {
         LOGGER.info("createReservation(Reservation reservation) on new reservation");
         UserSecurityDetails creatorUser = (UserSecurityDetails)
                 SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        LOGGER.debug("UserId: " + creatorUser.getUserId());
 
         Optional<User> optionalUser = userRepository.findById(creatorUser.getUserId());
         Optional<Section> optionalSection = sectionRepository.findById(reservation.getSectionId());

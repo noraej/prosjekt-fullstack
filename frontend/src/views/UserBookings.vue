@@ -23,11 +23,11 @@ export default defineComponent({
     BookingItem,
   },
   setup() {
-    const bookings = ref();
+    const bookings = ref<Array<IBookedItem>>([]);
     const userId: number = store.getters.user.userId;
     onBeforeMount(async () => {
       try {
-        const bookingResponse = await axios.get(`/${userId}/reservations`);
+        const bookingResponse = await axios.get(`/reservations`);
         bookings.value = bookingResponse.data as IBookedItem[];
       } catch (error) {
         console.log(error);

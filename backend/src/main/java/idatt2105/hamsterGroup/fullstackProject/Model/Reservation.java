@@ -55,6 +55,8 @@ public class Reservation {
         this.user = user;
     }
 
+    public Reservation() {}
+
     public long getReservationId() {
         return reservationId;
     }
