@@ -1,61 +1,98 @@
 <template>
-  <div>
-    <UserHeader />
-    <div id="userSearch" v-if="scene === 'search'">
-      <h2 id="title">Find room</h2>
-      <h3 id="lable">Choose buliding*</h3>
-      <select class="dropdown" v-model="selectedBuilding">
-        <option value=" " hidden disabled>Choose building</option>
-        <option value=" " v-if="noAvalibleBuildings" disabled>
-          No avalible buildings
+  <UserHeader />
+  <div id="userSearch" v-if="scene === 'search'">
+    <h2 id="title">Find room</h2>
+    <h3 id="lable">Choose buliding*</h3>
+    <select class="dropdown" v-model="selectedBuilding">
+      <option value=" " hidden disabled>Choose building</option>
+      <option value=" " v-if="noAvalibleBuildings" disabled>
+        No avalible buildings
+      </option>
+      <option
+        class="dropdown-content"
+        v-for="(building, index) in buildings"
+        :value="building.buildingId"
+        :key="index"
+      >
+        {{ building.buildingName }}
+      </option>
+    </select>
+    <div v-if="selectedBuilding">
+      <h3 id="lable">Choose room*</h3>
+      <select class="dropdown" v-model="selectedRoom">
+        <option value=" " hidden disabled>Choose room</option>
+        <option value=" " v-if="!rooms.length" disabled>
+          No avalible room
         </option>
         <option
           class="dropdown-content"
-          v-for="(building, index) in buildings"
-          :value="building"
+          v-for="(room, index) in rooms"
+          :value="room.roomId"
           :key="index"
         >
-          {{ building }}
+          {{ room.roomName }}
         </option>
       </select>
-      <h3>Choose how many seats you need*</h3>
-      <input type="number" min="1" value="1" />
-      <h3>Choose day*</h3>
-      <datepicker
-        id="datepicker"
-        v-model="date"
-        :upperLimit="to"
-        :lowerLimit="from"
-        inputFormat="dd/MM yyyy"
-      />
-      {{ date }}
-      <h3>Choose start time*</h3>
-      <input type="time" v-model="startTime" />
-      <h3>Choose end time*</h3>
-      <input type="time" v-model="endTime" />
-      <div id="feedback">{{ feedback }}</div>
-      <button @click="search">Search</button>
-    </div>
-    <div id="FindRoom" v-if="scene === 'find room'">
-      <button id="button back" @click="back">Back</button>
-      <h2>Ledige rom</h2>
-      <div id="noRooms feedback" v-if="noAvalibleRooms">
-        <h3>There is no avalible rooms</h3>
-        <p>Try a different search</p>
-      </div>
-      <div id="roomList">
-        <RoomItem v-for="room in rooms" :key="room.roomId" :roomData="room" />
+      <div v-if="selectedRoom">
+        <h3 id="lable">Choose section*</h3>
+        <select class="dropdown" v-model="selectedSection">
+          <option value=" " hidden disabled>Choose section</option>
+          <option value=" " v-if="!sections.length" disabled>
+            No avalible section
+          </option>
+          <option
+            class="dropdown-content"
+            v-for="(section, index) in sections"
+            :value="section.sectionId"
+            :key="index"
+          >
+            {{ section.sectionName }}
+          </option>
+        </select>
+        <div v-if="selectedSection">
+          <h3>Choose how many seats you need*</h3>
+          <input type="number" min="1" value="1" />
+          <h3>Choose day*</h3>
+          <datepicker
+            id="datepicker"
+            v-model="date"
+            :upperLimit="to"
+            :lowerLimit="from"
+            inputFormat="dd/MM yyyy"
+          />
+          <h3>Choose start time*</h3>
+          <input type="time" v-model="startTime" />
+          <h3>Choose end time*</h3>
+          <input type="time" v-model="endTime" />
+          <div id="feedback">{{ feedback }}</div>
+          <button v-if="!isFormNotValid" @click="reserve">Book</button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from "vue";
+import {
+  computed,
+  defineComponent,
+  onBeforeMount,
+  watchEffect,
+  ref,
+} from "vue";
 import Datepicker from "vue3-datepicker";
 import UserHeader from "../components/UserHeader.vue";
 import axios from "@/axiosConfig";
-
+import Section from "../interfaces/Section.interface";
+import Search from "../interfaces/Search.interface";
+import Building from "../interfaces/Building.interface";
+import {
+  Reservation,
+  ReservationCreate,
+} from "../interfaces/Reservation.interface";
+import IRoomItem from "../interfaces/IRoomItem.interface";
+import { store } from "@/store";
+import { useRouter } from "vue-router";
 export default defineComponent({
   name: "User",
   components: {
@@ -63,27 +100,30 @@ export default defineComponent({
     UserHeader,
   },
   setup() {
-  //generall methods
-    const scene = ref("search");
-  
-
+    //generall methods
+    const scene = ref<"search" | "find room">("search");
+    const router = useRouter();
     const back = (): void => {
       scene.value = "search";
     };
 
-  //User search methods
+    //User methods
 
-    const selectedBuilding = ref(""); //DENNE SKAL TIL BACKEND 1/4
+    const selectedBuilding = ref<Building["buildingId"]>();
+    const selectedRoom = ref<IRoomItem["roomId"]>();
+    const selectedSection = ref<Section["sectionId"]>();
     const noAvalibleRooms = ref(false);
     const noAvalibleBuildings = ref(false);
-    const buildings = ref([]); //TODO: Må dobbeltsjekke at denne funker når vi
+    const buildings = ref<Array<Building>>([]);
+    const rooms = ref<Array<IRoomItem>>([]);
+    const sections = ref<Array<Section>>([]);
 
     /**
      * Method for getting all buildings to choose from
      */
     onBeforeMount(async () => {
       try {
-        const buildingsIn = await axios.get("/v1/buildings");
+        const buildingsIn = await axios.get<Array<Building>>("/buildings/");
         buildings.value = buildingsIn.data;
       } catch (error) {
         console.log(error);
@@ -93,17 +133,42 @@ export default defineComponent({
       }
     });
 
+    watchEffect(async () => {
+      if (selectedBuilding.value) {
+        try {
+          const roomsIn = await axios.get<Array<IRoomItem>>(
+            `/buildings/${selectedBuilding.value}/rooms/`
+          );
+          rooms.value = roomsIn.data;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
+
+    watchEffect(async () => {
+      if (selectedRoom.value) {
+        try {
+          const sectionsIn = await axios.get<Array<Section>>(
+            `/rooms/${selectedRoom.value}/sections/`
+          );
+          sections.value = sectionsIn.data;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
+
     /**
      * Minum seats in search
      * Every building with this number or more should be shown
      */
-    const minSeats = ref(1); //TODO Denne skal til backend 2/4
-    
+    const minSeats = ref(1);
     //date methods
     /**
      * The date the room should be booked for
-    */
-    const date = ref(new Date);
+     */
+    const date = ref(new Date());
 
     /**
      * Start time of booking
@@ -136,23 +201,27 @@ export default defineComponent({
       if (m < 10) {
         month.value = "0" + m;
       } else month.value = m + "";
-      return d + "." + month.value + "." + y + " ";
+      return d + "." + month.value + "." + y;
     });
 
     /**
      * Formats start time of booking to dd.mm.yyyy hh:mm
      */
-    //DENNE SKAL SENDES TIL BACKEND 3/4
     const start = computed((): string => {
-      return formatedDate.value + " " + startTime.value;
+      const newDate = date.value;
+      newDate.setHours(Number(startTime.value.substr(0, 2)))
+      newDate.setMinutes(Number(startTime.value.substr(3, 2)))
+      return newDate.toJSON();
     });
 
     /**
      * Formats end time of booking to dd.mm.yyyy hh:mm
      */
-    //DENNE SKAL SENDES TIL BACKEND 4/4
     const end = computed((): string => {
-      return formatedDate.value + " " + endTime.value;
+      const newDate = date.value;
+      newDate.setHours(Number(endTime.value.substr(0, 2)))
+      newDate.setMinutes(Number(endTime.value.substr(3, 2)))
+      return newDate.toJSON();
     });
 
     /**
@@ -169,9 +238,9 @@ export default defineComponent({
 
     //button methods
     const feedback = ref("");
-    const disableButton = computed(() => {
+    const isFormNotValid = computed(() => {
       if (
-        selectedBuilding.value === "" ||
+        selectedBuilding.value === undefined ||
         minSeats.value > 1 ||
         date.value === null ||
         startTime.value === "" ||
@@ -181,30 +250,44 @@ export default defineComponent({
       } else return false;
     });
 
-    const checkDate = computed((): boolean => {
-      if (startTime.value > endTime.value) {
-        return false;
-      } else return true;
-    })
-
-    const search = ref(() => {
-      if (disableButton.value) {
-        feedback.value = "Fill in all fields";
-      } else scene.value = "find room";
-    });
+    const reserve = async (): Promise<void> => {
+      if (selectedSection.value !== undefined) {
+        const newReservation: ReservationCreate = {
+          sectionId: selectedSection.value,
+          startTime: start.value,
+          endTime: end.value,
+          numberOfUsers: minSeats.value,
+          description: "",
+        };
+        try {
+          const createdReservation = await axios.post<Reservation>(
+            "/reservations/",
+            newReservation,
+          );
+          console.log(createdReservation.data);
+        } catch (error) {
+          console.log(error);
+        }
+        // if (await store.dispatch("login", search)) router.push("/admin");
+      }
+    };
 
     return {
       selectedBuilding,
+      selectedRoom,
+      selectedSection,
       buildings,
+      rooms,
+      sections,
       minSeats,
       date,
       endTime,
       startTime,
+      reserve,
       from,
       to,
-      disableButton,
+      isFormNotValid,
       scene,
-      search,
       back,
       noAvalibleBuildings,
       noAvalibleRooms,

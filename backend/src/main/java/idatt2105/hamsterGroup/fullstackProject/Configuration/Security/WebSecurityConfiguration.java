@@ -54,7 +54,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(new ExceptionHandlerFilter(), JwtTokenVerifier.class)
                 .authorizeRequests()
                 .antMatchers("/error").permitAll()
-                .antMatchers("/api/v1/reservations/**").hasAnyRole("NORMAL", "ADMIN")
+                .antMatchers("/api/v1/reservations/**").permitAll()//.hasAnyRole("NORMAL", "ADMIN")
+                .antMatchers("/api/v1/buildings/**").permitAll()//.hasAnyRole("NORMAL", "ADMIN")
+                .antMatchers("/api/v1/rooms/**").permitAll()//.hasAnyRole("NORMAL", "ADMIN")
                 //TODO finn ut hvorfor hasAnyRole() failer
                 .antMatchers(HttpMethod.POST,"/api/v1/users").permitAll()//.hasAnyRole("NORMAL", "ADMIN")
                 .anyRequest().authenticated()

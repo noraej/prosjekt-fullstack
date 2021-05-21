@@ -1,8 +1,8 @@
 package idatt2105.hamsterGroup.fullstackProject.Controller;
 
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.FilterSortDTO;
-import idatt2105.hamsterGroup.fullstackProject.Model.DTO.Reservation.ReservationDTO;
-import idatt2105.hamsterGroup.fullstackProject.Model.DTO.Reservation.ReservationRegistrationDTO;
+import idatt2105.hamsterGroup.fullstackProject.Model.DTO.ReservationDTOs.ReservationDTO;
+import idatt2105.hamsterGroup.fullstackProject.Model.DTO.ReservationDTOs.ReservationRegistrationDTO;
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.User.UserDTO;
 import idatt2105.hamsterGroup.fullstackProject.Service.ReservationService;
 import idatt2105.hamsterGroup.fullstackProject.Service.UserService;
@@ -12,9 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 /**

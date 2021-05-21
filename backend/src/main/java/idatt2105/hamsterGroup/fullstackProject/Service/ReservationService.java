@@ -3,12 +3,14 @@ package idatt2105.hamsterGroup.fullstackProject.Service;
 import idatt2105.hamsterGroup.fullstackProject.Component.EmailComponent;
 import idatt2105.hamsterGroup.fullstackProject.Enum.UserRole;
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.FilterSortDTO;
-import idatt2105.hamsterGroup.fullstackProject.Model.DTO.Reservation.ReservationDTO;
-import idatt2105.hamsterGroup.fullstackProject.Model.DTO.Reservation.ReservationRegistrationDTO;
+import idatt2105.hamsterGroup.fullstackProject.Model.DTO.ReservationDTOs.ReservationDTO;
+import idatt2105.hamsterGroup.fullstackProject.Model.DTO.ReservationDTOs.ReservationRegistrationDTO;
 import idatt2105.hamsterGroup.fullstackProject.Model.Reservation;
+import idatt2105.hamsterGroup.fullstackProject.Model.Section;
 import idatt2105.hamsterGroup.fullstackProject.Model.User;
 import idatt2105.hamsterGroup.fullstackProject.Model.UserSecurityDetails;
 import idatt2105.hamsterGroup.fullstackProject.Repository.ReservationRepository;
+import idatt2105.hamsterGroup.fullstackProject.Repository.SectionRepository;
 import idatt2105.hamsterGroup.fullstackProject.Repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +30,8 @@ public class ReservationService {
     private ReservationRepository reservationRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private SectionRepository sectionRepository;
     @Autowired
     private EmailComponent emailSender;
 
@@ -75,11 +79,14 @@ public class ReservationService {
         UserSecurityDetails creatorUser = (UserSecurityDetails)
                 SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+        LOGGER.debug("UserId: " + creatorUser.getUserId());
+
         Optional<User> optionalUser = userRepository.findById(creatorUser.getUserId());
-        if(optionalUser.isEmpty()) {
+        Optional<Section> optionalSection = sectionRepository.findById(reservation.getSectionId());
+        if(optionalUser.isEmpty() || optionalSection.isEmpty()) {
             return null;
         }
-        Reservation createdReservation = new Reservation(reservation, optionalUser.get());
+        Reservation createdReservation = new Reservation(reservation, optionalSection.get(), optionalUser.get());
         createdReservation = reservationRepository.save(createdReservation);
         return new ReservationDTO(createdReservation);
     }
@@ -102,10 +109,8 @@ public class ReservationService {
             reservation.setEndTime(reservationRegistrationDTO.getEndTime());
             reservation.calculateDuration();
             reservation.setNumberOfUsers(reservationRegistrationDTO.getNumberOfUsers());
-            reservation.setBuilding(reservationRegistrationDTO.getBuilding());
-            reservation.setRoom(reservationRegistrationDTO.getRoom());
           //  if (reservationRegistrationDTO.getSection() != null) {
-                reservation.setSection(reservationRegistrationDTO.getSection());
+            reservation.setSection(optionalReservation.get().getSection());
            /* } else {
                 reservation.setSections(reservationRegistrationDTO.getRoom().getSections());
             }*/

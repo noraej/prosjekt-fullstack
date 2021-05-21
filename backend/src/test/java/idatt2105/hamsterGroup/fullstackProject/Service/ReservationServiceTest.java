@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import idatt2105.hamsterGroup.fullstackProject.Model.*;
-import idatt2105.hamsterGroup.fullstackProject.Model.DTO.Reservation.ReservationDTO;
-import idatt2105.hamsterGroup.fullstackProject.Model.DTO.Reservation.ReservationRegistrationDTO;
+import idatt2105.hamsterGroup.fullstackProject.Model.DTO.ReservationDTOs.ReservationDTO;
+import idatt2105.hamsterGroup.fullstackProject.Model.DTO.ReservationDTOs.ReservationRegistrationDTO;
 import idatt2105.hamsterGroup.fullstackProject.Repository.ReservationRepository;
 import idatt2105.hamsterGroup.fullstackProject.Repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,11 +47,11 @@ public class ReservationServiceTest {
         Reservation reservation1 = new Reservation(5,
                 LocalDateTime.of(2000, 1, 1, 1, 1, 1),
                 LocalDateTime.of(2000, 1, 1, 1, 5, 1),
-                "Description", null, null, null, null);
+                "Description", null, null);
         Reservation reservation2 = new Reservation(10,
                 LocalDateTime.of(2021, 6, 20, 14, 30, 0),
                 LocalDateTime.of(2021, 6, 20, 15, 45, 0),
-                "Description ahaha", null, null, null, null);
+                "Description ahaha", null, null);
         User user1 = new User("Firstname", "Lastname", "Email",
                 "12345678", "hash", "salt", true, false, null);
         User user2 = new User("Firstname aa", "Lastname aa", "Email aa",
@@ -98,14 +98,11 @@ public class ReservationServiceTest {
         long activityId = 1L;
         ReservationDTO activityDTO = reservationService.getReservation(activityId);
         assertThat(activityDTO.getDescription()).isEqualTo("Description");
-        assertThat(activityDTO.getBuilding()).isEqualTo(null);
         assertThat(activityDTO.getStartTime()).isEqualTo(LocalDateTime.of
                 (2000, 1, 1, 1, 1, 1));
         assertThat(activityDTO.getEndTime()).isEqualTo(LocalDateTime.of
                 (2000, 1, 1, 1, 5, 1));
         assertThat(activityDTO.getNumberOfUsers()).isEqualTo(5);
-        assertThat(activityDTO.getRoom()).isEqualTo(null);
-        assertThat(activityDTO.getBuilding()).isEqualTo(null);
         assertThat(activityDTO.getSection()).isEqualTo(null);
     }
 
@@ -129,8 +126,6 @@ public class ReservationServiceTest {
         assertThat(reservations.get(0).getDescription()).isEqualTo("Description");
         assertThat(reservations.get(0).getDurationMinutes()).isEqualTo(4);
         assertThat(reservations.get(0).getSection()).isEqualTo(null);
-        assertThat(reservations.get(0).getRoom()).isEqualTo(null);
-        assertThat(reservations.get(0).getBuilding()).isEqualTo(null);
     }
 
     @Test
@@ -150,13 +145,13 @@ public class ReservationServiceTest {
         SecurityContextHolder.setContext(securityContext);
 
         ReservationRegistrationDTO reservationRegistrationDTO = new ReservationRegistrationDTO
-                ("Description1", null, LocalDateTime.of(2021, 6, 6, 16, 0, 0),
+                ("Description1", 1, LocalDateTime.of(2021, 6, 6, 16, 0, 0),
                         LocalDateTime.of(2021, 6, 6, 17, 0, 0),
-                        10, null, null/*, null*/);
+                        10/*, null*/);
         Mockito.lenient().when(reservationRepository.save(any())).thenReturn(new Reservation(
                 10, LocalDateTime.of(2021, 6, 6, 16, 0, 0),
                 LocalDateTime.of(2021, 6, 6, 17, 0, 0),
-        "Description1", null, null, null, null));
+        "Description1", null, null));
         ReservationDTO reservationDTO = reservationService.createReservation(reservationRegistrationDTO);
         assertNotNull(reservationDTO);
         assertThat(reservationDTO.getNumberOfUsers()).isEqualTo(10);
@@ -169,14 +164,14 @@ public class ReservationServiceTest {
     public void editReservation_ReturnEditedReservation_ReservationIsCorrectlyEdited() {
         long reservationId = 1L;
         ReservationRegistrationDTO reservationRegistrationDTO = new ReservationRegistrationDTO(
-                "NewDescription", null, LocalDateTime.of(2021, 6, 6, 16, 30, 0),
+                "NewDescription", 1, LocalDateTime.of(2021, 6, 6, 16, 30, 0),
                 LocalDateTime.of(2021, 6, 6, 17, 0, 0),
-                15, null, null
+                15
         );
         Mockito.lenient().when(reservationRepository.save(any())).thenReturn(new Reservation(15,
                 LocalDateTime.of(2021, 6, 6, 16, 30, 0),
                 LocalDateTime.of(2021, 6, 6, 17, 0, 0),
-                "NewDescription", null, null, null, null));
+                "NewDescription", null, null));
         ReservationDTO reservationDTO = reservationService.editReservation(reservationId, reservationRegistrationDTO);
         assertNotNull(reservationDTO);
         assertThat(reservationDTO.getNumberOfUsers()).isEqualTo(15);
@@ -189,14 +184,14 @@ public class ReservationServiceTest {
     public void editReservation_ReservationDoesNotExist_ReturnsNull() {
         long reservationId = -1L;
         ReservationRegistrationDTO reservationRegistrationDTO = new ReservationRegistrationDTO(
-                "ThisDesc", null, LocalDateTime.of(2022, 6, 6, 16, 30, 0),
+                "ThisDesc", 1, LocalDateTime.of(2022, 6, 6, 16, 30, 0),
                 LocalDateTime.of(2022, 6, 6, 17, 0, 0),
-                16, null, null/*, null*/
+                16/*, null*/
         );
         Mockito.lenient().when(reservationRepository.save(any())).thenReturn(new Reservation(16,
                 LocalDateTime.of(2022, 6, 6, 16, 0, 0),
                 LocalDateTime.of(2022, 6, 6, 17, 0, 0),
-                "ThisDesc", null, null, null, null));
+                "ThisDesc", null, null));
         ReservationDTO activityDTO = reservationService.editReservation(reservationId, reservationRegistrationDTO);
         assertNull(activityDTO);
     }
@@ -241,7 +236,7 @@ public class ReservationServiceTest {
         Reservation reservation1 = new Reservation(5,
                 LocalDateTime.of(2000, 1, 1, 1, 1, 1),
                 LocalDateTime.of(2000, 1, 1, 1, 5, 1),
-                "Description", null, null, null, null);
+                "Description", null, null);
         User user1 = new User("Firstname", "Lastname", "Email",
                 "12345678", "hash", "salt", true, false, null);
         reservation1.setReservationId(10);

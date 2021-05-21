@@ -1,3 +1,5 @@
 export default interface Building {
-  name: string;
+  buildingId: number;
+  buildingName: string;
+  numberOfRooms: number;
 }

@@ -176,7 +176,7 @@ public class UserServiceTest
         Set<Reservation> reservations = new HashSet<>();
         reservations.add(new Reservation(10, LocalDateTime.of(2021, 5, 19, 14, 0, 0),
                 LocalDateTime.of(2021, 5, 19, 15, 30, 0), "Description",
-                userRepository.findById(0L).get(), null, null, null));
+                userRepository.findById(0L).get(), null));
         userRepository.findById(0L).get().setReservations(reservations);
         List<Reservation> reservationsFound = userService.getUserReservations(0L);
         assertThat(reservationsFound).isNotEmpty();

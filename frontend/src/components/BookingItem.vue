@@ -9,15 +9,15 @@
       <p>{{ name }}</p>
     </span>
     <span>
-      <p id="lable">Date: </p>
+      <p id="lable">Date:</p>
       <p>{{ date }}</p>
     </span>
     <span>
-      <p id="lable">From: </p>
+      <p id="lable">From:</p>
       <p>{{ from }}</p>
     </span>
     <span>
-      <p id="lable">To: </p>
+      <p id="lable">To:</p>
       <p>{{ to }}</p>
     </span>
   </div>
@@ -46,7 +46,7 @@ export default defineComponent({
     const date = computed((): string => {
       return props.bookedData.date;
     });
-     const from = computed((): string => {
+    const from = computed((): string => {
       return props.bookedData.from;
     });
     const to = computed((): string => {

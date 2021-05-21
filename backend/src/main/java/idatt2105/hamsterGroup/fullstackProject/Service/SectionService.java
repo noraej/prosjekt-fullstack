@@ -52,13 +52,12 @@ public class SectionService {
 
     /**
      * Method to filter section list by room
-     * @param filter - to filter out rooms
+     * @param roomId - id of room
      * @return List of room DTOs
      */
-    public List<SectionDTO> getSectionsByRoom(FilterSortDTO filter) {
+    public List<SectionDTO> getSectionsByRoom(long roomId) {
         LOGGER.info("getReservationsWithFilter(FilterDTO filter) was called with filter a filter");
-        List<Section> sections = filterByRoom(filter);
-        return sections.stream().map(SectionDTO::new).collect(Collectors.toList());
+        return sectionRepository.getAllByRoomRoomId(roomId).stream().map(SectionDTO::new).collect(Collectors.toList());
     }
 
     /**

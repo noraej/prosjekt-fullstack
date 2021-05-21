@@ -1,7 +1,10 @@
+import IRoomItem from 'src/interfaces/IRoomItem.interface'
+
 export default interface Section {
-  name: string;
+  sectionId: number;
+  sectionName: string;
   description: string;
-  numberOfSeats: number;
+  seats: number;
   size: number;
-  roomId: number;
+  room: IRoomItem;
 }

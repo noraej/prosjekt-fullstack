@@ -40,11 +40,6 @@ public class SectionController
         return new ResponseEntity<>(sections, HttpStatus.OK);
     }
 
-    @PostMapping("/alternatives")
-    public ResponseEntity<List<SectionDTO>> getSectionWithFilter(@RequestBody FilterSortDTO filter){
-        return new ResponseEntity<>(sectionService.getSectionsByRoom(filter),HttpStatus.OK);
-    }
-
     /* //Admins should be able to create sections in the app at one point, but down prioritized for now
     @PostMapping
     public ResponseEntity<SectionDTO> createSection(@RequestBody SectionCreationDTO section) {
