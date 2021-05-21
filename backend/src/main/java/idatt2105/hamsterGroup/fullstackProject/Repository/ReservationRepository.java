@@ -28,5 +28,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
      */
     @Query(value = "SELECT * FROM reservation WHERE reservation.start_time=?1 AND reservation.end_time=?2 AND" +
             "reservation.seats>?3 AND reservation.building_id=?4", nativeQuery = true)
-    public List<Reservation> sortReservationsWithFilters(LocalDateTime start, LocalDateTime end, int minSeats, Building building);
+    public List<Reservation> sortReservationsWithFilters(LocalDateTime start, LocalDateTime end, int minSeats, long buildingId);
 }

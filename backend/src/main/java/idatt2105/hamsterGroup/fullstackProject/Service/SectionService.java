@@ -67,8 +67,8 @@ public class SectionService {
      * @return List of sections
      */
     private List<Section> filterByRoom(FilterSortDTO filter) {
-        if (filter.getBuilding() != null) {
-            return sectionRepository.findSectionByRoom(filter.getRoom().getRoomId());
+        if (filter.getBuildingId() <= 0) {
+            return sectionRepository.findSectionByRoom(filter.getRoomId());
         }
         return sectionRepository.findAll();
     }

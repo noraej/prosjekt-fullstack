@@ -153,9 +153,9 @@ public class ReservationService {
      */
     private List<Reservation> filterAndSort(FilterSortDTO filter) {
         if (filter.getStartTime() != null && filter.getEndTime() != null && filter.getMinNumberOfSeats() != -1
-                && filter.getBuilding() != null) {
+                && filter.getBuildingId() <= 0) {
             return reservationRepository.sortReservationsWithFilters(filter.getStartTime(), filter.getEndTime(),
-                    filter.getMinNumberOfSeats(), filter.getBuilding());
+                    filter.getMinNumberOfSeats(), filter.getBuildingId());
         }
         return reservationRepository.findAll();
     }
