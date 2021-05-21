@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div id="reservations">
+    <h1>Create user</h1>
     <input
       class="sign-up-form-input"
       placeholder="Firstname"
@@ -172,4 +173,28 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+#reservations {
+  width: 100%;
+  padding: 40px !important;
+}
+
+.sign-up-form-input {
+  border-radius: 7px;
+  font-size: 15px;
+  border: 1px solid #868acc;
+  color: #868acc;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+  padding: 5px;
+  margin: 10px;
+  width: 50%;
+}
+
+h1 {
+  text-align: left;
+  font-size: 23px;
+  margin: 40px;
+}
+</style>
