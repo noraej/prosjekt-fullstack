@@ -3,7 +3,7 @@
     <UserHeader />
     <div id="userSearch" v-if="scene === 'search'">
       <h2 id="title">Find room</h2>
-      <h3 id="lable">Choose buliding</h3>
+      <h3 id="lable">Choose buliding*</h3>
       <select class="dropdown" v-model="selectedBuilding">
         <option value=" " hidden disabled>Choose building</option>
         <option value=" " v-if="noAvalibleBuildings" disabled>
@@ -18,19 +18,22 @@
           {{ building }}
         </option>
       </select>
-      <h3>Choose how many seats you need</h3>
+      <h3>Choose how many seats you need*</h3>
       <input type="number" min="1" value="1" />
-      <h3>Choose day</h3>
+      <h3>Choose day*</h3>
       <datepicker
         id="datepicker"
         v-model="date"
         :upperLimit="to"
         :lowerLimit="from"
+        inputFormat="dd/MM yyyy"
       />
-      <h3>Choose start time</h3>
+      {{ date }}
+      <h3>Choose start time*</h3>
       <input type="time" v-model="startTime" />
-      <h3>Choose end time</h3>
+      <h3>Choose end time*</h3>
       <input type="time" v-model="endTime" />
+      <div id="feedback">{{ feedback }}</div>
       <button @click="search">Search</button>
     </div>
     <div id="FindRoom" v-if="scene === 'find room'">
@@ -60,17 +63,24 @@ export default defineComponent({
     UserHeader,
   },
   setup() {
-    //scene methods
+  //generall methods
     const scene = ref("search");
+  
+
     const back = (): void => {
       scene.value = "search";
     };
 
-    //User search methods
-    const selectedBuilding = ref("");
+  //User search methods
+
+    const selectedBuilding = ref(""); //DENNE SKAL TIL BACKEND 1/4
     const noAvalibleRooms = ref(false);
     const noAvalibleBuildings = ref(false);
-    const buildings = ref([]); //TODO:  Denne listen skal admin kunne legge til bygninger i
+    const buildings = ref([]); //TODO: Må dobbeltsjekke at denne funker når vi
+
+    /**
+     * Method for getting all buildings to choose from
+     */
     onBeforeMount(async () => {
       try {
         const buildingsIn = await axios.get("/v1/buildings");
@@ -83,38 +93,104 @@ export default defineComponent({
       }
     });
 
-    const minSeats = ref(1);
-    const date = ref(new Date());
+    /**
+     * Minum seats in search
+     * Every building with this number or more should be shown
+     */
+    const minSeats = ref(1); //TODO Denne skal til backend 2/4
+    
+    //date methods
+    /**
+     * The date the room should be booked for
+    */
+    const date = ref(new Date);
+
+    /**
+     * Start time of booking
+     */
     const startTime = ref("");
+
+    /**
+     * End time of booking
+     */
     const endTime = ref("");
-    const avalibleSeats = 30; //hentes fra backend på et senere tidspunkt
     //date info
-    const today = new Date();
+
+    /**
+     * Method for restricting which dates that are avalible for choosing
+     */
     const oneYearFromNow = (): Date => {
       const newDate = new Date();
       newDate.setFullYear(newDate.getFullYear() + 1);
       return newDate;
     };
 
-    //datepicker info
-    const from = today;
+    /**
+     * Formats date to format dd.mm.yyyy
+     */
+    const formatedDate = computed((): string => {
+      const month = ref("");
+      const y = new Date(date.value).getFullYear();
+      const m = new Date(date.value).getMonth() + 1;
+      const d = new Date(date.value).getDate();
+      if (m < 10) {
+        month.value = "0" + m;
+      } else month.value = m + "";
+      return d + "." + month.value + "." + y + " ";
+    });
+
+    /**
+     * Formats start time of booking to dd.mm.yyyy hh:mm
+     */
+    //DENNE SKAL SENDES TIL BACKEND 3/4
+    const start = computed((): string => {
+      return formatedDate.value + " " + startTime.value;
+    });
+
+    /**
+     * Formats end time of booking to dd.mm.yyyy hh:mm
+     */
+    //DENNE SKAL SENDES TIL BACKEND 4/4
+    const end = computed((): string => {
+      return formatedDate.value + " " + endTime.value;
+    });
+
+    /**
+     * Gets todays date
+     * Is the start date of avalible dates
+     */
+    const from = new Date();
+
+    /**
+     * Is one year from today
+     * Is the end date of avalible dates
+     */
     const to = oneYearFromNow();
 
     //button methods
+    const feedback = ref("");
     const disableButton = computed(() => {
       if (
         selectedBuilding.value === "" ||
         minSeats.value > 1 ||
         date.value === null ||
-        startTime.value === null ||
-        endTime.value === null
+        startTime.value === "" ||
+        endTime.value === ""
       ) {
         return true;
       } else return false;
     });
 
+    const checkDate = computed((): boolean => {
+      if (startTime.value > endTime.value) {
+        return false;
+      } else return true;
+    })
+
     const search = ref(() => {
-      scene.value = "find room";
+      if (disableButton.value) {
+        feedback.value = "Fill in all fields";
+      } else scene.value = "find room";
     });
 
     return {
@@ -124,7 +200,6 @@ export default defineComponent({
       date,
       endTime,
       startTime,
-      avalibleSeats,
       from,
       to,
       disableButton,
@@ -133,6 +208,7 @@ export default defineComponent({
       back,
       noAvalibleBuildings,
       noAvalibleRooms,
+      feedback,
     };
   },
 });
