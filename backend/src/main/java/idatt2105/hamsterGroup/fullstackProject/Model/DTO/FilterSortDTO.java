@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
  * FilterDTO, DTO class to filter
  */
 public class FilterSortDTO {
-    private Building building;
-    private Room room;
+    private long buildingId;
+    private long roomId;
     private int minNumberOfSeats = -1;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
@@ -18,20 +18,20 @@ public class FilterSortDTO {
     public FilterSortDTO() {
     }
 
-    public Building getBuilding() {
-        return building;
+    public long getBuildingId() {
+        return buildingId;
     }
 
-    public void setBuilding(Building building) {
-        this.building = building;
+    public void setBuildingId(long buildingId) {
+        this.buildingId = buildingId;
     }
 
-    public Room getRoom() {
-        return room;
+    public long getRoomId() {
+        return roomId;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public void setRoomId(long roomId) {
+        this.roomId = roomId;
     }
 
     public int getMinNumberOfSeats() {
@@ -61,8 +61,8 @@ public class FilterSortDTO {
     @Override
     public String toString() {
         return "FilterSortDTO{" +
-                "building=" + building +
-                ", room=" + room +
+                "building=" + buildingId +
+                ", room=" + roomId +
                 ", minNumberOfSeats=" + minNumberOfSeats +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +

@@ -65,8 +65,8 @@ public class RoomService {
      * @return List of rooms
      */
     private List<Room> filterByBuilding(FilterSortDTO filter) {
-        if (filter.getBuilding() != null) {
-            return roomRepository.findRoomByBuilding(filter.getBuilding().getBuildingId());
+        if (filter.getBuildingId() <= 0) {
+            return roomRepository.findRoomByBuilding(filter.getBuildingId());
         }
         return roomRepository.findAll();
     }
