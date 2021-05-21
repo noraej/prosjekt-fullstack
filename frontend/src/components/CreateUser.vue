@@ -174,7 +174,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-
 #reservations {
   width: 100%;
   padding: 40px !important;
@@ -196,6 +195,6 @@ export default defineComponent({
 h1 {
   text-align: left;
   font-size: 23px;
-  margin:40px;
+  margin: 40px;
 }
 </style>

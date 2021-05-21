@@ -73,23 +73,25 @@ export default defineComponent({
   fill: #ffffff;
 }
 .container {
-    display: inline-block;
-    cursor: pointer;
-    margin: auto;
+  display: inline-block;
+  cursor: pointer;
+  margin: auto;
 }
 
-.bar1, .bar2, .bar3 {
-    width: 25px;
-    height: 4px;
-    background-color: #333;
-    border-radius: 5px;
-    margin: 6px 0;
-    transition: 0.4s;
+.bar1,
+.bar2,
+.bar3 {
+  width: 25px;
+  height: 4px;
+  background-color: #333;
+  border-radius: 5px;
+  margin: 6px 0;
+  transition: 0.4s;
 }
 
 .change .bar1 {
-    -webkit-transform: rotate(-45deg) translate(-7x, 4px);
-    transform: rotate(-45deg) translate(-7px, 4px);
+  -webkit-transform: rotate(-45deg) translate(-7x, 4px);
+  transform: rotate(-45deg) translate(-7px, 4px);
 }
 
 .change .bar2 {

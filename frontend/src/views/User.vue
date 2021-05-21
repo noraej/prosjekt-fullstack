@@ -1,81 +1,81 @@
 <template>
-<div>
-  <UserHeader />
-  
-  <div id="userSearch" v-if="scene === 'search'">
-    <h2 id="title">Find room</h2>
-    <div id="find-container">
-    <h3 id="lable" class="left">Choose building*</h3>
-    <select class="dropdown input right" v-model="selectedBuilding">
-      <option value=" " hidden disabled>Choose building</option>
-      <option value=" " v-if="noAvalibleBuildings" disabled>
-        No avalible buildings
-      </option>
-      <option
-        class="dropdown-content"
-        v-for="(building, index) in buildings"
-        :value="building.buildingId"
-        :key="index"
-      >
-        {{ building.buildingName }}
-      </option>
-    </select>
-    <div v-if="selectedBuilding">
-      <h3 id="lable" class="left">Choose room*</h3>
-      <select class="dropdown input right" v-model="selectedRoom">
-        <option value=" " hidden disabled>Choose room</option>
-        <option value=" " v-if="!rooms.length" disabled>
-          No avalible room
-        </option>
-        <option
-          class="dropdown-content right"
-          v-for="(room, index) in rooms"
-          :value="room.roomId"
-          :key="index"
-        >
-          {{ room.roomName }}
-        </option>
-      </select>
-      <div v-if="selectedRoom">
-        <h3 id="lable" class="left">Choose section*</h3>
-        <select class="dropdown input right" v-model="selectedSection">
-          <option value=" " hidden disabled>Choose section</option>
-          <option value=" " v-if="!sections.length" disabled>
-            No avalible section
+  <div>
+    <UserHeader />
+
+    <div id="userSearch" v-if="scene === 'search'">
+      <h2 id="title">Find room</h2>
+      <div id="find-container">
+        <h3 id="lable" class="left">Choose building*</h3>
+        <select class="dropdown input right" v-model="selectedBuilding">
+          <option value=" " hidden disabled>Choose building</option>
+          <option value=" " v-if="noAvalibleBuildings" disabled>
+            No avalible buildings
           </option>
           <option
-            class="dropdown-content right"
-            v-for="(section, index) in sections"
-            :value="section.sectionId"
+            class="dropdown-content"
+            v-for="(building, index) in buildings"
+            :value="building.buildingId"
             :key="index"
           >
-            {{ section.sectionName }}
+            {{ building.buildingName }}
           </option>
         </select>
-        <div v-if="selectedSection">
-          <h3 class="left">Number of seats*</h3>
-          <input class="input right" type="number" min="1" value="1" />
-          
-          <h3 class="left">Choose day*</h3>
-          <datepicker
-            class="input right"
-            id="datepicker"
-            v-model="date"
-            :upperLimit="to"
-            :lowerLimit="from"
-            inputFormat="dd/MM yyyy"
-          />
-          <h3 class="left">Choose start time*</h3>
-          <input class="input right" type="time" v-model="startTime" />
-          <h3 class="left">Choose end time*</h3>
-          <input class="input right" type="time" v-model="endTime" />
-          <div id="feedback">{{ feedback }}</div>
-          <button v-if="!isFormNotValid" @click="reserve">Book</button>
+        <div v-if="selectedBuilding">
+          <h3 id="lable" class="left">Choose room*</h3>
+          <select class="dropdown input right" v-model="selectedRoom">
+            <option value=" " hidden disabled>Choose room</option>
+            <option value=" " v-if="!rooms.length" disabled>
+              No avalible room
+            </option>
+            <option
+              class="dropdown-content right"
+              v-for="(room, index) in rooms"
+              :value="room.roomId"
+              :key="index"
+            >
+              {{ room.roomName }}
+            </option>
+          </select>
+          <div v-if="selectedRoom">
+            <h3 id="lable" class="left">Choose section*</h3>
+            <select class="dropdown input right" v-model="selectedSection">
+              <option value=" " hidden disabled>Choose section</option>
+              <option value=" " v-if="!sections.length" disabled>
+                No avalible section
+              </option>
+              <option
+                class="dropdown-content right"
+                v-for="(section, index) in sections"
+                :value="section.sectionId"
+                :key="index"
+              >
+                {{ section.sectionName }}
+              </option>
+            </select>
+            <div v-if="selectedSection">
+              <h3 class="left">Number of seats*</h3>
+              <input class="input right" type="number" min="1" value="1" />
+
+              <h3 class="left">Choose day*</h3>
+              <datepicker
+                class="input right"
+                id="datepicker"
+                v-model="date"
+                :upperLimit="to"
+                :lowerLimit="from"
+                inputFormat="dd/MM yyyy"
+              />
+              <h3 class="left">Choose start time*</h3>
+              <input class="input right" type="time" v-model="startTime" />
+              <h3 class="left">Choose end time*</h3>
+              <input class="input right" type="time" v-model="endTime" />
+              <div id="feedback">{{ feedback }}</div>
+              <button v-if="!isFormNotValid" @click="reserve">Book</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    </div>
-  </div>
   </div>
 </template>
 
@@ -363,7 +363,7 @@ button {
   padding: 10px;
   font-size: 1rem;
   width: 120px;
-  margin:auto;
+  margin: auto;
   margin-top: 15px;
 }
 </style>
