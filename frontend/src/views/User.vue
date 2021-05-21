@@ -1,9 +1,6 @@
 <template>
   <div>
     <UserHeader />
-    <p>USER SIDE</p>
-    {{ buildings }}
-    {{ noAvalibleBuildings }}
     <div id="userSearch" v-if="scene === 'search'">
       <h2 id="title">Find room</h2>
       <h3 id="lable">Choose buliding</h3>
@@ -74,7 +71,6 @@ export default defineComponent({
     const noAvalibleRooms = ref(false);
     const noAvalibleBuildings = ref(false);
     const buildings = ref([]); //TODO:  Denne listen skal admin kunne legge til bygninger i
-    const test = ref();
     onBeforeMount(async () => {
       try {
         const buildingsIn = await axios.get("/v1/buildings");
@@ -87,7 +83,7 @@ export default defineComponent({
       }
     });
 
-    const minSeats = ref(0);
+    const minSeats = ref(1);
     const date = ref(new Date());
     const startTime = ref("");
     const endTime = ref("");
