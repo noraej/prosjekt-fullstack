@@ -4,8 +4,9 @@
   
   <div id="userSearch" v-if="scene === 'search'">
     <h2 id="title">Find room</h2>
-    <h3 id="lable">Choose buliding*</h3>
-    <select class="dropdown input" v-model="selectedBuilding">
+    <div id="find-container">
+    <h3 id="lable" class="left">Choose building*</h3>
+    <select class="dropdown input right" v-model="selectedBuilding">
       <option value=" " hidden disabled>Choose building</option>
       <option value=" " v-if="noAvalibleBuildings" disabled>
         No avalible buildings
@@ -20,14 +21,14 @@
       </option>
     </select>
     <div v-if="selectedBuilding">
-      <h3 id="lable">Choose room*</h3>
-      <select class="dropdown input" v-model="selectedRoom">
+      <h3 id="lable" class="left">Choose room*</h3>
+      <select class="dropdown input right" v-model="selectedRoom">
         <option value=" " hidden disabled>Choose room</option>
         <option value=" " v-if="!rooms.length" disabled>
           No avalible room
         </option>
         <option
-          class="dropdown-content"
+          class="dropdown-content right"
           v-for="(room, index) in rooms"
           :value="room.roomId"
           :key="index"
@@ -36,14 +37,14 @@
         </option>
       </select>
       <div v-if="selectedRoom">
-        <h3 id="lable">Choose section*</h3>
-        <select class="dropdown input" v-model="selectedSection">
+        <h3 id="lable" class="left">Choose section*</h3>
+        <select class="dropdown input right" v-model="selectedSection">
           <option value=" " hidden disabled>Choose section</option>
           <option value=" " v-if="!sections.length" disabled>
             No avalible section
           </option>
           <option
-            class="dropdown-content"
+            class="dropdown-content right"
             v-for="(section, index) in sections"
             :value="section.sectionId"
             :key="index"
@@ -52,25 +53,27 @@
           </option>
         </select>
         <div v-if="selectedSection">
-          <h3>Choose how many seats you need*</h3>
-          <input class="input" type="number" min="1" value="1" />
-          <h3>Choose day*</h3>
+          <h3 class="left">Number of seats*</h3>
+          <input class="input right" type="number" min="1" value="1" />
+          
+          <h3 class="left">Choose day*</h3>
           <datepicker
-            class="input"
+            class="input right"
             id="datepicker"
             v-model="date"
             :upperLimit="to"
             :lowerLimit="from"
             inputFormat="dd/MM yyyy"
           />
-          <h3>Choose start time*</h3>
-          <input class="input" type="time" v-model="startTime" />
-          <h3>Choose end time*</h3>
-          <input class="input" type="time" v-model="endTime" />
+          <h3 class="left">Choose start time*</h3>
+          <input class="input right" type="time" v-model="startTime" />
+          <h3 class="left">Choose end time*</h3>
+          <input class="input right" type="time" v-model="endTime" />
           <div id="feedback">{{ feedback }}</div>
           <button v-if="!isFormNotValid" @click="reserve">Book</button>
         </div>
       </div>
+    </div>
     </div>
   </div>
   </div>
@@ -289,11 +292,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 input,
 select {
-  min-width: 350px;
-  border-radius: 5px;
-  padding: 10px;
+  min-width: 100%;
   margin-bottom: 10px;
-  border: 1px solid #00000080;
 }
 .dropdown {
   position: relative;
@@ -322,7 +322,7 @@ h3 {
 
 #find-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 40% 60%;
   text-align: left;
 }
 
@@ -332,7 +332,6 @@ h3 {
 
 .right {
   grid-column: 2;
-  margin: 10px;
   border-radius: 7px;
   font-size: 15px;
   border: 1px solid #868acc;
@@ -342,6 +341,7 @@ h3 {
   cursor: pointer;
   padding: 5px;
   margin: 10px;
+  width: 50%;
 }
 
 .dropdown:hover .dropdown-content {
