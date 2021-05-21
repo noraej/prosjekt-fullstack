@@ -23,6 +23,7 @@
 import { defineComponent, ref, Ref } from "vue";
 import { useRouter } from "vue-router";
 import MenuOption from "../interfaces/MenuOption.interface";
+import { store } from "@/store/index";
 
 export default defineComponent({
   setup() {
@@ -31,10 +32,14 @@ export default defineComponent({
       { title: "Book room", path: "/user" },
       { title: "My bookings", path: "/user/bookings" },
     ]);
-    const logout = ref(() => {
-      router.replace("/");
-      //TODO: Log ut user session
-    });
+    const logout = (): void => {
+      try {
+        store.dispatch("logout");
+        router.replace("/");
+      } catch (error) {
+        console.log(error);
+      }
+    };
     return {
       options,
       logout,

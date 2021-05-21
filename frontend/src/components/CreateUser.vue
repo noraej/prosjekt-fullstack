@@ -106,8 +106,9 @@ export default defineComponent({
       if (!userIsInvalid.value) {
         try {
           const response = await axios.post("/users", user);
+          const response2 = await axios.get(`/users/` + response.data.userId);
           const s = response.data;
-          console.log(s.userId);
+          console.log(s.userId + " " + response2);
           //if (await store.dispatch("register", user)) {
           /*if (isAdmin.value) {
             router.replace("/admin");
@@ -125,15 +126,10 @@ export default defineComponent({
 
     const userAdminCheck = ref({}) as Ref<User>;
     const isAdmin = ref();
-    console.log(`${props.toString()}`);
+    //TODO finn ut hvorfor props ikke gir riktig id
     onBeforeMount(async () => {
       try {
-        const response = await axios.get(`/users/${props.id}`);
-        console.log(response.data);
-        userAdminCheck.value = response.data;
-        isAdmin.value = userAdminCheck.value.admin;
-        /*  const x = store.getters.userId;
-        const response = await axios.get("/users/" + x);
+        /*const response = await axios.get(`/users/${props.id}`);
         console.log(response.data);
         userAdminCheck.value = response.data;
         isAdmin.value = userAdminCheck.value.admin;*/
