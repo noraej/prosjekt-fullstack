@@ -2,47 +2,48 @@
   <div>
     <input
       class="sign-up-form-input"
-      placeholder="Fornavn"
+      placeholder="Firstname"
       v-model="user.firstname"
     />
     <input
       class="sign-up-form-input"
-      placeholder="Etternavn"
+      placeholder="Lastname"
       v-model="user.lastname"
     />
     <input
       class="sign-up-form-input"
-      placeholder="E-postadresse"
+      placeholder="Email"
       v-model="user.email"
     />
     <input
       class="sign-up-form-input"
-      placeholder="Mobilnummer"
+      placeholder="Phone number"
       v-model="user.phoneNumber"
     />
     <input
-      class="sign-up-form-input"
-      placeholder="Passord"
-      type="password"
-      v-model="user.password"
+      v-model="createPassword"
+      type="checkbox"
+      id="passwordCheck"
+      name="passwordCheck"
+      @click="autogeneratePassword"
     />
+    <label for="passwordCheck">Autogenerate password</label><br />
     <input
       v-model="user.admin"
       type="checkbox"
       id="adminCheck"
       name="adminCheck"
     />
-    <label for="adminCheck">Administratorbruker</label><br />
+    <label for="adminCheck">Admin user</label>
     <input
       v-model="user.valid"
       type="checkbox"
       id="validCheck"
       name="validCheck"
     />
-    <label for="validCheck">Aktiv bruker (gyldig)</label><br />
+    <label for="validCheck">Valid user</label><br />
     <button @click="saveUser">Opprett bruker</button>
     <p v-if="invalidEmail">E-postadresse trenger @ og .</p>
-    <p v-if="invalidPassword">Passord trenger minst 8 tegn</p>
     <p v-if="userIsInvalid">Vennligst fyll inn alle feltene!</p>
     <p v-if="error">Noe gikk galt!</p>
   </div>
@@ -53,8 +54,6 @@ import { computed, defineComponent, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "../store";
 import CreateUser from "../interfaces/CreateUser.interface";
-import axios from "@/axiosConfig";
-import User from "@/interfaces/User.interface";
 import { UserLevel } from "@/enums/UserLevel.enum";
 
 export default defineComponent({
@@ -75,13 +74,16 @@ export default defineComponent({
       role: "",
     } as CreateUser);
 
+    const createPassword = ref(false);
+
     const userIsInvalid = computed(() => {
       return (
         user.firstname.toString().trim() === "" ||
         user.lastname.toString().trim() === "" ||
         user.email.toString().trim() === "" ||
         user.phoneNumber.toString().trim() === "" ||
-        user.password.toString().trim() === ""
+        user.password.toString().trim() === "" ||
+        createPassword.value === false
       );
     });
 
@@ -117,6 +119,30 @@ export default defineComponent({
       return user.password.length !== 8;
     });
 
+    const autogeneratePassword = async (): Promise<void> => {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      createPassword.value = !createPassword.value;
+      if (createPassword.value) {
+        let CharacterSet =
+          "abcdefghijklmnopqrstuvwxyz" +
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+          "0123456789" +
+          "![]{}()%&*$#^~@|";
+        let password = "";
+        const size = 30;
+
+        for (let i = 0; i < size; i++) {
+          password += CharacterSet.charAt(
+            Math.floor(Math.random() * CharacterSet.length)
+          );
+        }
+        //TODO slett
+        console.log(password);
+        //user.password = password;
+        user.password = "test"; //Setter alle passord til test til mail funker
+      }
+    };
+
     return {
       saveUser,
       user,
@@ -124,6 +150,8 @@ export default defineComponent({
       error,
       invalidEmail,
       invalidPassword,
+      createPassword,
+      autogeneratePassword,
     };
   },
 });
