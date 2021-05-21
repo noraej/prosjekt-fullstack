@@ -43,6 +43,17 @@ const routes: Array<RouteRecordRaw> = [
     name: "UserBookings",
     component: UserBookings,
     props: true,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/create-building-room-section",
+    name: "CreateBuildingRoomSection",
+    component: () => import("../views/CreateSectionBuildingRoom.vue"),
+    meta: {
+      requiresAuth: true,
+    },
   },
 ];
 

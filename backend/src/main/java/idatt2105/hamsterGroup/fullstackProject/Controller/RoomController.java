@@ -48,7 +48,7 @@ public class RoomController
         return new ResponseEntity<>(roomService.getRoomsByBuilding(filter),HttpStatus.OK);
     }
 
-    /* //Admins should be able to create rooms in the app at one point, but down prioritized for now
+    /* //Admins should be able to create rooms in the app at one point, but down prioritized 
     @PostMapping
     public ResponseEntity<RoomDTO> createRoom(@RequestBody RoomCreationDTO room) {
     }
