@@ -51,26 +51,16 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  onBeforeMount,
-  reactive,
-  Ref,
-  ref,
-} from "vue";
+import { computed, defineComponent, onBeforeMount, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
-import { useStore } from "../store";
 import CreateUser from "../interfaces/CreateUser.interface";
 import { UserLevel } from "@/enums/UserLevel.enum";
 import axios from "@/axiosConfig";
-import User from "@/interfaces/User.interface";
-import { store } from "@/store/index";
 
 export default defineComponent({
   name: "createUser",
   props: ["id"],
-  setup(props) {
+  setup() {
     const router = useRouter();
     const error = ref(false);
 
@@ -107,6 +97,7 @@ export default defineComponent({
       if (!userIsInvalid.value) {
         try {
           const response = await axios.post("/users", user);
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const s = response.data;
           //TODO get user and check if admin
           /*if (isAdmin.value) {
@@ -120,9 +111,6 @@ export default defineComponent({
       }
     };
 
-    const userAdminCheck = ref({}) as Ref<User>;
-    const isAdmin = ref();
-    //TODO props.id = undefined atm, figure out why
     onBeforeMount(async () => {
       try {
         /*const response = await axios.get(`/users/${props.id}`);
@@ -155,12 +143,11 @@ export default defineComponent({
         const size = 30;
 
         for (let i = 0; i < size; i++) {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           password += CharacterSet.charAt(
             Math.floor(Math.random() * CharacterSet.length)
           );
         }
-        //TODO slett
-        console.log(password);
         //user.password = password;
         user.password = "test"; //Setter alle passord til test til mail funker
       }

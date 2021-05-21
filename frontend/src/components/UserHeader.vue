@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watchEffect } from "vue";
+import { defineComponent, ref } from "vue";
 import UserMenu from "./UserMenu.vue";
 
 export default defineComponent({

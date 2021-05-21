@@ -1,4 +1,4 @@
-import Section from "src/interfaces/Section.interface"
+import Section from "src/interfaces/Section.interface";
 
 export default interface IBookedItem {
   endTime: string;
@@ -7,5 +7,4 @@ export default interface IBookedItem {
   description: string;
   numberOfUsers: number;
   reservationId: number;
-  
 }

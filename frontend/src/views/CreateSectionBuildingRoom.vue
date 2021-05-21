@@ -20,8 +20,6 @@
   <div v-if="isSection">
     <div>Section name:</div>
     <input type="text" v-model="section.sectionName" />
-    <div>Description:</div>
-    <input type="text" v-model="section.description" />
     <div>Number of seats:</div>
     <input type="text" placeholder="" v-model="section.numberOfSeats" />
     <div>Size of section (m^2):</div>
@@ -61,7 +59,6 @@ export default defineComponent({
 
     const section = reactive({
       sectionName: "",
-      description: "",
       seats: 0,
       size: 0,
       roomId: 1,
@@ -127,7 +124,6 @@ export default defineComponent({
       if (isSection.value) {
         return !(
           section.sectionName.trim() === "" ||
-          section.description.trim() === "" ||
           section.seats <= 0 ||
           section.size <= 0
         );
