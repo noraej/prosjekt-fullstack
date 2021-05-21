@@ -14,6 +14,7 @@ import java.util.List;
 /**
  * Controller for the rooms, to connect from frontend
  */
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1/rooms")
 public class RoomController

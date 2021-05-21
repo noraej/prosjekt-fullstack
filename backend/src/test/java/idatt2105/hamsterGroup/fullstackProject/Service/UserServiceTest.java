@@ -113,7 +113,8 @@ public class UserServiceTest
         assertThat(userService.createUser(user)).isNotNull();
     }
 
-    @Test
+    //Downprioritized
+   /* @Test
     public void editUser_updatesUser_ReturnsUpdatedUser() throws SerialException, SQLException
     {
         UserEditDTO userEditDTO = new UserEditDTO("Forename", "surname", "email", "87654321","newHash", "oldHash", true, true);
@@ -139,7 +140,7 @@ public class UserServiceTest
         assertThat(user.getPhoneNumber()).isEqualTo(tempUser.getPhoneNumber());
         assertThat(user.isValid()).isEqualTo(tempUser.isValid());
         assertThat(user.isAdmin()).isEqualTo(tempUser.isAdmin());
-    }
+    }*/
 
     @Test
     public void deleteUser_UserExists_ReturnsTrue()

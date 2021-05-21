@@ -30,8 +30,8 @@ public class UserSecurityDetailsService implements UserDetailsService{
     /**
      * Overrides the method from UserDetailsService interface. We use email as user's username in our case.
      * Gets user with email from our MySQL database and creates an UserSecurityDetails object and returns its
-     * @param email - user email
-     * @return UserDetails - user details object
+     * @param email
+     * @return UserDetails
      * @throws UsernameNotFoundException
      */
     @Override
@@ -49,4 +49,5 @@ public class UserSecurityDetailsService implements UserDetailsService{
             throw new UsernameNotFoundException("Email: " + email + "was not found");
         }
     }
+
 }

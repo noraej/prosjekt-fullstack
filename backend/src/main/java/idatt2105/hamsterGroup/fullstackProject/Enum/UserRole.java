@@ -5,5 +5,5 @@ package idatt2105.hamsterGroup.fullstackProject.Enum;
  * User can have the role "NORMAL" or "ADMIN"
  */
 public enum UserRole {
-    NORMAL, ADMIN
+    ROLE_NORMAL, ROLE_ADMIN
 }

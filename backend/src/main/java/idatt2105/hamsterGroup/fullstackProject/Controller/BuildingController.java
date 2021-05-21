@@ -12,6 +12,7 @@ import java.util.List;
 /**
  * Controller for the buildings, to connect from frontend
  */
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1/buildings")
 public class BuildingController

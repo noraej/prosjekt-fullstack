@@ -5,7 +5,7 @@ import idatt2105.hamsterGroup.fullstackProject.Configuration.JWT.JwtSigningKey;
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.User.UserAndPasswordDTO;
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.User.UserDTO;
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.User.UserEditDTO;
-import idatt2105.hamsterGroup.fullstackProject.Model.DTO.User.UserRegistrationCallbackDTO;
+//import idatt2105.hamsterGroup.fullstackProject.Model.DTO.User.UserRegistrationCallbackDTO;
 import idatt2105.hamsterGroup.fullstackProject.Model.Reservation;
 import idatt2105.hamsterGroup.fullstackProject.Model.User;
 import idatt2105.hamsterGroup.fullstackProject.Repository.ReservationRepository;
@@ -64,7 +64,7 @@ public class UserService {
      * @param user
      * @return UserDTO object with a JWT token
      */
-    public UserRegistrationCallbackDTO createUser(UserAndPasswordDTO user)
+    public UserDTO createUser(UserAndPasswordDTO user)
     {
         LOGGER.info("createUser(UserPasswordDTO user) called with email " + user.getEmail());
         User createdUser = new User();
@@ -80,7 +80,8 @@ public class UserService {
         LOGGER.info(user.toString() + " " + createdUser.toString());
         String token = createJWTToken(createdUser);
       //  emailSender.createdUserMail("hei"); //Sends email
-        return new UserRegistrationCallbackDTO(token, createdUser.getUserId(), user);
+        return new UserDTO(createdUser.getUserId(), createdUser.getFirstName(), createdUser.getLastName(), createdUser.getEmail(),
+                createdUser.getPhoneNumber(), createdUser.isValid(), createdUser.isAdmin());
     }
 
     /**
@@ -89,7 +90,8 @@ public class UserService {
      * @param userDTO - userDTO object
      * @return UserDTO object
      */
-    public UserDTO editUser(long userId, UserEditDTO userDTO)
+    //Downprioritized
+    /*public UserDTO editUser(long userId, UserEditDTO userDTO)
     {
         LOGGER.info("editUser(long userId, UserDTO userDTO) called with user ID " + userId);
         Optional<User> userOptional = userRepository.findById(userId);
@@ -107,7 +109,7 @@ public class UserService {
         LOGGER.warn("Could not find user with user ID " + userId +
                 " when calling editUser(long userId, UserDTO userDTO). Return null");
         return null;
-    }
+    }*/
 
     /**
      * Deletes a user from the database, and checks if it exists after

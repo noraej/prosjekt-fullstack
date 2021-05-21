@@ -79,6 +79,7 @@ export const store = createStore<State>({
         await axios.post("/users", user);
         return true;
       } catch (error) {
+        console.log(error.data);
         return false;
       }
     },
@@ -87,6 +88,8 @@ export const store = createStore<State>({
     isLoggedIn: (state) => !!state.token,
     authenticationStatus: (state) => state.status,
     user: (state): User => JSON.parse(state.user),
+    //TODO fix admin check
+    //isAdmin: (state) => UserLevel.ADMIN,
   },
   modules: {},
 });

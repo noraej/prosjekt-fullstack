@@ -3,7 +3,7 @@ package idatt2105.hamsterGroup.fullstackProject.Controller;
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.User.UserAndPasswordDTO;
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.User.UserDTO;
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.User.UserEditDTO;
-import idatt2105.hamsterGroup.fullstackProject.Model.DTO.User.UserRegistrationCallbackDTO;
+//import idatt2105.hamsterGroup.fullstackProject.Model.DTO.User.UserRegistrationCallbackDTO;
 import idatt2105.hamsterGroup.fullstackProject.Model.Reservation;
 import idatt2105.hamsterGroup.fullstackProject.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController
@@ -34,10 +34,10 @@ public class UserController
     }
 
     @PostMapping
-    public ResponseEntity<UserRegistrationCallbackDTO> createUser(@RequestBody UserAndPasswordDTO user) {
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserAndPasswordDTO user) {
         if(userService.doesEmailExist(user.getEmail())) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        UserRegistrationCallbackDTO createdUser = userService.createUser(user);
+        UserDTO createdUser = userService.createUser(user);
         if (createdUser != null)
         {
             return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
@@ -45,7 +45,8 @@ public class UserController
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @PostMapping("/{user_id}")
+    //Downprioritized
+   /* @PostMapping("/{user_id}")
     @PreAuthorize("#userId == principal.userId or hasRole('ADMIN')")
     public ResponseEntity<UserDTO> editUser(@PathVariable("user_id") long userId, @RequestBody UserEditDTO userEditDTO) {
         if(userEditDTO.getOldPassword() != null && userEditDTO.getNewPassword() != null
@@ -56,7 +57,7 @@ public class UserController
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(returnUser, HttpStatus.OK);
-    }
+    }*/
 
     @DeleteMapping("/{user_id}")
     @PreAuthorize("#userId == principal.userId or hasRole('ADMIN')")
