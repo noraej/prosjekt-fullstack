@@ -8,3 +8,7 @@ export default interface Section {
   size: number;
   room: IRoomItem;
 }
+
+export type SectionCreate = Omit<Section, "sectionId" | "room"> &  {
+  roomId: number;
+};

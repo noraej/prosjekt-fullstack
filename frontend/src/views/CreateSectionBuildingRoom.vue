@@ -34,10 +34,9 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, Ref, ref } from "vue";
 import { useRouter } from "vue-router";
-import Building from "@/interfaces/Building.interface";
+import { BuildingCreate } from "@/interfaces/Building.interface";
 import Room from "@/interfaces/Room.interface";
-import Section from "@/interfaces/Section.interface";
-import axios from "node_modules/axios";
+import { SectionCreate } from "@/interfaces/Section.interface";
 
 export default defineComponent({
   setup() {
@@ -51,8 +50,9 @@ export default defineComponent({
     const isSection: Ref<boolean> = ref(false);
 
     const building = reactive({
-      name: "",
-    } as Building);
+      buildingName: "",
+      numberOfRooms: 0,
+    } as BuildingCreate);
 
     const room = reactive({
       name: "",
@@ -60,12 +60,12 @@ export default defineComponent({
     } as Room);
 
     const section = reactive({
-      name: "",
+      sectionName: "",
       description: "",
-      numberOfSeats: 0,
+      seats: 0,
       size: 0,
-      roomId: 0,
-    } as Section);
+      roomId: 1,
+    } as SectionCreate);
 
     const buildingChosen = async (): Promise<void> => {
       isBuilding.value = true;
@@ -109,7 +109,7 @@ export default defineComponent({
     const buildingValid = computed(() => {
       if (isBuilding.value) {
         return !(
-          building.name.trim() === "" || buildingAddress.value.trim() === ""
+          building.buildingName.trim() === "" || buildingAddress.value.trim() === ""
         );
       }
       return null;
@@ -125,9 +125,9 @@ export default defineComponent({
     const sectionValid = computed(() => {
       if (isSection.value) {
         return !(
-          section.name.trim() === "" ||
+          section.sectionName.trim() === "" ||
           section.description.trim() === "" ||
-          section.numberOfSeats <= 0 ||
+          section.seats <= 0 ||
           section.size <= 0
         );
       }

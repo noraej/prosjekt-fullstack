@@ -3,3 +3,5 @@ export default interface Building {
   buildingName: string;
   numberOfRooms: number;
 }
+
+export type BuildingCreate = Omit<Building, "buildingId">;
