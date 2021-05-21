@@ -12,7 +12,7 @@ const routes: Array<RouteRecordRaw> = [
     component: LogIn,
   },
   {
-    path: "/user",
+    path: "/book",
     name: "User",
     component: User,
     meta: {

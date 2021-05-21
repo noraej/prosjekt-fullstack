@@ -1,7 +1,7 @@
-package idatt2105.hamsterGroup.fullstackProject.Model.DTO.Reservation;
+package idatt2105.hamsterGroup.fullstackProject.Model.DTO.ReservationDTOs;
 
+import idatt2105.hamsterGroup.fullstackProject.Model.DTO.SectionDTO;
 import idatt2105.hamsterGroup.fullstackProject.Model.Reservation;
-import idatt2105.hamsterGroup.fullstackProject.Model.Section;
 
 /**
  * ReservationDTO, DTO class to use when transferring reservation data
@@ -14,8 +14,8 @@ public class ReservationDTO extends ReservationSuperDTO {
 
 
     public ReservationDTO(Reservation reservation){
-        super(reservation.getDescription(), reservation.getSection(), reservation.getStartTime(), reservation.getEndTime(),
-                reservation.getNumberOfUsers(), reservation.getRoom(), reservation.getBuilding());
+        super(reservation.getDescription(), new SectionDTO(reservation.getSection()), reservation.getStartTime(), reservation.getEndTime(),
+                reservation.getNumberOfUsers());
         this.reservationId = reservation.getReservationId();
         if(reservation.getUser() != null) {
             this.userId = reservation.getUser().getUserId();

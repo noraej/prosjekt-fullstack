@@ -29,7 +29,7 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const options: Ref<MenuOption[]> = ref([
-      { title: "Book room", path: "/user" },
+      { title: "Book room", path: "/book" },
       { title: "My bookings", path: "/user/bookings" },
     ]);
     const logout = (): void => {

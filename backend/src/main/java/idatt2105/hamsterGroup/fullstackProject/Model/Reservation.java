@@ -1,11 +1,10 @@
 package idatt2105.hamsterGroup.fullstackProject.Model;
 
-import idatt2105.hamsterGroup.fullstackProject.Model.DTO.Reservation.ReservationRegistrationDTO;
+import idatt2105.hamsterGroup.fullstackProject.Model.DTO.ReservationDTOs.ReservationRegistrationDTO;
 
 import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 /**
  * Entity class for storing information about
@@ -23,14 +22,6 @@ public class Reservation {
     private int duration;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "roomId")
-    Room room;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "buildingId")
-    Building building;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     User user;
 
@@ -44,29 +35,27 @@ public class Reservation {
     private Set<Section> sections;*/
 
     public Reservation(int numberOfUsers, LocalDateTime startTime, LocalDateTime endTime, String description,
-                       User user, Section section, Room room, Building building) {
+                       User user, Section section) {
         this.numberOfUsers = numberOfUsers;
         this.startTime = startTime;
         this.endTime = endTime;
         this.description = description;
         this.user = user;
         this.duration = calculateDuration();
-        this.room = room;
-        this.building = building;
         this.section = section;
     }
 
-    public Reservation(ReservationRegistrationDTO reservationRegistrationDTO, User user) {
+    public Reservation(ReservationRegistrationDTO reservationRegistrationDTO, Section section, User user) {
         this.numberOfUsers = reservationRegistrationDTO.getNumberOfUsers();
         this.startTime = reservationRegistrationDTO.getStartTime();
         this.endTime = reservationRegistrationDTO.getEndTime();
         this.description = reservationRegistrationDTO.getDescription();
-        this.duration = reservationRegistrationDTO.getDurationMinutes();
-        this.room = reservationRegistrationDTO.getRoom();
-        this.building = reservationRegistrationDTO.getBuilding();
-        this.section = reservationRegistrationDTO.getSection();
+        this.duration = calculateDuration();
+        this.section = section;
         this.user = user;
     }
+
+    public Reservation() {}
 
     public long getReservationId() {
         return reservationId;
@@ -133,30 +122,6 @@ public class Reservation {
         this.section = section;
     }
 
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
-    }
-
-    public Building getBuilding() {
-        return building;
-    }
-
-    public void setBuilding(Building building) {
-        this.building = building;
-    }
-
-
-    /*public Set<Section> getSections() {
-        return sections;
-    }
-
-    public void setSections(Set<Section> sections) {
-        this.sections = sections;
-    }*/
 
     @Override
     public String toString() {
@@ -169,7 +134,6 @@ public class Reservation {
                 ", \nduration=" + duration +
                 ", \nuser=" + user +
                 ", \nsection=" + section +
-                ", \nbuiding=" + building +
                 '}';
     }
 }

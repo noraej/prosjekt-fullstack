@@ -5,3 +5,5 @@ export default interface IRoomItem {
   seats: number;
   sections: number;
 }
+
+export type IRoomItemCreate = Omit<IRoomItem, "roomId">;

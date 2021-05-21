@@ -19,6 +19,8 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query(value = "SELECT * FROM room)", nativeQuery = true)
     public List<Room> getRooms();
 
+    List<Room> getAllByBuildingBuildingId(long buildingId);
+
     /**
      * Query that return a list of rooms with given start time, where user is not set
      */

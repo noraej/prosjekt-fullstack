@@ -2,7 +2,10 @@ package idatt2105.hamsterGroup.fullstackProject.Controller;
 
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.FilterSortDTO;
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.RoomDTO;
+import idatt2105.hamsterGroup.fullstackProject.Model.DTO.SectionDTO;
+import idatt2105.hamsterGroup.fullstackProject.Model.Room;
 import idatt2105.hamsterGroup.fullstackProject.Service.RoomService;
+import idatt2105.hamsterGroup.fullstackProject.Service.SectionService;
 import idatt2105.hamsterGroup.fullstackProject.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +24,9 @@ public class RoomController
 {
     @Autowired
     private RoomService roomService;
+
+    @Autowired
+    private SectionService sectionService;
 
     @Autowired
     private UserService userService;
@@ -43,10 +49,16 @@ public class RoomController
         return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
 
-    @PostMapping("/alternatives")
+
+    @GetMapping("/{room_id}/sections/")
+    public ResponseEntity<List<SectionDTO>> getRoomsInBuilding(@PathVariable("room_id") long roomId) {
+        return new ResponseEntity(sectionService.getSectionsByRoom(roomId), HttpStatus.OK);
+    }
+
+    /*@PostMapping("/alternatives")
     public ResponseEntity<List<RoomDTO>> getRoomWithFilter(@RequestBody FilterSortDTO filter){
         return new ResponseEntity<>(roomService.getRoomsByBuilding(filter),HttpStatus.OK);
-    }
+    }*/
 
     /* //Admins should be able to create rooms in the app at one point, but down prioritized 
     @PostMapping

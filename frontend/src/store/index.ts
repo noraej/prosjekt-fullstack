@@ -3,7 +3,6 @@ import axios from "../axiosConfig";
 import User from "../interfaces/User.interface";
 import LogInUser from "../interfaces/LogInUser.interface";
 import { InjectionKey } from "vue";
-import CreateUser from "@/interfaces/CreateUser.interface";
 import { BackendStatus } from "@/enums/BackendStatus.enum";
 import { UserLevel } from "@/enums/UserLevel.enum";
 

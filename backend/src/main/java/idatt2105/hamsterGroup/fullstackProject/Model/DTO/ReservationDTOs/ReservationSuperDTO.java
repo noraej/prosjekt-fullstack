@@ -1,8 +1,7 @@
-package idatt2105.hamsterGroup.fullstackProject.Model.DTO.Reservation;
+package idatt2105.hamsterGroup.fullstackProject.Model.DTO.ReservationDTOs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import idatt2105.hamsterGroup.fullstackProject.Model.Building;
-import idatt2105.hamsterGroup.fullstackProject.Model.Room;
+import idatt2105.hamsterGroup.fullstackProject.Model.DTO.SectionDTO;
 import idatt2105.hamsterGroup.fullstackProject.Model.Section;
 
 import java.time.Duration;
@@ -13,26 +12,22 @@ import java.time.LocalDateTime;
  */
 public class ReservationSuperDTO {
     private String description;
-    private Section section;
-    @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
+    private SectionDTO section;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private LocalDateTime startTime;
-    @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private LocalDateTime endTime;
     private int durationMinutes;
     private int numberOfUsers;
-    private Room room;
-    private Building building;
 
-    public ReservationSuperDTO(String description, Section section, LocalDateTime startTime,
-                               LocalDateTime endTime, int numberOfUsers, Room room, Building building) {
+    public ReservationSuperDTO(String description, SectionDTO section, LocalDateTime startTime,
+                               LocalDateTime endTime, int numberOfUsers) {
         this.description = description;
         this.section = section;
         this.startTime = startTime;
         this.endTime = endTime;
         this.durationMinutes = calculateDuration();
         this.numberOfUsers = numberOfUsers;
-        this.room = room;
-        this.building = building;
     }
 
     public ReservationSuperDTO() {
@@ -46,19 +41,11 @@ public class ReservationSuperDTO {
         this.description = description;
     }
 
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
-    }
-
-    public Section getSection() {
+    public SectionDTO getSection() {
         return section;
     }
 
-    public void setSection(Section section) {
+    public void setSection(SectionDTO section) {
         this.section = section;
     }
 
@@ -90,14 +77,6 @@ public class ReservationSuperDTO {
         this.numberOfUsers = numberOfUsers;
     }
 
-    public Building getBuilding() {
-        return building;
-    }
-
-    public void setBuilding(Building building) {
-        this.building = building;
-    }
-
     public int calculateDuration() {
         Duration durationMinutes = Duration.between(startTime, endTime);
         return (int) (durationMinutes.getSeconds() /60);
@@ -107,8 +86,6 @@ public class ReservationSuperDTO {
     public String toString() {
         return "ReservationDTO{" +
                 "\ndescription='" + description + '\'' +
-                ", \nbuilding=" + building +
-                ", \nroom=" + room +
                 ", \nsection=" + section +
                 ", \nstartTime=" + startTime +
                 ", \nendTime=" + endTime +

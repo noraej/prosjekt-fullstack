@@ -1,6 +1,5 @@
 package idatt2105.hamsterGroup.fullstackProject.Service;
 
-import idatt2105.hamsterGroup.fullstackProject.Model.DTO.FilterSortDTO;
 import idatt2105.hamsterGroup.fullstackProject.Model.DTO.RoomDTO;
 import idatt2105.hamsterGroup.fullstackProject.Model.Room;
 import idatt2105.hamsterGroup.fullstackProject.Repository.RoomRepository;
@@ -50,24 +49,11 @@ public class RoomService {
 
     /**
      * Method to filter room list
-     * @param filter - to filter out rooms
+     * @param buildingId - building
      * @return List of room DTOs
      */
-    public List<RoomDTO> getRoomsByBuilding(FilterSortDTO filter) {
+    public List<RoomDTO> getRoomsByBuilding(long buildingId) {
         LOGGER.info("getReservationsWithFilter(FilterDTO filter) was called with filter a filter");
-        List<Room> roomList = filterByBuilding(filter);
-        return roomList.stream().map(RoomDTO::new).collect(Collectors.toList());
-    }
-
-    /**
-     * Method to filter rooms
-     * @param filter - filter to use to filter out objects
-     * @return List of rooms
-     */
-    private List<Room> filterByBuilding(FilterSortDTO filter) {
-        if (filter.getBuildingId() <= 0) {
-            return roomRepository.findRoomByBuilding(filter.getBuildingId());
-        }
-        return roomRepository.findAll();
+        return roomRepository.getAllByBuildingBuildingId(buildingId).stream().map(RoomDTO::new).collect(Collectors.toList());
     }
 }

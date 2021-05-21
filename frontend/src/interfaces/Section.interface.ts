@@ -1,7 +1,13 @@
+import IRoomItem from "src/interfaces/IRoomItem.interface";
+
 export default interface Section {
-  name: string;
-  description: string;
-  numberOfSeats: number;
+  sectionId: number;
+  sectionName: string;
+  seats: number;
   size: number;
-  roomId: number;
+  room: IRoomItem;
 }
+
+export type SectionCreate = Omit<Section, "sectionId" | "room"> & {
+  roomId: number;
+};

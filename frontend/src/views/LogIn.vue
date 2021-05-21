@@ -46,14 +46,14 @@ export default defineComponent({
       scene.value = 1;
     });
     const userLogIn = ref(() => {
-      router.replace("/user");
+      router.replace("/book");
     });
     const adminLogIn = ref(() => {
       router.replace("/admin");
     });
     const login = async (): Promise<void> => {
       const user: LogInUser = { email: email.value, password: password.value };
-      if (await store.dispatch("login", user)) router.push("/user");
+      if (await store.dispatch("login", user)) router.push("/book");
     };
 
     return {
