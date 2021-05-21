@@ -14,8 +14,9 @@ import java.util.List;
 /**
  * Controller for the sections, to connect from frontend
  */
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api/sections")
+@RequestMapping("/api/v1/sections")
 public class SectionController
 {
     @Autowired

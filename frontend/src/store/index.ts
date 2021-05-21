@@ -1,6 +1,7 @@
 import { createStore, Store, useStore as originalUseStore } from "vuex";
 import axios from "../axiosConfig";
 import User from "../interfaces/User.interface";
+import LogInUser from "../interfaces/LogInUser.interface";
 import { InjectionKey } from "vue";
 import CreateUser from "@/interfaces/CreateUser.interface";
 import { BackendStatus } from "@/enums/BackendStatus.enum";
@@ -45,30 +46,50 @@ export const store = createStore<State>({
     },
   },
   actions: {
-    async register({ commit }, user) {
+    async login({ commit }, user: LogInUser): Promise<boolean> {
       commit("authenticationRequest");
       try {
-        //TODO create and add interface to user param
-        const response = await axios.post("/users", user);
+        const response = await axios.post("/login", user);
         const token = response.data.token;
         localStorage.setItem("token", token);
-        axios.defaults.headers["Authorization"] = token;
-        const currentUser = response.data.user;
-        localStorage.setItem("user", JSON.stringify(currentUser));
-        commit("authenticationSuccess", { user: currentUser, token });
+        axios.defaults.headers.common["Authorization"] = token;
+        const userResponse = await axios.get(`/users/${response.data.userId}`);
+        localStorage.setItem("user", JSON.stringify(userResponse.data));
+        commit("authenticationSuccess", { user: userResponse.data, token });
         return true;
       } catch (error) {
         commit("authenticationError");
         localStorage.removeItem("token");
         localStorage.removeItem("user");
-        delete axios.defaults.headers["Authorization"];
+        delete axios.defaults.headers.common["Authorization"];
+        return false;
+      }
+    },
+    logout({ commit }) {
+      commit("authenticationLogout");
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      delete axios.defaults.headers["Authorization"];
+    },
+
+    async register({ commit }, user) {
+      commit("authenticationRequest");
+      try {
+        //TODO create and add interface to user param
+        await axios.post("/users", user);
+        return true;
+      } catch (error) {
+        console.log(error.data);
         return false;
       }
     },
   },
   getters: {
+    isLoggedIn: (state) => !!state.token,
     authenticationStatus: (state) => state.status,
     user: (state): User => JSON.parse(state.user),
+    //TODO fix admin check
+    //isAdmin: (state) => UserLevel.ADMIN,
   },
   modules: {},
 });

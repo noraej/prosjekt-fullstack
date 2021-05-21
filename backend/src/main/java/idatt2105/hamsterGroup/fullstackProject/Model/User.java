@@ -42,9 +42,9 @@ public class User {
         this.admin = admin;
         this.reservations = reservations;
         if (admin) {
-            this.role = UserRole.ADMIN.name();
+            this.role = UserRole.ROLE_ADMIN.name();
         } else {
-            this.role = UserRole.NORMAL.name();
+          this.role = UserRole.ROLE_NORMAL.name();
         }
 
     }
@@ -60,9 +60,9 @@ public class User {
         this.valid = valid;
         this.admin = admin;
         if (admin) {
-            this.role = UserRole.ADMIN.name();
+            this.role = UserRole.ROLE_ADMIN.name();
         } else {
-            this.role = UserRole.NORMAL.name();
+            this.role = UserRole.ROLE_NORMAL.name();
         }
     }
 

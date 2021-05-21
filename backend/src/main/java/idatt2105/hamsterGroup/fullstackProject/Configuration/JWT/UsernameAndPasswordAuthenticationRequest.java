@@ -1,15 +1,14 @@
 package idatt2105.hamsterGroup.fullstackProject.Configuration.JWT;
 
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 /**
  * Mapper file class for input when trying to log in
  */
-public class EmailAndPasswordAutRequest extends UsernamePasswordAuthenticationFilter {
+public class UsernameAndPasswordAuthenticationRequest {
     private String email;
     private String password;
 
-    public EmailAndPasswordAutRequest() {
+    public UsernameAndPasswordAuthenticationRequest() {
+        // Must be empty constructor
     }
 
     public String getEmail() {

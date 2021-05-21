@@ -1,5 +1,11 @@
 package idatt2105.hamsterGroup.fullstackProject.Configuration.Security;
 
+import com.fasterxml.jackson.core.filter.TokenFilter;
+import idatt2105.hamsterGroup.fullstackProject.Configuration.JWT.JwtTokenVerifier;
+import idatt2105.hamsterGroup.fullstackProject.Configuration.JWT.JwtUsernameAndPasswordAuthenticationFilter;
+import idatt2105.hamsterGroup.fullstackProject.Enum.UserRole;
+import idatt2105.hamsterGroup.fullstackProject.Service.UserSecurityDetailsService;
+import idatt2105.hamsterGroup.fullstackProject.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,10 +20,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-/*import idatt2106.group3.backend.Configuration.Jwt.JwtTokenVerifier;
-import idatt2106.group3.backend.Configuration.Jwt.JwtUsernameAndPasswordAuthenticationFilter;
-import idatt2106.group3.backend.Service.UserSecurityDetailsService;*/
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 /**
  * Configures WebSecurity for endpoints
@@ -32,8 +35,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    /*@Autowired
-    private UserSecurityDetailsService userSecurityDetailsService;*/
+    @Autowired
+    private UserSecurityDetailsService userSecurityDetailsService;
 
     /**
      * Method for configuration of http.
@@ -46,14 +49,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                /*.addFilter(getJWTAuthenticationFilter(authenticationManager()))
+                .addFilter(getJWTAuthenticationFilter(authenticationManager()))
                 .addFilterAfter(new JwtTokenVerifier(), JwtUsernameAndPasswordAuthenticationFilter.class)
-                .addFilterAfter(new ExceptionHandlerFilter(), JwtTokenVerifier.class)*/
+                .addFilterAfter(new ExceptionHandlerFilter(), JwtTokenVerifier.class)
                 .authorizeRequests()
                 .antMatchers("/error").permitAll()
-                .antMatchers("/api/v1/activities/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers(HttpMethod.POST,"/api/v1/users").permitAll()
-                .antMatchers("/api/v1/websocket/**").permitAll()
+                .antMatchers("/api/v1/reservations/**").hasAnyRole("NORMAL", "ADMIN")
+                //TODO finn ut hvorfor hasAnyRole() failer
+                .antMatchers(HttpMethod.POST,"/api/v1/users").permitAll()//.hasAnyRole("NORMAL", "ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .cors();
@@ -64,10 +67,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
      * @param auth
      * @throws Exception
      */
-   /* @Override
+    @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
-    }*/
+    }
 
     /**
      * Sets passwordEncoder and userDetailsService from service folder
@@ -75,22 +78,22 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
      * Allows authentication from MySQL Database
      * @return DaoAuthenticationProvider
      */
-    /*@Bean
+    @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder);
         provider.setUserDetailsService(userSecurityDetailsService);
         return provider;
-    }*/
+    }
     /**
      * Changes login url
      * @param authenticationManager
      * @return Username and password filter for login
      */
-    /*public JwtUsernameAndPasswordAuthenticationFilter getJWTAuthenticationFilter(AuthenticationManager authenticationManager){
+    public JwtUsernameAndPasswordAuthenticationFilter getJWTAuthenticationFilter(AuthenticationManager authenticationManager){
         final JwtUsernameAndPasswordAuthenticationFilter filter = new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager);
         filter.setFilterProcessesUrl("/api/v1/login");
         return filter;
-    }*/
+    }
 }
 

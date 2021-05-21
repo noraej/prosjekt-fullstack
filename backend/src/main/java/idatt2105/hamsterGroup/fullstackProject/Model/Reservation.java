@@ -38,12 +38,13 @@ public class Reservation {
     @JoinColumn(name = "sectionId")
     Section section;
 
+    //TODO fix reservation of multiple sections at once
    /* @OneToOne
     @JoinColumn(name = "sectionId", referencedColumnName = "sectionId")
     private Set<Section> sections;*/
 
     public Reservation(int numberOfUsers, LocalDateTime startTime, LocalDateTime endTime, String description,
-                       User user, Section section, Room room, Building building, Set<Section> sections) {
+                       User user, Section section, Room room, Building building) {
         this.numberOfUsers = numberOfUsers;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -52,11 +53,7 @@ public class Reservation {
         this.duration = calculateDuration();
         this.room = room;
         this.building = building;
-      //  if (section != null) {
-            this.section = section;
-        /*} else {
-            this.sections = sections;
-        }*/
+        this.section = section;
     }
 
     public Reservation(ReservationRegistrationDTO reservationRegistrationDTO, User user) {
@@ -67,11 +64,7 @@ public class Reservation {
         this.duration = reservationRegistrationDTO.getDurationMinutes();
         this.room = reservationRegistrationDTO.getRoom();
         this.building = reservationRegistrationDTO.getBuilding();
-      //  if (reservationRegistrationDTO.getSection() != null) {
-            this.section = reservationRegistrationDTO.getSection();
-       /* } else {
-            this.sections = reservationRegistrationDTO.getRoom().getSections();
-        }*/
+        this.section = reservationRegistrationDTO.getSection();
         this.user = user;
     }
 

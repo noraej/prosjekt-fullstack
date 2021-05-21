@@ -24,8 +24,8 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter{
     /**
      * Method that tries to continue through the filters, next step will be to the controller/endpoint
      * If exception it will send an error
-     * @param request - http request
-     * @param response - http response
+     * @param request
+     * @param response
      * @param filterChain
      * @throws ServletException
      * @throws IOException

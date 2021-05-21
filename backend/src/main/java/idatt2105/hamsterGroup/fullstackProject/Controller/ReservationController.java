@@ -20,8 +20,9 @@ import java.util.Set;
 /**
  * Controller for the reservations, to connect from frontend
  */
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api/reservations")
+@RequestMapping("/api/v1/reservations")
 public class ReservationController
 {
     @Autowired
@@ -49,7 +50,7 @@ public class ReservationController
     }
 
     @PostMapping("/alternatives")
-    public ResponseEntity<List<ReservationDTO>> getReservationsWithFilterAndSorting(@RequestBody FilterSortDTO filter){
+    public ResponseEntity<List<ReservationDTO>> getReservationsWithFilter(@RequestBody FilterSortDTO filter){
         return new ResponseEntity<>(reservationService.getReservationsWithFilterAndSort(filter),HttpStatus.OK);
     }
 

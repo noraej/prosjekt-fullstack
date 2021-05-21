@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 /**
- * Database configuration
+ * Configuration for Database
  */
 @Configuration
 public class SourceData {
@@ -22,7 +22,8 @@ public class SourceData {
     private static final Logger LOGGER = LoggerFactory.getLogger(SourceData.class);
 
     /**
-     * Creates a MySQL datasource; reads url, password and username from config.properties file
+     * Creates a MySQL datasource
+     * Reads url, password and username from config.properties file
      * @return DataSource object
      */
     @Bean
